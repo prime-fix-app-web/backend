@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
+using PrimeFixPlatform.API.Iam.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
 namespace PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -17,7 +18,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         base.OnModelCreating(builder);
         
         // Create all entities configurations
-        
+        builder.ApplyIamConfiguration();
 
         builder.UseSnakeCaseNamingConvention();
     }
