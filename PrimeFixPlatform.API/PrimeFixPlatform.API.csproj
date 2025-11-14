@@ -26,7 +26,14 @@
 
     <ItemGroup>
       <Folder Include="AutorepairCatalog\" />
-      <Folder Include="Iam\" />
+      <Folder Include="Iam\Application\Internal\CommandServices\" />
+      <Folder Include="Iam\Application\Internal\EventHandlers\" />
+      <Folder Include="Iam\Application\Internal\QueryServices\" />
+      <Folder Include="Iam\Domain\Repositories\" />
+      <Folder Include="Iam\Domain\Services\" />
+      <Folder Include="Iam\Infrastructure\" />
+      <Folder Include="Iam\Interfaces\REST\Resources\" />
+      <Folder Include="Iam\Interfaces\REST\Transform\" />
       <Folder Include="MaintenanceTracking\" />
     </ItemGroup>
 
