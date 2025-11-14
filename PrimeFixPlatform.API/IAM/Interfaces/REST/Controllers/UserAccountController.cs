@@ -22,7 +22,7 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Controllers;
 [ApiController]
 [Route("api/v1/user_accounts")]
 [Produces(MediaTypeNames.Application.Json)]
-[SwaggerTag("Available Users Endpoints")]
+[SwaggerTag("Available User Accounts Endpoints")]
 public class UserAccountController(IUserAccountQueryService userAccountQueryService, IUserAccountCommandService userAccountCommandService) : ControllerBase
 {
     /// <summary>

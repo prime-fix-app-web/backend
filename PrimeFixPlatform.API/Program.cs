@@ -68,7 +68,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     if (builder.Environment.IsDevelopment())
         options.UseNpgsql(connectionString)
             .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging()
+            //.EnableSensitiveDataLogging()
             .EnableDetailedErrors();
     else if (builder.Environment.IsProduction())
         options.UseNpgsql(connectionString)
@@ -112,6 +112,9 @@ builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
 builder.Services.AddScoped<IUserAccountCommandService, UserAccountCommandService>();
 builder.Services.AddScoped<IUserAccountQueryService, UserAccountQueryService>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IRoleCommandService, RoleCommandService>();
+builder.Services.AddScoped<IRoleQueryService, RoleQueryService>();
 
 // Mediator Configuration
 // Add Mediator Injection Configuration

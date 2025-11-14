@@ -7,7 +7,7 @@ public static class ModelBuilderExtensions
 {
     public static void ApplyIamConfiguration(this ModelBuilder modelBuilder)
     {
-        // Iam Context
+        // Iam Bounded Context
         modelBuilder.Entity<User>().HasKey(u => u.IdUser);
         modelBuilder.Entity<User>().Property(u => u.IdUser).IsRequired().HasMaxLength(255);
         modelBuilder.Entity<User>().Property(u => u.Name).IsRequired().HasMaxLength(100);
@@ -24,5 +24,15 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<UserAccount>().Property(ua => ua.IdUser).IsRequired().HasMaxLength(255);
         modelBuilder.Entity<UserAccount>().Property(ua => ua.Password).IsRequired().HasMaxLength(100);
         modelBuilder.Entity<UserAccount>().Property(ua => ua.IsNew).IsRequired();
+        
+        modelBuilder.Entity<Role>().HasKey(r => r.IdRole);
+        modelBuilder.Entity<Role>().Property(r => r.IdRole).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Role>().OwnsOne(r => r.RoleInformation, ri =>
+        {
+            ri.WithOwner().HasForeignKey("RoleIdRole");
+            ri.Property<string>("RoleIdRole").HasColumnName("id_role");
+            ri.Property(p => p.Name).IsRequired().HasMaxLength(100);
+            ri.Property(p => p.Description).IsRequired().HasMaxLength(250);
+        });
     }
 }

@@ -3,6 +3,27 @@ using System.Text.Json.Serialization;
 
 namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 
+/// <summary>
+///     Request to update a user account
+/// </summary>
+/// <param name="Username">
+///     The username of the user account to be updated
+/// </param>
+/// <param name="Email">
+///     The email of the user account to be updated
+/// </param>
+/// <param name="IdRole">
+///     The role identifier associated with the user account to be updated
+/// </param>
+/// <param name="IdUser">
+///     The unique identifier of the user account to be updated
+/// </param>
+/// <param name="Password">
+///     The new password for the user account to be updated
+/// </param>
+/// <param name="IsNew">
+///     Flag indicating whether the password is new
+/// </param>
 public record UpdateUserAccountRequest(
     [Required]
     [MinLength(1)]
