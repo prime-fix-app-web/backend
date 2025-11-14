@@ -23,7 +23,7 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Controllers;
 [Route("api/v1/users")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Users Endpoints")]
-public class UsersController(IUserQueryService userQueryService, IUserCommandService userCommandService): ControllerBase
+public class UserController(IUserQueryService userQueryService, IUserCommandService userCommandService): ControllerBase
 {
 
     /// <summary>
@@ -100,6 +100,42 @@ public class UsersController(IUserQueryService userQueryService, IUserCommandSer
         return Ok(userResponses);
     }
     
+    /// <summary>
+    ///     Gets a user by its ID
+    /// </summary>
+    /// <param name="id_user">
+    ///     The ID of the user to retrieve
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result
+    ///     contains the IActionResult with the user data or an error response.
+    /// </returns>
+    [HttpGet("{id_user}")]
+    [SwaggerOperation(
+        Summary = "Retrieve a user by its ID",
+        Description = "Retrieves a user using its unique ID"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK,
+        "User retrieved successfully",
+        typeof(UserResponse))]
+    [SwaggerResponse(StatusCodes.Status404NotFound,
+        "User not found",
+        typeof(NotFoundResponse))]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, 
+        "Internal server error", 
+        typeof(InternalServerErrorResponse))]
+    public async Task<IActionResult> GetUserById(string id_user)
+    {
+        var getUserByIdQuery = new GetUserByIdQuery(id_user);
+        var user = await userQueryService.Handle(getUserByIdQuery);
+        
+        if (user is null) return NotFound();
+        
+        var userResponse = UserAssembler.ToResponseFromEntity(user);
+        
+        return Ok(userResponse);
+    }
+    
     
     /// <summary>
     ///     Updates an existing user
@@ -110,7 +146,10 @@ public class UsersController(IUserQueryService userQueryService, IUserCommandSer
     /// <param name="request">
     ///     The request body containing the updated user data
     /// </param>
-    /// <returns></returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result
+    ///     contains the IActionResult with the updated user data or an error response.
+    /// </returns>
     [HttpPut("{id_user}")]
     [SwaggerOperation(
         Summary = "Update an existing user",

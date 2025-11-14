@@ -25,6 +25,7 @@ builder.Services.AddControllers(options => options.Conventions.Add(new KebabCase
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+// Customizing the response for invalid model state
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.InvalidModelStateResponseFactory = context =>
@@ -108,6 +109,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
+builder.Services.AddScoped<IUserAccountCommandService, UserAccountCommandService>();
+builder.Services.AddScoped<IUserAccountQueryService, UserAccountQueryService>();
 
 // Mediator Configuration
 // Add Mediator Injection Configuration

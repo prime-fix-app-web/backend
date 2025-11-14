@@ -52,5 +52,4 @@ public record CreateUserRequest(
 
     [property: JsonPropertyName("id_location")]
     [Required]
-    string IdLocation
-);
+    string IdLocation);

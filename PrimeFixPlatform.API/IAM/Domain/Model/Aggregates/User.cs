@@ -38,6 +38,12 @@ public partial class User
         IdLocation = idLocation;
     }
 
+    /// <summary>
+    ///     Constructor for User aggregate root entity from CreateUserCommand
+    /// </summary>
+    /// <param name="command">
+    ///     Command object containing data to create a User
+    /// </param>
     public User(CreateUserCommand command) : this(
         command.IdUser,
         command.Name,
@@ -48,6 +54,12 @@ public partial class User
     {
     }
 
+    /// <summary>
+    ///     Updates the user entity with data from an UpdateUserCommand
+    /// </summary>
+    /// <param name="command">
+    ///     Command object containing data to update the User
+    /// </param>
     public void UpdateUser(UpdateUserCommand command)
     {
         Name = command.Name;

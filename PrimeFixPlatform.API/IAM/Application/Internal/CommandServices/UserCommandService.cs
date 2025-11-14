@@ -14,7 +14,7 @@ namespace PrimeFixPlatform.API.Iam.Application.Internal.CommandServices;
 ///     The user repository
 /// </param>
 /// <param name="unitOfWork">
-///     The unit of work
+///     Unit of work
 /// </param>
 public class UserCommandService(IUserRepository userRepository, IUnitOfWork unitOfWork)
 : IUserCommandService
@@ -28,7 +28,7 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     /// <returns>
     ///    A task that represents the asynchronous operation. The task result contains the created user.
     /// </returns>
-    /// <exception cref="Exception">
+    /// <exception cref="ConflictException">
     ///     Indicates that a user with the same IdUser or Name and LastName already exists
     /// </exception>
     public async Task<string> Handle(CreateUserCommand command)
@@ -38,10 +38,10 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
         var lastName = command.LastName;
         
         if (await userRepository.ExistsByIdUser(idUser))
-            throw new ConflictException("User with the same IdUser already exists");
+            throw new ConflictException("User with the same id " + idUser  + " already exists");
         
         if (await userRepository.ExistsByNameAndLastName(name, lastName))
-            throw new ConflictException("User with the same Name and LastName already exists");
+            throw new ConflictException("User with the same name " + name + " and last name " + lastName + " already exists");
         
         var user = new User(command);
         await userRepository.AddAsync(user);
@@ -58,8 +58,14 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains the updated user.
     /// </returns>
-    /// <exception cref="Exception">
-    ///     Indicates that the user to update was not found or another user with the same Name and LastName already exists
+    /// <exception cref="NotFoundIdException">
+    ///     Indicates that the user with the specified IdUser was not found
+    /// </exception>
+    /// <exception cref="ConflictException">
+    ///     Indicates that another user with the same Name and LastName already exists
+    /// </exception>
+    /// <exception cref="NotFoundArgumentException">
+    ///     Indicates that the user with the specified IdUser was not found
     /// </exception>
     public async Task<User?> Handle(UpdateUserCommand command)
     {
@@ -83,16 +89,20 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     }
 
     /// <summary>
-    ///     Handles the command to delete an existing user
+    ///     Handles the command to delete a user
     /// </summary>
     /// <param name="command">
-    ///     The command to delete an existing user
+    ///     The command to delete a user
     /// </param>
     /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains a boolean indicating whether the user was deleted.
+    ///     A task that represents the asynchronous operation. The task result contains a boolean indicating
+    ///     whether the user was successfully deleted.
     /// </returns>
-    /// <exception cref="Exception">
-    ///     Indicates that the user to delete was not found
+    /// <exception cref="NotFoundIdException">
+    ///     Indicates that the user with the specified IdUser was not found
+    /// </exception>
+    /// <exception cref="NotFoundArgumentException">
+    ///     Indicates that the user with the specified IdUser was not found
     /// </exception>
     public async Task<bool> Handle(DeleteUserCommand command)
     {
