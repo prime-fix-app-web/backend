@@ -1,4 +1,5 @@
-﻿using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
+﻿using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
+using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
 
 namespace PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 
@@ -7,6 +8,10 @@ namespace PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 /// </summary>
 public partial class Membership
 {
+    /// <summary>
+    ///     Private constructor for ORM and serialization purposes
+    /// </summary>
+    private Membership() { }
     /// <summary>
     ///     Constructor for the Membership aggregate root entity.
     /// </summary>
@@ -23,7 +28,7 @@ public partial class Membership
     ///     The end date of the membership.
     /// </param>
     public Membership(string idMembership, MembershipDescription membershipDescription,
-        DateTime started, DateTime over)
+        DateOnly started, DateOnly over)
     {
         IdMembership = idMembership;
         MembershipDescription = membershipDescription;
@@ -31,10 +36,37 @@ public partial class Membership
         Over = over;
     }
     
+    /// <summary>
+    ///     The constructor for the Membership aggregate root entity from CreateMembershipCommand
+    /// </summary>
+    /// <param name="command">
+    ///     Command object containing data to create a Membership
+    /// </param>
+    public Membership(CreateMembershipCommand command): this(
+        command.IdMembership,
+        command.MembershipDescription,
+        command.Started,
+        command.Over)
+    {
+    }
+    
+    /// <summary>
+    ///     Updates the membership entity with data from an UpdateMembershipCommand
+    /// </summary>
+    /// <param name="command">
+    ///     Command object containing data to update a Membership
+    /// </param>
+    public void UpdateMembership(UpdateMembershipCommand command)
+    {
+        MembershipDescription = command.MembershipDescription;
+        Started = command.Started;
+        Over = command.Over;
+    }
+    
     public string IdMembership { get; private set;  }
     public MembershipDescription MembershipDescription { get; private set; }
     
-    public DateTime Started { get; private set; }
+    public DateOnly Started { get; private set; }
     
-    public DateTime Over { get; private set; }
+    public DateOnly Over { get; private set; }
 }

@@ -9,6 +9,10 @@ namespace PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 public partial class Role
 {
     /// <summary>
+    ///     Private constructor for ORM and serialization purposes
+    /// </summary>
+    private Role() { }
+    /// <summary>
     ///     The constructor for the Role aggregate root entity.
     /// </summary>
     /// <param name="idRole">

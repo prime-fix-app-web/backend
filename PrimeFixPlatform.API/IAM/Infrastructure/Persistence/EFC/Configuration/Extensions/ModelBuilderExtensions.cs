@@ -34,5 +34,16 @@ public static class ModelBuilderExtensions
             ri.Property(p => p.Name).IsRequired().HasMaxLength(100);
             ri.Property(p => p.Description).IsRequired().HasMaxLength(250);
         });
+        
+        modelBuilder.Entity<Membership>().HasKey(m => m.IdMembership);
+        modelBuilder.Entity<Membership>().Property(m => m.IdMembership).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Membership>().Property(m => m.Started).IsRequired();
+        modelBuilder.Entity<Membership>().Property(m => m.Over).IsRequired();
+        modelBuilder.Entity<Membership>().OwnsOne(m => m.MembershipDescription, md =>
+        {
+            md.WithOwner().HasForeignKey("MembershipIdMembership");
+            md.Property<string>("MembershipIdMembership").HasColumnName("id_membership");
+            md.Property(p => p.Description).IsRequired().HasMaxLength(250);
+        });
     }
 }

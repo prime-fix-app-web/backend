@@ -10,12 +10,30 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Controllers;
 
+/// <summary>
+///     Controller for managing roles within the IAM system
+/// </summary>
+/// <param name="roleQueryService">
+///     The service responsible for handling role queries
+/// </param>
+/// <param name="roleCommandService">
+///     The service responsible for handling role commands
+/// </param>
 [ApiController]
 [Route("api/v1/roles")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Roles Endpoints")]
 public class RoleController(IRoleQueryService roleQueryService, IRoleCommandService roleCommandService): ControllerBase
 {
+    /// <summary>
+    ///     Create a new role
+    /// </summary>
+    /// <param name="request">
+    ///     The request object containing role data
+    /// </param>
+    /// <returns>
+    ///     The created role response
+    /// </returns>
     [HttpPost]
     [SwaggerOperation(
         Summary = "Create a new role",
@@ -50,6 +68,12 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
         return Ok(roleResponse);
     }
 
+    /// <summary>
+    ///     Get all roles
+    /// </summary>
+    /// <returns>
+    ///     The list of all roles
+    /// </returns>
     [HttpGet]
     [SwaggerOperation(
         Summary = "Retrieve all roles",
@@ -73,6 +97,15 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
         return Ok(roleResponses);
     }
 
+    /// <summary>
+    ///     Get a role by its ID
+    /// </summary>
+    /// <param name="id_role">
+    ///     The unique ID of the role to retrieve
+    /// </param>
+    /// <returns>
+    ///     The role response
+    /// </returns>
     [HttpGet("{id_role}")]
     [SwaggerOperation(
         Summary = "Retrieve a role by its ID",
@@ -99,6 +132,18 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
         return Ok(roleResponse);
     }
 
+    /// <summary>
+    ///     Update an existing role
+    /// </summary>
+    /// <param name="id_role">
+    ///     The unique ID of the role to update
+    /// </param>
+    /// <param name="request">
+    ///     The request object containing updated role data
+    /// </param>
+    /// <returns>
+    ///     The updated role response
+    /// </returns>
     [HttpPut("{id_role}")]
     [SwaggerOperation(
         Summary = "Update an existing role",
@@ -129,6 +174,15 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
         return Ok(roleResponse);
     }
     
+    /// <summary>
+    ///     Delete a role by its ID
+    /// </summary>
+    /// <param name="id_role">
+    ///     The unique ID of the role to delete
+    /// </param>
+    /// <returns>
+    ///     True if the role was deleted successfully, otherwise false
+    /// </returns>
     [HttpDelete("{id_role}")]
     [SwaggerOperation(
         Summary = "Delete a role by its ID",

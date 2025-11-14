@@ -8,6 +8,10 @@ namespace PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 public partial class User
 {
     /// <summary>
+    ///   Private constructor for ORM and serialization purposes
+    /// </summary>
+    private User() { }
+    /// <summary>
     ///     The constructor for the User aggregate root entity.
     /// </summary>
     /// <param name="idUser">
