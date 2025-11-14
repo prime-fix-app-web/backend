@@ -111,7 +111,7 @@ public class UsersController(IUserQueryService userQueryService, IUserCommandSer
         typeof(UserResponse))]
     [SwaggerResponse(StatusCodes.Status400BadRequest,
         "Bad request - Invalid input data",
-        typeof(ProblemDetails))] // equivalente a RuntimeException en tu doc de error
+        typeof(ProblemDetails))]
     public async Task<IActionResult> UpdateUser(string id_user, [FromBody] UpdateUserRequest request)
     {
         var updateUserCommand = UserAssembler.ToCommandFromRequest(request, id_user);

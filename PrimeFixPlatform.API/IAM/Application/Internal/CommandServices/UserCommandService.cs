@@ -68,14 +68,14 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
         var lastName = command.LastName;
         
         if (!await userRepository.ExistsByIdUser(idUser))
-            throw new Exception("User not found");
+            throw new NotFoundIdException("User not found");
         
         if (await userRepository.ExistsByNameAndLastNameAndIdUserIsNot(name, lastName, idUser))
-            throw new Exception("Another user with the same Name and LastName already exists");
+            throw new ConflictException("Another user with the same Name and LastName already exists");
 
         var userToUpdate = await userRepository.FindByIdAsync(idUser);
         if (userToUpdate == null)
-            throw new Exception("User not found");
+            throw new NotFoundArgumentException("User not found");
         userToUpdate.UpdateUser(command);
         userRepository.Update(userToUpdate);
         await unitOfWork.CompleteAsync();
