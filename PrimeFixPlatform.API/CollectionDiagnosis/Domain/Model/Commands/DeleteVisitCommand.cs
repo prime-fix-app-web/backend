@@ -1,3 +1,9 @@
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 
-public record DeleteVisitCommand();
+/// <summary>
+///     Command to delete a visit
+/// </summary>
+/// <param name="VisitId">
+///     The ID of the visit to be deleted
+/// </param>
+public record DeleteVisitCommand(string VisitId);
