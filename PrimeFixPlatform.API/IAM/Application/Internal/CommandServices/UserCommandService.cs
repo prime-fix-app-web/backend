@@ -97,10 +97,10 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     public async Task<bool> Handle(DeleteUserCommand command)
     {
         if (!await userRepository.ExistsByIdUser(command.IdUser))
-            throw new Exception("User not found");
+            throw new NotFoundIdException("User not found");
         var user = await userRepository.FindByIdAsync(command.IdUser);
         if (user == null)
-            throw new Exception("User not found");
+            throw new NotFoundArgumentException("User not found");
         userRepository.Remove(user);
         await unitOfWork.CompleteAsync();
         return true;

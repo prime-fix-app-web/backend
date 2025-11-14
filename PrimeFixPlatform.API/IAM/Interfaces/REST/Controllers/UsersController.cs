@@ -5,6 +5,7 @@ using PrimeFixPlatform.API.Iam.Domain.Model.Queries;
 using PrimeFixPlatform.API.Iam.Domain.Services;
 using PrimeFixPlatform.API.Iam.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
+using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Controllers;
@@ -45,7 +46,13 @@ public class UsersController(IUserQueryService userQueryService, IUserCommandSer
         typeof(UserResponse))]
     [SwaggerResponse(StatusCodes.Status400BadRequest,
         "Bad request - Invalid input data",
-        typeof(ProblemDetails))]
+        typeof(BadRequestResponse))]
+    [SwaggerResponse(StatusCodes.Status409Conflict, 
+        "Conflict", 
+        typeof(ConflictResponse))]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, 
+        "Internal server error", 
+        typeof(InternalServerErrorResponse))]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
     {
         var createUserCommand = UserAssembler.ToCommandFromRequest(request);
@@ -78,6 +85,9 @@ public class UsersController(IUserQueryService userQueryService, IUserCommandSer
     [SwaggerResponse(StatusCodes.Status200OK,
         "Users retrieved successfully",
         typeof(IEnumerable<UserResponse>))]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, 
+        "Internal server error", 
+        typeof(InternalServerErrorResponse))]
     public async Task<IActionResult> GetAllUsers()
     {
         var getAllUsersQuery = new GetAllUsersQuery();
@@ -111,7 +121,16 @@ public class UsersController(IUserQueryService userQueryService, IUserCommandSer
         typeof(UserResponse))]
     [SwaggerResponse(StatusCodes.Status400BadRequest,
         "Bad request - Invalid input data",
-        typeof(ProblemDetails))]
+        typeof(BadRequestResponse))]
+    [SwaggerResponse(StatusCodes.Status404NotFound,
+            "User not found",
+        typeof(NotFoundResponse))]
+    [SwaggerResponse(StatusCodes.Status409Conflict, 
+        "Conflict", 
+        typeof(ConflictResponse))]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, 
+        "Internal server error", 
+        typeof(InternalServerErrorResponse))]
     public async Task<IActionResult> UpdateUser(string id_user, [FromBody] UpdateUserRequest request)
     {
         var updateUserCommand = UserAssembler.ToCommandFromRequest(request, id_user);
@@ -144,7 +163,13 @@ public class UsersController(IUserQueryService userQueryService, IUserCommandSer
         "User deleted successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest,
         "Bad request - Invalid user ID",
-        typeof(ProblemDetails))]
+        typeof(BadRequestResponse))]
+    [SwaggerResponse(StatusCodes.Status404NotFound,
+        "User not found",
+        typeof(NotFoundResponse))]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, 
+        "Internal server error", 
+        typeof(InternalServerErrorResponse))]
     public async Task<IActionResult> DeleteUser(string id_user)
     {
         var deleteUserCommand = new DeleteUserCommand(id_user);

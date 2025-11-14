@@ -6,89 +6,144 @@ using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
 namespace PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Handlers;
 
 /// <summary>
-    /// Global exception handler for REST controllers.
-    /// </summary>
+///     Global exception handler for REST controllers.
+/// </summary>
 public sealed class GlobalExceptionHandler : IExceptionHandler
 {
     /// <summary>
-    ///     Handles all unhandled exceptions and maps them to ProblemDetails responses.
+    ///     Tries to handle the given exception and write an appropriate response to the HTTP context.
     /// </summary>
+    /// <param name="httpContext">
+    ///     Context of the HTTP request
+    /// </param>
+    /// <param name="exception">
+    ///     The exception to handle
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token
+    /// </param>
+    /// <returns></returns>
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
         CancellationToken cancellationToken)
     {
-        var problemDetails = CreateProblemDetails(httpContext, exception);
+        var (statusCode, responseBody) = MapExceptionToResponse(httpContext, exception);
 
-        httpContext.Response.StatusCode = problemDetails.Status ?? StatusCodes.Status500InternalServerError;
-        httpContext.Response.ContentType = "application/problem+json";
-
-        await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
+        httpContext.Response.StatusCode = statusCode;
+        httpContext.Response.ContentType = "application/json";
+        await httpContext.Response.WriteAsJsonAsync(responseBody, cancellationToken);
 
         return true;
     }
 
     /// <summary>
-    /// Maps known exception types to HTTP status codes and problem details.
+    ///     Maps exceptions to appropriate HTTP status codes and response bodies.
     /// </summary>
-    private static ProblemDetails CreateProblemDetails(HttpContext httpContext, Exception exception)
+    /// <param name="httpContext">
+    ///     Context of the HTTP request
+    /// </param>
+    /// <param name="exception">
+    ///     The exception to map
+    /// </param>
+    /// <returns>
+    ///     A tuple containing the HTTP status code and the response body object.
+    /// </returns>
+    private static (int StatusCode, object Response) MapExceptionToResponse(
+        HttpContext httpContext,
+        Exception exception)
     {
-        var problem = new ProblemDetails
+        // 400 - Bad request
+        if (exception is ValidationException validationEx)
         {
-            Instance = httpContext.Request.Path
-        };
-
-        switch (exception)
-        {
-            case ValidationException ex:
-                problem.Title = "Validation error";
-                problem.Status = StatusCodes.Status400BadRequest;
-                problem.Detail = ex.Message;
-                break;
-
-            case ArgumentNullException ex:
-                problem.Title = "Null argument";
-                problem.Status = StatusCodes.Status400BadRequest;
-                problem.Detail = ex.Message;
-                break;
-
-            case ArgumentException ex:
-                problem.Title = "Invalid argument";
-                problem.Status = StatusCodes.Status400BadRequest;
-                problem.Detail = ex.Message;
-                break;
-
-            // 404 - Not found
-            case NotFoundIdException ex:
-                problem.Title = "Resource not found";
-                problem.Status = StatusCodes.Status404NotFound;
-                problem.Detail = ex.Message;
-                break;
-            
-            case NotFoundArgumentException ex:
-                problem.Title = "Not found";
-                problem.Status = StatusCodes.Status404NotFound;
-                problem.Detail = ex.Message;
-                break;
-
-            // 409 - Conflict
-            case ConflictException ex:
-                problem.Title = "Conflict";
-                problem.Status = StatusCodes.Status409Conflict;
-                problem.Detail = ex.Message;
-                break;
-
-            // 500 - Internal server error
-            default:
-                problem.Title = "Internal server error";
-                problem.Status = StatusCodes.Status500InternalServerError;
-                problem.Detail = "An unexpected error occurred. Please try again later.";
-                break;
+            var dto = new BadRequestResponse
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Error = "BAD_REQUEST",
+                Message = validationEx.Message,
+                Errors = new Dictionary<string, string[]>
+                {
+                    { "validation", new[] { validationEx.Message } }
+                }
+            };
+            return (StatusCodes.Status400BadRequest, dto);
         }
 
-        // Add trace identifier for correlation
-        problem.Extensions["traceId"] = httpContext.TraceIdentifier;
+        // 400 - Bad request
+        if (exception is ArgumentNullException argNullEx)
+        {
+            var dto = new BadRequestResponse
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Error = "BAD_REQUEST",
+                Message = "Null argument received.",
+                Errors = new Dictionary<string, string[]>
+                {
+                    { argNullEx.ParamName ?? "argument", new[] { argNullEx.Message } }
+                }
+            };
+            return (StatusCodes.Status400BadRequest, dto);
+        }
 
-        return problem;
+        // 400 - Bad request
+        if (exception is ArgumentException argEx)
+        {
+            var dto = new BadRequestResponse
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Error = "BAD_REQUEST",
+                Message = "Invalid argument.",
+                Errors = new Dictionary<string, string[]>
+                {
+                    { argEx.ParamName ?? "argument", new[] { argEx.Message } }
+                }
+            };
+            return (StatusCodes.Status400BadRequest, dto);
+        }
+
+        // 404 - Not found
+        if (exception is NotFoundIdException notFoundIdEx)
+        {
+            var dto = new NotFoundResponse
+            {
+                Status = StatusCodes.Status404NotFound,
+                Error = "NOT_FOUND",
+                Message = notFoundIdEx.Message
+            };
+            return (StatusCodes.Status404NotFound, dto);
+        }
+
+        if (exception is NotFoundArgumentException notFoundArgEx)
+        {
+            var dto = new NotFoundResponse
+            {
+                Status = StatusCodes.Status404NotFound,
+                Error = "NOT_FOUND",
+                Message = notFoundArgEx.Message
+            };
+            return (StatusCodes.Status404NotFound, dto);
+        }
+
+        // 409 - Conflict
+        if (exception is ConflictException conflictEx)
+        {
+            var dto = new ConflictResponse
+            {
+                Status = StatusCodes.Status409Conflict,
+                Error = "CONFLICT",
+                Message = conflictEx.Message
+            };
+            return (StatusCodes.Status409Conflict, dto);
+        }
+
+        // 500 - Internal server error (default)
+        var internalDto = new InternalServerErrorResponse
+        {
+            Status = StatusCodes.Status500InternalServerError,
+            Error = "INTERNAL_SERVER_ERROR",
+            Message = "An unexpected error occurred. Please try again later."
+        };
+
+        return (StatusCodes.Status500InternalServerError, internalDto);
     }
 }
