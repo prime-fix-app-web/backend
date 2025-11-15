@@ -3,8 +3,17 @@ using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 
 namespace PrimeFixPlatform.API.Iam.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
+/// <summary>
+///     Extensions for configuring the ModelBuilder for the Iam bounded context
+/// </summary>
 public static class ModelBuilderExtensions
 {
+    /// <summary>
+    ///     Applies the Iam bounded context configuration to the ModelBuilder
+    /// </summary>
+    /// <param name="modelBuilder">
+    ///     The ModelBuilder to configure
+    /// </param>
     public static void ApplyIamConfiguration(this ModelBuilder modelBuilder)
     {
         // Iam Bounded Context

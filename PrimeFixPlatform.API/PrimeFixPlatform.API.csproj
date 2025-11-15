@@ -27,7 +27,6 @@
     <ItemGroup>
       <Folder Include="AutorepairCatalog\" />
       <Folder Include="AutorepairRegister\" />
-      <Folder Include="MaintenanceTracking\" />
     </ItemGroup>
 
 </Project>
