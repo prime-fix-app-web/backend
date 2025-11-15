@@ -133,6 +133,9 @@ builder.Services.AddScoped<IMembershipQueryService, MembershipQueryService>();
 builder.Services.AddScoped<IAutoRepairRepository, AutoRepairRepository>();
 builder.Services.AddScoped<IAutoRepairCommandService, AutoRepairCommandService>();
 builder.Services.AddScoped<IAutoRepairQueryService, AutoRepairQueryService>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<ILocationCommandService, LocationCommandService>();
+builder.Services.AddScoped<ILocationQueryService, LocationQueryService>();
 
 // Maintenance Tracking Bounded Context
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
