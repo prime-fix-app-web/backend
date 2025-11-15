@@ -13,9 +13,9 @@ namespace PrimeFixPlatform.API.PaymentService.Application.Internal.CommandServic
 /// <param name="paymentRepository">
 ///     The payment repository
 /// </param>
-/// <param name="unitOfWork"
+/// <param name="unitOfWork">
 ///     Unit of work
-/// ></param>
+/// </param>
 public class PaymentCommandService(IPaymentRepository paymentRepository, IUnitOfWork unitOfWork)
 : IPaymentCommandService
 {
@@ -36,6 +36,9 @@ public class PaymentCommandService(IPaymentRepository paymentRepository, IUnitOf
     {
         var idPayment = command.IdPayment;
         var idUserAccount = command.IdUserAccount;
+        
+        if (string.IsNullOrWhiteSpace(idPayment))
+            throw new NotFoundArgumentException("IdPayment cannot be null or empty"); 
         
         if(await paymentRepository.ExistsByIdPayment(idPayment))
             throw new NotFoundIdException("Payment with the same id "+idPayment+" already exists");
@@ -71,6 +74,7 @@ public class PaymentCommandService(IPaymentRepository paymentRepository, IUnitOf
         var paymentToUpdate = await paymentRepository.FindByIdAsync(idPayment);
         if (paymentToUpdate is null)
             throw new NotFoundArgumentException("Payment not found");
+        paymentToUpdate.UpdatePayment(command);
         paymentRepository.Update(paymentToUpdate);
         await unitOfWork.CompleteAsync();
         return paymentToUpdate;

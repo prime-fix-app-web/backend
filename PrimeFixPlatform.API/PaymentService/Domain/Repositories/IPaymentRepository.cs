@@ -43,7 +43,7 @@ public interface IPaymentRepository : IBaseRepository<Payment>
     ///     a boolean indicating whether a payment with the specified user account associated exists,
     ///     excluding the payment with the specified ID.
     /// </returns>
-    Task<bool> ExistsByIdUserAccounAndIdPaymentIsNot(string idUserAccount, string idPayment);
+    Task<bool> ExistsByIdUserAccountAndIdPaymentIsNot(string idUserAccount, string idPayment);
     
     /// <summary>
     ///     Finds ratings by the user account associated.

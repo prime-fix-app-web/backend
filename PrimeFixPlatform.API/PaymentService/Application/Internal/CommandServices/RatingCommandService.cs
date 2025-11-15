@@ -16,7 +16,7 @@ namespace PrimeFixPlatform.API.PaymentService.Application.Internal.CommandServic
 /// <param name="unitOfWork">
 ///     Unit of work
 /// </param>
-public class RatingQueryService(IRatingRepository ratingRepository, IUnitOfWork unitOfWork)
+public class RatingCommandService(IRatingRepository ratingRepository, IUnitOfWork unitOfWork)
     : IRatingCommandService
 {
     public async Task<string> Handle(CreateRatingCommand command)

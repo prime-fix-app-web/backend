@@ -57,7 +57,7 @@ public class PaymentRepository(AppDbContext context)
     ///     a boolean indicating whether a payment with the specified user account ID exists,
     ///     excluding the payment with the specified ID.
     /// </returns>
-    public async Task<bool> ExistsByIdUserAccounAndIdPaymentIsNot(string idUserAccount, string idPayment)
+    public async Task<bool> ExistsByIdUserAccountAndIdPaymentIsNot(string idUserAccount, string idPayment)
     {
         return await Context.Set<Payment>().AnyAsync(payment =>
             payment.IdUserAccount == idUserAccount && payment.IdPayment != idPayment);

@@ -40,6 +40,12 @@ public partial class Payment
     public Payment(string idPayment, string cardNumber, ECardType cardType, int month,
         int year, int cvv, string idUserAccount)
     {
+        if (cvv < 100 || cvv > 999)
+            throw new ArgumentException("CVV must be a 3-digit number between 100 and 999.");
+
+        if (month < 1 || month > 12)
+            throw new ArgumentException("Month must be between 1 and 12.");
+        
         IdPayment = idPayment;
         CardNumber = cardNumber;
         CardType = cardType;
@@ -75,6 +81,12 @@ public partial class Payment
     /// </param>
     public void UpdatePayment(UpdatePaymentCommand command)
     {
+        if (command.Cvv < 100 || command.Cvv > 999)
+            throw new ArgumentException("CVV must be a 3-digit number between 100 and 999.");
+
+        if (command.Month < 1 || command.Month > 12)
+            throw new ArgumentException("Month must be between 1 and 12.");
+        
         IdPayment = command.IdPayment;
         CardNumber = command.CardNumber;
         CardType = command.CardType;

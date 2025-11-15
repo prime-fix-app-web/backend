@@ -33,6 +33,8 @@ public partial class Rating
     public Rating(string idRating, int starRating, string comment,
         string idAutoRepair, string idUserAccount)
     {
+        if (starRating < 1 || starRating > 5)
+            throw new ArgumentException("Star rating must be between 1 and 5.");
         IdRating = idRating;
         StarRating = starRating;
         Comment = comment;
@@ -63,6 +65,8 @@ public partial class Rating
     /// </param>
     public void UpdateRating(UpdateRatingCommand command)
     {
+        if (command.StarRating < 1 || command.StarRating > 5)
+            throw new ArgumentException("Star rating must be between 1 and 5.");
         IdRating = command.IdRating;
         StarRating = command.StarRating;
         Comment = command.Comment;
