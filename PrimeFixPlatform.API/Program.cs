@@ -9,6 +9,11 @@ using PrimeFixPlatform.API.Iam.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
 using PrimeFixPlatform.API.Iam.Domain.Services;
 using PrimeFixPlatform.API.Iam.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.QueryServices;
+using PrimeFixPlatform.API.MaintenanceTracking.Domain.Repositories;
+using PrimeFixPlatform.API.MaintenanceTracking.Domain.Services;
+using PrimeFixPlatform.API.MaintenanceTracking.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Handlers;
@@ -118,6 +123,11 @@ builder.Services.AddScoped<IRoleQueryService, RoleQueryService>();
 builder.Services.AddScoped<IMembershipRepository, MembershipRepository>();
 builder.Services.AddScoped<IMembershipCommandService, MembershipCommandService>();
 builder.Services.AddScoped<IMembershipQueryService, MembershipQueryService>();
+
+// Maintenance Tracking Bounded Context
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IVehicleCommandService, VehicleCommandService>();
+builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
 
 // Mediator Configuration
 // Add Mediator Injection Configuration
