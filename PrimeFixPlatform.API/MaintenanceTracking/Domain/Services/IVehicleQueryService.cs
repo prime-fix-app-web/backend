@@ -18,7 +18,7 @@ public interface IVehicleQueryService
     ///     A task that represents the asynchronous operation.
     ///     The task result contains an enumerable collection of Vehicle entities.
     /// </returns>
-    Task<IEnumerable<Vehicle>> Handle(GetAllVehicleQuery query);
+    Task<IEnumerable<Vehicle>> Handle(GetAllVehiclesQuery query);
     
     /// <summary>
     ///     Handles the retrieval of a vehicle by its unique identifier.

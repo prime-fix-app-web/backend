@@ -6,7 +6,7 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Aggregates;
 /// <summary>
 ///     Audit fields for Vehicle entity
 /// </summary>
-public partial class Vehicle : IEntityWithCreatedUpdatedDate
+public partial class Notification : IEntityWithCreatedUpdatedDate
 {
     [Column("CreatedAt")] public DateTimeOffset? CreatedDate { get; set; }
     [Column("UpdatedAt")] public DateTimeOffset? UpdatedDate { get; set; }

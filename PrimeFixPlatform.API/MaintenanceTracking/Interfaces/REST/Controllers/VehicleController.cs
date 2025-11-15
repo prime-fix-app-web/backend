@@ -94,7 +94,7 @@ public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicl
         
         if (maintenanceStatus is null)
         {
-            var getAllVehiclesQuery = new GetAllVehicleQuery();
+            var getAllVehiclesQuery = new GetAllVehiclesQuery();
             vehicles = await vehicleQueryService.Handle(getAllVehiclesQuery);
         }
         else

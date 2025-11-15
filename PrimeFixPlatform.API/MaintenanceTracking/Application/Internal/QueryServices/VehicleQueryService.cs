@@ -25,7 +25,7 @@ public class VehicleQueryService(IVehicleRepository vehicleRepository)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     an enumerable of all Vehicle entities.
     /// </returns>
-    public async Task<IEnumerable<Vehicle>> Handle(GetAllVehicleQuery query)
+    public async Task<IEnumerable<Vehicle>> Handle(GetAllVehiclesQuery query)
     {
         return await vehicleRepository.ListAsync();
     }

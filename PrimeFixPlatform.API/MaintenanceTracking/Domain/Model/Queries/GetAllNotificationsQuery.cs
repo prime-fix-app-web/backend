@@ -1,6 +1,6 @@
 ﻿namespace PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Queries;
 
 /// <summary>
-///     Query to get all vehicles.
+///     Query to get all notifications.
 /// </summary>
-public record GetAllVehicleQuery();
+public record GetAllNotificationsQuery();

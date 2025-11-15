@@ -31,5 +31,13 @@ public static class ModelBuilderExtensions
             vi.Property(p => p.VehicleBrand).IsRequired().HasMaxLength(50);
             vi.Property(p => p.VehicleType).IsRequired().HasMaxLength(50);
         });
+        
+        modelBuilder.Entity<Notification>().HasKey(n => n.IdNotification);
+        modelBuilder.Entity<Notification>().Property(n => n.IdNotification).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Notification>().Property(n => n.Message).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Notification>().Property(n => n.Read).IsRequired();
+        modelBuilder.Entity<Notification>().Property(n => n.IdVehicle).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Notification>().Property(n => n.Sent).IsRequired();
+        modelBuilder.Entity<Notification>().Property(n => n.IdDiagnostic).IsRequired().HasMaxLength(255);
     }
 }
