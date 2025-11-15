@@ -1,5 +1,6 @@
 ﻿using PrimeFixPlatform.API.PaymentService.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
+using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 
 namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Assemblers;
@@ -21,7 +22,7 @@ public class PaymentAssembler
     public static CreatePaymentCommand ToCommandFromRequest(CreatePaymentRequest request)
     {
         return new CreatePaymentCommand(
-                request.IdPayment, request.CardNumber, request.CardType, request.Month,
+                request.IdPayment, request.CardNumber, new CardType(request.CardType), request.Month,
                 request.Year, request.Cvv, request.IdUserAccount
                 );
     }
@@ -41,7 +42,7 @@ public class PaymentAssembler
     public static UpdatePaymentCommand ToCommandFromRequest(UpdatePaymentRequest request, string idPayment)
     {
         return new UpdatePaymentCommand(
-            idPayment, request.CardNumber, request.CardType, request.Month,
+            idPayment, request.CardNumber, new CardType(request.CardType), request.Month,
             request.Year, request.Cvv, request.IdUserAccount
         );
     }
@@ -58,7 +59,7 @@ public class PaymentAssembler
     public static PaymentResponse ToResponseFromEntity(Payment entity)
     {
         return new PaymentResponse(
-            entity.IdPayment, entity.CardNumber, entity.CardType, entity.Month,
+            entity.IdPayment, entity.CardNumber, entity.CardType.Type, entity.Month,
             entity.Year, entity.Cvv, entity.IdUserAccount
         );
     }

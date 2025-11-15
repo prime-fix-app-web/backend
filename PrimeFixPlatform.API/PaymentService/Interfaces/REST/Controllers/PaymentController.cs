@@ -35,7 +35,7 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     ///     The payment creation request data
     /// </param>
     /// <returns>
-    ///     The created payment resopnse details
+    ///     The created payment response details
     /// </returns>
     [HttpPost]
     [SwaggerOperation(
@@ -90,7 +90,7 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetAllPayments([FromBody] string? idUserAccount)
+    public async Task<IActionResult> GetAllPayments([FromQuery] string? idUserAccount)
     {
         IEnumerable<Payment> payments;
         if (idUserAccount is null)

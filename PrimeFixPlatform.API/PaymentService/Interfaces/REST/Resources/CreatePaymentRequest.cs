@@ -44,22 +44,18 @@ public record CreatePaymentRequest(
     [Required]
     [MinLength(1)]
     [MaxLength(50)]
-    ECardType CardType,
+    string CardType,
     
-    [property: JsonPropertyName("month")]
     [Required]
     int Month,
     
-    [property: JsonPropertyName("year")]
     [Required]
     int Year,
     
-    [property: JsonPropertyName("cvv")]
     [Required]
     int Cvv,
     
     [property: JsonPropertyName("id_user_account")]
     [Required]
     [MinLength(1)]
-    string IdUserAccount
-    );
+    string IdUserAccount);

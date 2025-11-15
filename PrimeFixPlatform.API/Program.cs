@@ -19,6 +19,11 @@ using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.QueryService
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Repositories;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Services;
 using PrimeFixPlatform.API.MaintenanceTracking.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.PaymentService.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.PaymentService.Application.Internal.QueryServices;
+using PrimeFixPlatform.API.PaymentService.Domain.Repositories;
+using PrimeFixPlatform.API.PaymentService.Domain.Services;
+using PrimeFixPlatform.API.PaymentService.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Handlers;
@@ -144,6 +149,15 @@ builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationCommandService, NotificationCommandService>();
 builder.Services.AddScoped<INotificationQueryService, NotificationQueryService>();
+
+
+// Payment Service Bounded Context
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IPaymentCommandService, PaymentCommandService>();
+builder.Services.AddScoped<IPaymentQueryService, PaymentQueryService>();
+builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+builder.Services.AddScoped<IRatingCommandService, RatingCommandService>();
+builder.Services.AddScoped<IRatingQueryService, RatingQueryService>();
 
 
 // Mediator Configuration

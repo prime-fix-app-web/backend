@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PrimeFixPlatform.API.AutorepairCatalog.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using PrimeFixPlatform.API.Iam.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using PrimeFixPlatform.API.MaintenanceTracking.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using PrimeFixPlatform.API.PaymentService.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
 namespace PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -23,6 +24,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.ApplyIamConfiguration();
         builder.ApplyAutorepairCatalogConfiguration();
         builder.ApplyMaintenanceTrackingConfiguration();
+        builder.ApplyPaymentServiceConfiguration();
 
         builder.UseSnakeCaseNamingConvention();
     }

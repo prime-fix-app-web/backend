@@ -31,7 +31,6 @@ public record CreateRatingRequest(
     [Required]
     int StarRating,
     
-    [property: JsonPropertyName("comment")]
     [Required]
     [MinLength(1)]
     [MaxLength(255)]

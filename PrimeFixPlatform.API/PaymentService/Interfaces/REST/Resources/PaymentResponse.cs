@@ -30,9 +30,9 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 public record PaymentResponse(
     [property:JsonPropertyName("id_payment")] string IdPayment,
     [property:JsonPropertyName("card_number")] string CardNumber,
-    [property:JsonPropertyName("card_type")] ECardType CardType,
-    [property:JsonPropertyName("month")] int Month,
-    [property:JsonPropertyName("year")] int Year,
-    [property:JsonPropertyName("cvv")] int Cvv,
+    [property:JsonPropertyName("card_type")] string CardType,
+    int Month,
+    int Year,
+    int Cvv,
     [property:JsonPropertyName("id_user_account")] string IdUserAccount
     );

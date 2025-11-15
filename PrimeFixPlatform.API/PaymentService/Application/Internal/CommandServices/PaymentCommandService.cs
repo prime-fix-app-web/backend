@@ -35,13 +35,10 @@ public class PaymentCommandService(IPaymentRepository paymentRepository, IUnitOf
     public async Task<string> Handle(CreatePaymentCommand command)
     {
         var idPayment = command.IdPayment;
-        var idUserAccount = command.IdUserAccount;
-        
-        if (string.IsNullOrWhiteSpace(idPayment))
-            throw new NotFoundArgumentException("IdPayment cannot be null or empty"); 
         
         if(await paymentRepository.ExistsByIdPayment(idPayment))
-            throw new NotFoundIdException("Payment with the same id "+idPayment+" already exists");
+            throw new ConflictException("Payment with the same id "
+                                        + idPayment + " already exists");
         
         var payment = new Payment(command);
         await paymentRepository.AddAsync(payment);

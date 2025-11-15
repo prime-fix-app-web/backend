@@ -26,5 +26,5 @@ namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
 /// <param name="IdUserAccount">
 ///     The unique identifier of the user associated with the payment to be updated 
 /// </param>
-public record UpdatePaymentCommand(string IdPayment, string CardNumber, ECardType CardType, int Month,
+public record UpdatePaymentCommand(string IdPayment, string CardNumber, CardType CardType, int Month,
     int Year, int Cvv, string IdUserAccount);

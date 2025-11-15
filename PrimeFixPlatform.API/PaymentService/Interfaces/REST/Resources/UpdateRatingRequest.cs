@@ -6,9 +6,6 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 /// <summary>
 ///     Request to update a rating
 /// </summary>
-/// <param name="IdRating">
-///     The unique identifier of the rating to be updated
-/// </param>
 /// <param name="StarRating">
 ///     The star rating of the rating to be updated
 /// </param>
@@ -22,16 +19,10 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 ///     The identifier of the user associated with the rating to be updated
 /// </param>
 public record UpdateRatingRequest(
-    [property: JsonPropertyName("id_rating")]
-    [Required]
-    [MinLength(1)]
-    string IdRating,
-    
     [property: JsonPropertyName("star_rating")]
     [Required]
     int StarRating,
     
-    [property: JsonPropertyName("comment")]
     [Required]
     [MinLength(1)]
     [MaxLength(255)]

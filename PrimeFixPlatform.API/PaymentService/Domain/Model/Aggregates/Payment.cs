@@ -37,7 +37,7 @@ public partial class Payment
     /// <param name="idUserAccount">
     ///     The identifier of the user associated with the payment.
     /// </param>
-    public Payment(string idPayment, string cardNumber, ECardType cardType, int month,
+    public Payment(string idPayment, string cardNumber, CardType cardType, int month,
         int year, int cvv, string idUserAccount)
     {
         if (cvv < 100 || cvv > 999)
@@ -98,7 +98,7 @@ public partial class Payment
     
     public string IdPayment { get; private set; }
     public string CardNumber { get; private set; }
-    public ECardType CardType { get; private set; }
+    public CardType CardType { get; private set; }
     public int Month { get; private set; }
     public int Year { get; private set; }
     public int Cvv { get; private set; }

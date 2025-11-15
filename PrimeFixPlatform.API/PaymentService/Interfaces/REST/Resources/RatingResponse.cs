@@ -24,7 +24,7 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 public record RatingResponse(
     [property: JsonPropertyName("id_rating")] string IdRating,
     [property: JsonPropertyName("star_rating")] int StarRating,
-    [property: JsonPropertyName("comment")] string Comment,
+    string Comment,
     [property: JsonPropertyName("id_auto_repair")] string IdAutoRepair,
     [property: JsonPropertyName("id_user_account")] string IdUserAccount
     );

@@ -7,9 +7,6 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 /// <summary>
 ///     Request to update a payment
 /// </summary>
-/// <param name="IdPayment">
-///     The unique identifier of the payment to be updated
-/// </param>
 /// <param name="CardNumber">
 ///     The card number of the payment to be updated
 /// </param>
@@ -29,11 +26,6 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 ///     The identifier of the user account of the payment to be updated
 /// </param>
 public record UpdatePaymentRequest(
-    [property: JsonPropertyName("id_payment")]
-    [Required]
-    [MinLength(1)]
-    string IdPayment,
-    
     [property: JsonPropertyName("card_number")]
     [Required]
     [MinLength(1)]
@@ -44,23 +36,18 @@ public record UpdatePaymentRequest(
     [Required]
     [MinLength(1)]
     [MaxLength(50)]
-    ECardType CardType,
+    string CardType,
     
-    [property: JsonPropertyName("month")]
     [Required]
     int Month,
     
-    [property: JsonPropertyName("year")]
     [Required]
     int Year,
     
-    [property: JsonPropertyName("cvv")]
     [Required]
     int Cvv,
     
     [property: JsonPropertyName("id_user_account")]
     [Required]
     [MinLength(1)]
-    string IdUserAccount
-    
-    );
+    string IdUserAccount);
