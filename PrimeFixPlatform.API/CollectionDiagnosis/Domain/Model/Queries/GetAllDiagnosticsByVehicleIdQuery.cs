@@ -6,4 +6,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
 /// <param name="VehicleId">
 ///     The ID of the vehicle 
 /// </param>
-public record GetAllDiagnosisByVehicleIdQuery(string  VehicleId);
+public record GetAllDiagnosticsByVehicleIdQuery(string  VehicleId);

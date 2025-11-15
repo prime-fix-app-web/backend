@@ -14,11 +14,11 @@ public interface IDiagnosticQueryService
     /// <param name="query">
     ///     The query object containing paraments for retrieving all diagnostic
     /// </param>
-    Task<IEnumerable<Diagnostic>> Handle(GetAllDiagnosisQuery query);
+    Task<IEnumerable<Diagnostic>> Handle(GetAllDiagnosticsQuery query);
 
     /// <summary>
     ///     Handles the retrieval of a diagnosis by its unique identifier
     /// </summary>
-    Task<Diagnostic?> Handle(GetAllDiagnosisByVehicleIdQuery query);
+    Task<Diagnostic?> Handle(GetAllDiagnosticsByVehicleIdQuery query);
 
 }

@@ -11,10 +11,10 @@ public interface IVisitQueryService
     /// <summary>
     ///     Hanldes the retrieval of all visit
     /// </summary>
-    Task<IEnumerable<Visit>> Handle(GetAllDiagnosisQuery query);
+    Task<IEnumerable<Visit>> Handle(GetAllVisitsQuery query);
 
     /// <summary>
     ///     Handles tre retrieval of a visit by its unique identifier
     /// </summary>
-    Task<Visit?> Handle(GetAllDiagnosisByVehicleIdQuery query);
+    Task<Visit?> Handle(GetAllVisitByAutoRepairIdQuery query);
 }

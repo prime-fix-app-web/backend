@@ -12,7 +12,10 @@ public interface IDiagnosticRepository : IBaseRepository<Diagnostic>
     Task<bool> ExistByDiagnosticId(string diagnosticId);
     
     /// <summary>
-    ///     Find diagnosis by Vehicle Id
+    ///     Find diagnosis by Vehicle ID
     /// </summary>
-    Task<IEnumerable<Diagnostic>> FindByVehicleId(string vehicleId);
+    Task<Diagnostic?> FindByVehicleId(string vehicleId);
+    
+    Task<bool> FindByDiagnosisId(string diagnosisId);
+    
 }
