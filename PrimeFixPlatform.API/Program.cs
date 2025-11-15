@@ -3,7 +3,12 @@ using Cortex.Mediator.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Diagnostics;  
+using Microsoft.AspNetCore.Diagnostics;
+using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.QueryServices;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Repositories;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Services;
+using PrimeFixPlatform.API.AutorepairCatalog.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.Iam.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.Iam.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
@@ -123,6 +128,11 @@ builder.Services.AddScoped<IRoleQueryService, RoleQueryService>();
 builder.Services.AddScoped<IMembershipRepository, MembershipRepository>();
 builder.Services.AddScoped<IMembershipCommandService, MembershipCommandService>();
 builder.Services.AddScoped<IMembershipQueryService, MembershipQueryService>();
+
+// AutoRepair Catalog Bounded Context
+builder.Services.AddScoped<IAutoRepairRepository, AutoRepairRepository>();
+builder.Services.AddScoped<IAutoRepairCommandService, AutoRepairCommandService>();
+builder.Services.AddScoped<IAutoRepairQueryService, AutoRepairQueryService>();
 
 // Maintenance Tracking Bounded Context
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();

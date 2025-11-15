@@ -4,7 +4,7 @@ using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Queries;
 namespace PrimeFixPlatform.API.MaintenanceTracking.Domain.Services;
 
 /// <summary>
-///     Repository interface for handling notification queries.
+///     Represents a repository interface for handling notification queries.
 /// </summary>
 public interface INotificationQueryService
 {

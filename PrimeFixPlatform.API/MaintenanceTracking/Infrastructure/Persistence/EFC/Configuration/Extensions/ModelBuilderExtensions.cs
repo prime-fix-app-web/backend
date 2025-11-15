@@ -16,7 +16,7 @@ public static class ModelBuilderExtensions
     /// </param>
     public static void ApplyMaintenanceTrackingConfiguration(this ModelBuilder modelBuilder)
     {
-        // MaintenanceTracking Bounded Context
+        // Maintenance Tracking Bounded Context
         modelBuilder.Entity<Vehicle>().HasKey(v => v.IdVehicle);
         modelBuilder.Entity<Vehicle>().Property(v => v.IdVehicle).IsRequired().HasMaxLength(255);
         modelBuilder.Entity<Vehicle>().Property(v => v.Color).IsRequired().HasMaxLength(50);

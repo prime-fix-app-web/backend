@@ -29,7 +29,7 @@ public class NotificationCommandService(INotificationRepository notificationRepo
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the ID of the created notification.
     /// </returns>
-    /// <exception cref="NotFoundIdException">
+    /// <exception cref="ConflictException">
     ///     Indicates that a notification with the same ID already exists.
     /// </exception>
     public async Task<string> Handle(CreateNotificationCommand command)
@@ -37,7 +37,7 @@ public class NotificationCommandService(INotificationRepository notificationRepo
         var idNotification = command.IdNotification;
         
         if (await notificationRepository.ExistsByIdNotification(idNotification))
-            throw new NotFoundIdException("Notification with the same id " + idNotification  + " already exists");
+            throw new ConflictException("Notification with the same id " + idNotification  + " already exists");
         
         var notification = new Notification(command);
         await notificationRepository.AddAsync(notification);

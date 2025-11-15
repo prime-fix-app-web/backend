@@ -28,7 +28,7 @@ public interface INotificationCommandService
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation.
-    ///     The task result contains the updated Notification entity, or null if the notification was not
+    ///     The task result contains the updated Notification entity, or null if the notification was not found.
     /// </returns>
     Task<Notification?> Handle(UpdateNotificationCommand command);
     

@@ -29,9 +29,6 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOf
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the created vehicle.
     /// </returns>
-    /// <exception cref="NotFoundIdException">
-    ///     Indicates that a vehicle with the same id already exists
-    /// </exception>
     /// <exception cref="ConflictException">
     ///     Indicates that a vehicle with the same plate already exists
     /// </exception>
@@ -41,7 +38,7 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOf
         var vehiclePlate = command.VehicleInformation.VehiclePlate;
         
         if (await vehicleRepository.ExistsByIdVehicle(idVehicle))
-            throw new NotFoundIdException("Vehicle with the same id " + idVehicle  + " already exists");
+            throw new ConflictException("Vehicle with the same id " + idVehicle  + " already exists");
         
         if (await vehicleRepository.ExistsByVehiclePlate(vehiclePlate))
             throw new ConflictException("Vehicle with the same plate " + vehiclePlate  + " already exists");
