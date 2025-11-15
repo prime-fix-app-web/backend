@@ -7,6 +7,15 @@ using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
 
 namespace PrimeFixPlatform.API.PaymentService.Application.Internal.CommandServices;
 
+/// <summary>
+///     Command service for Rating aggregate
+/// </summary>
+/// <param name="ratingRepository">
+///     The rating repository
+/// </param>
+/// <param name="unitOfWork">
+///     Unit of work
+/// </param>
 public class RatingQueryService(IRatingRepository ratingRepository, IUnitOfWork unitOfWork)
     : IRatingCommandService
 {

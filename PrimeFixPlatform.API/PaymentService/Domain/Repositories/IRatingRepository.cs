@@ -11,8 +11,6 @@ public interface IRatingRepository: IBaseRepository<Rating>
     
     Task<bool> ExistsByIdAutoRepairAndIdRatingIsNot(string  idAutoRepair, string idRating);
     
-    Task<IEnumerable<Rating>> FindByIdUserAccount(string idUserAccount);
-    
     Task<IEnumerable<Rating>> FindByIdAutoRepair(string idAutoRepair);
     
 }
