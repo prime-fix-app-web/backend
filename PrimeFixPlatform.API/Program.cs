@@ -111,7 +111,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllPolicy",
         policy => policy.AllowAnyOrigin()
-            .AllowAnyMethod().AllowAnyHeader());
+            .AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(_ => true));
 });
     
 // Swagger for API Documentation for development
@@ -221,6 +221,14 @@ builder.Services.AddCortexMediator(
         options.AddOpenCommandPipelineBehavior(typeof(LoggingCommandBehavior<>));
     });
 
+// Forwarded Headers Configuration
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 var app = builder.Build();
 
 // Apply migrations always (Production & Development)
@@ -231,11 +239,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-app.UseForwardedHeaders(new ForwardedHeadersOptions
-{
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-    RequireHeaderSymmetry = false
-});
+app.UseForwardedHeaders();
 
 // Global exception handler
 app.UseExceptionHandler();
