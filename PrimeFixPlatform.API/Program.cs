@@ -15,6 +15,11 @@ using PrimeFixPlatform.API.AutorepairRegister.Application.Internal.QueryServices
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Repositories;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Services;
 using PrimeFixPlatform.API.AutorepairRegister.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.QueryServices;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
+using PrimeFixPlatform.API.CollectionDiagnosis.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.Iam.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.Iam.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
@@ -54,7 +59,6 @@ builder.Services.AddControllers(options =>
     });
 
 // Global Exception Handling and Problem Details
-
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 // Customizing the response for invalid model state
@@ -175,6 +179,17 @@ builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<ILocationCommandService, LocationCommandService>();
 builder.Services.AddScoped<ILocationQueryService, LocationQueryService>();
 
+// Collection Diagnosis Bounded Context
+builder.Services.AddScoped<IDiagnosticRepository, DiagnosticRepository>();
+builder.Services.AddScoped<IDiagnosticCommandService, DiagnosticCommandService>();
+builder.Services.AddScoped<IDiagnosticQueryService, DiagnosticQueryService>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IServiceCommandService, ServiceCommandService>();
+builder.Services.AddScoped<IServiceQueryService, ServiceQueryService>();
+builder.Services.AddScoped<IVisitRepository, VisitRepository>();
+builder.Services.AddScoped<IVisitCommandService, VisitCommandService>();
+builder.Services.AddScoped<IVisitQueryService, VisitQueryService>();
+
 // Maintenance Tracking Bounded Context
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IVehicleCommandService, VehicleCommandService>();
@@ -211,7 +226,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    db.Database.EnsureCreated(); // In the future use migrations
 }
 
 // Configure the HTTP request pipeline.
@@ -233,7 +248,7 @@ app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "PrimeFixPlatform API v1");
     options.DocumentTitle = "PrimeFixPlatform API Docs";
-    options.RoutePrefix = "swagger"; // important for App Runner
+    options.RoutePrefix = "swagger";
     options.EnableTryItOutByDefault();
 });
 
