@@ -4,11 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.OpenApi.Any;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Repositories;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Services;
 using PrimeFixPlatform.API.AutorepairCatalog.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.AutorepairRegister.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.AutorepairRegister.Application.Internal.QueryServices;
+using PrimeFixPlatform.API.AutorepairRegister.Domain.Repositories;
+using PrimeFixPlatform.API.AutorepairRegister.Domain.Services;
+using PrimeFixPlatform.API.AutorepairRegister.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.Iam.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.Iam.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
@@ -26,6 +32,7 @@ using PrimeFixPlatform.API.PaymentService.Domain.Services;
 using PrimeFixPlatform.API.PaymentService.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
+using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Handlers;
 using PrimeFixPlatform.API.Shared.Infrastructure.Mediator.Cortex.Configuration;
 using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -35,7 +42,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
+builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()))
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
+    });
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -112,7 +123,13 @@ builder.Services.AddSwaggerGen(options =>
                 Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
             }
         });
-    options.EnableAnnotations();
+    // Map TimeOnly to OpenAPI Schema
+    options.MapType<TimeOnly>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Format = "time",
+        Example = new OpenApiString("00:00:00")
+    });
 });
 
 // Dependency Injection 
@@ -133,6 +150,14 @@ builder.Services.AddScoped<IRoleQueryService, RoleQueryService>();
 builder.Services.AddScoped<IMembershipRepository, MembershipRepository>();
 builder.Services.AddScoped<IMembershipCommandService, MembershipCommandService>();
 builder.Services.AddScoped<IMembershipQueryService, MembershipQueryService>();
+
+// AutoRepair Register Bounded Context
+builder.Services.AddScoped<ITechnicianRepository, TechnicianRepository>();
+builder.Services.AddScoped<ITechnicianCommandService, TechnicianCommandService>();
+builder.Services.AddScoped<ITechnicianQueryService, TechnicianQueryService>();
+builder.Services.AddScoped<ITechnicianScheduleRepository, TechnicianScheduleRepository>();
+builder.Services.AddScoped<ITechnicianScheduleCommandService, TechnicianScheduleCommandService>();
+builder.Services.AddScoped<ITechnicianScheduleQueryService, TechnicianScheduleQueryService>();
 
 // AutoRepair Catalog Bounded Context
 builder.Services.AddScoped<IAutoRepairRepository, AutoRepairRepository>();

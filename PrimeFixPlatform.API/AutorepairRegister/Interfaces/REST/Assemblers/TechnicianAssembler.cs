@@ -1,0 +1,62 @@
+﻿using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Commands;
+using PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Resources;
+
+namespace PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Assemblers;
+
+/// <summary>
+///     Assembler for converting between Technician-related requests, commands, and responses.
+/// </summary>
+public static class TechnicianAssembler
+{
+    /// <summary>
+    ///     Converts a CreateTechnicianRequest to a CreateTechnicianCommand.
+    /// </summary>
+    /// <param name="request">
+    ///     The CreateTechnicianRequest containing technician details.
+    /// </param>
+    /// <returns>
+    ///     The corresponding CreateTechnicianCommand.
+    /// </returns>
+    public static CreateTechnicianCommand ToCommandFromRequest(CreateTechnicianRequest request)
+    {
+        return new CreateTechnicianCommand(
+            request.IdTechnician, request.Name, request.LastName, request.IdAutoRepair
+        );
+    }
+    
+    /// <summary>
+    ///     Converts an UpdateTechnicianRequest to an UpdateTechnicianCommand.
+    /// </summary>
+    /// <param name="request">
+    ///     The UpdateTechnicianRequest containing updated technician details.
+    /// </param>
+    /// <param name="idTechnician">
+    ///     The identifier of the technician to be updated.
+    /// </param>
+    /// <returns>
+    ///     The corresponding UpdateTechnicianCommand.
+    /// </returns>
+    public static UpdateTechnicianCommand ToCommandFromRequest(UpdateTechnicianRequest request, string idTechnician)
+    {
+        return new UpdateTechnicianCommand(
+            idTechnician, request.Name, request.LastName, request.IdAutoRepair
+        );
+    }
+    
+    /// <summary>
+    ///     Converts a Technician entity to a TechnicianResponse.
+    /// </summary>
+    /// <param name="entity">
+    ///     The Technician entity containing technician details.
+    /// </param>
+    /// <returns>
+    ///     The corresponding TechnicianResponse.
+    /// </returns>
+    public static TechnicianResponse ToResponseFromEntity(Technician entity)
+    {
+        return new TechnicianResponse(
+            entity.IdTechnician, entity.Name, entity.LastName, entity.IdAutoRepair
+        );
+    }
+}

@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 using PrimeFixPlatform.API.AutorepairCatalog.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using PrimeFixPlatform.API.AutorepairRegister.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using PrimeFixPlatform.API.Iam.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using PrimeFixPlatform.API.MaintenanceTracking.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using PrimeFixPlatform.API.PaymentService.Infrastructure.Persistence.EFC.Configuration.Extensions;
@@ -22,6 +23,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         
         // Create all entities configurations
         builder.ApplyIamConfiguration();
+        builder.ApplyAutorepairRegisterConfiguration();
         builder.ApplyAutorepairCatalogConfiguration();
         builder.ApplyMaintenanceTrackingConfiguration();
         builder.ApplyPaymentServiceConfiguration();
