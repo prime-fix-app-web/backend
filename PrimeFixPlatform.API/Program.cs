@@ -1,9 +1,9 @@
 using Cortex.Mediator.Commands;
 using Cortex.Mediator.DependencyInjection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.OpenApi.Any;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.QueryServices;
@@ -207,36 +207,37 @@ builder.Services.AddCortexMediator(
 
 var app = builder.Build();
 
-// Database Initialization for Development
-if (app.Environment.IsDevelopment())
+// Apply migrations always (Production & Development)
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    context.Database.EnsureCreated();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    RequireHeaderSymmetry = false
+});
+
+// Global exception handler
 app.UseExceptionHandler();
 
-// Apply CORS Policy
+// CORS
 app.UseCors("AllowAllPolicy");
 
-// Enable Swagger in Development
+// Swagger UI
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "PrimeFixPlatform API v1");
     options.DocumentTitle = "PrimeFixPlatform API Docs";
-
-    // In Production, disable TryOuts unless JWT is provided
-    if (app.Environment.IsProduction())
-    {
-        // No TryOut by default, only enabled when JWT is provided
-        options.SupportedSubmitMethods(); 
-    }
+    options.RoutePrefix = "swagger"; // important for App Runner
+    options.EnableTryItOutByDefault();
 });
 
-// Enforce HTTPS Redirection
+// HTTPS redirection only in dev
 if (app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
@@ -246,7 +247,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Health Check Endpoint
+// Health check
 app.MapGet("/health", () => Results.Ok("Healthy"));
 
 app.Run();
