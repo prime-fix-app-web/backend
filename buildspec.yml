@@ -24,14 +24,14 @@ phases:
       - echo Building Docker image...
       - docker build -t $IMAGE_REPO_NAME .
       - docker tag $IMAGE_REPO_NAME:latest $ECR_URI:$IMAGE_TAG
-      
+
   post_build:
-      commands:
-        - echo Pushing Docker image to ECR...
-        - docker push $ECR_URI:$IMAGE_TAG
-        - echo Writing imagedefinitions.json...
-        - printf '[{"name":"primefix-api","imageUri":"%s"}]' $ECR_URI:$IMAGE_TAG > imagedefinitions.json
-  
-  artifacts:
-    files:
-      - imagedefinitions.json
+    commands:
+      - echo Pushing Docker image to ECR...
+      - docker push $ECR_URI:$IMAGE_TAG
+      - echo Writing imagedefinitions.json...
+      - printf '[{"name":"primefix-api","imageUri":"%s"}]' $ECR_URI:$IMAGE_TAG > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
