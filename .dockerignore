@@ -1,0 +1,15 @@
+﻿bin/
+obj/
+.idea/
+.vscode/
+*.md
+*.user
+*.suo
+*.ds_store
+Dockerfile
+docker-compose.yml
+compose.yaml
+compose.prod.yaml
+.env
+.git/
+.gitignore

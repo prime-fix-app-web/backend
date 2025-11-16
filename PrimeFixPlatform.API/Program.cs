@@ -40,17 +40,23 @@ using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Enforce lowercase URLs
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()))
+
+// Add services to the container.
+builder.Services.AddControllers(options =>
+    {
+        options.Conventions.Add(new KebabCaseRouteNamingConvention());
+    })
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
     });
 
+// Global Exception Handling and Problem Details
+
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-
 // Customizing the response for invalid model state
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -77,7 +83,24 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     };
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// DB Context Configuration
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                       ?? throw new InvalidOperationException("Connection string not found.");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        options.UseNpgsql(connectionString)
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableDetailedErrors();
+    }
+    else
+    {
+        options.UseNpgsql(connectionString)
+            .LogTo(Console.WriteLine, LogLevel.Error);
+    }
+});
 
 // Add CORS Policy
 builder.Services.AddCors(options =>
@@ -86,44 +109,29 @@ builder.Services.AddCors(options =>
         policy => policy.AllowAnyOrigin()
             .AllowAnyMethod().AllowAnyHeader());
 });
-
-if (connectionString == null ) throw new InvalidOperationException("Connection string not found.");
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    if (builder.Environment.IsDevelopment())
-        options.UseNpgsql(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            //.EnableSensitiveDataLogging()
-            .EnableDetailedErrors();
-    else if (builder.Environment.IsProduction())
-        options.UseNpgsql(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Error);
-});
     
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger for API Documentation for development
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1",
-        new OpenApiInfo()
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "PrimeFixPlatform API",
+        Version = "v1",
+        Description = "Prime Fix Platform API",
+        TermsOfService = new Uri("https://github.com/prime-fix-app-web/backend"),
+        Contact = new OpenApiContact
         {
-            Title = "PrimeFixPlatform API",
-            Version = "v1",
-            Description = "Prime Fix Platform API",
-            TermsOfService = new Uri("https://primefix.com/tos"),
-            Contact = new OpenApiContact
-            {
-                Name = "PrimeFix Studios",
-                Email = "contact@primefix.com"
-            },
-            License = new OpenApiLicense
-            {
-                Name = "Apache 2.0",
-                Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
-            }
-        });
-    // Map TimeOnly to OpenAPI Schema
+            Name = "PrimeFix Studios",
+            Email = "contact@primefix.com"
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Apache 2.0",
+            Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
+        }
+    });
+
     options.MapType<TimeOnly>(() => new OpenApiSchema
     {
         Type = "string",
@@ -199,31 +207,46 @@ builder.Services.AddCortexMediator(
 
 var app = builder.Build();
 
-// Verify if the database exists and create it if it doesn't
-using (var scope = app.Services.CreateScope())
+// Database Initialization for Development
+if (app.Environment.IsDevelopment())
 {
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<AppDbContext>();
-
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     context.Database.EnsureCreated();
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 app.UseExceptionHandler();
 
 // Apply CORS Policy
 app.UseCors("AllowAllPolicy");
 
-app.UseHttpsRedirection();
+// Enable Swagger in Development
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "PrimeFixPlatform API v1");
+    options.DocumentTitle = "PrimeFixPlatform API Docs";
+
+    // In Production, disable TryOuts unless JWT is provided
+    if (app.Environment.IsProduction())
+    {
+        // No TryOut by default, only enabled when JWT is provided
+        options.SupportedSubmitMethods(); 
+    }
+});
+
+// Enforce HTTPS Redirection
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Health Check Endpoint
+app.MapGet("/health", () => Results.Ok("Healthy"));
 
 app.Run();
