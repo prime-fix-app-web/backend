@@ -3,7 +3,6 @@ using Cortex.Mediator.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.OpenApi.Any;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.QueryServices;
@@ -207,12 +206,11 @@ builder.Services.AddCortexMediator(
 
 var app = builder.Build();
 
-// Database Initialization for Development
-if (app.Environment.IsDevelopment())
+// Apply migrations always (Production & Development)
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    context.Database.EnsureCreated();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.
