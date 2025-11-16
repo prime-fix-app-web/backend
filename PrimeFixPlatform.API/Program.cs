@@ -142,6 +142,9 @@ builder.Services.AddSwaggerGen(options =>
         Format = "time",
         Example = new OpenApiString("00:00:00")
     });
+
+    // Set the comments path for the Swagger JSON and UI.
+    options.AddServer(new OpenApiServer { Url = "/" });
 });
 
 // Dependency Injection 
@@ -209,10 +212,8 @@ builder.Services.AddScoped<IRatingQueryService, RatingQueryService>();
 
 
 // Mediator Configuration
-// Add Mediator Injection Configuration
+// Add Logging Behavior to all commands
 builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
-
-// Add Cortex Mediator for Event Handling
 builder.Services.AddCortexMediator(
     configuration: builder.Configuration,
     handlerAssemblyMarkerTypes: [typeof(Program)], configure: options =>
@@ -239,10 +240,10 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 // Global exception handler
 app.UseExceptionHandler();
 
-// CORS
+// Enable CORS
 app.UseCors("AllowAllPolicy");
 
-// Swagger UI
+// Swagger
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
@@ -252,7 +253,7 @@ app.UseSwaggerUI(options =>
     options.EnableTryItOutByDefault();
 });
 
-// HTTPS redirection only in dev
+// Only redirect HTTPS in local
 if (app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
