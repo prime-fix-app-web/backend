@@ -1,0 +1,19 @@
+﻿version: "3.9"
+
+services:
+
+  api:
+    container_name: primefix-api
+    image: primefix-api:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: ${DEFAULT_CONNECTION_STRING}
+      TokenSettings__Secret: ${TOKEN_SECRET}
+    networks:
+      - primefix-net
+
+networks:
+  primefix-net:

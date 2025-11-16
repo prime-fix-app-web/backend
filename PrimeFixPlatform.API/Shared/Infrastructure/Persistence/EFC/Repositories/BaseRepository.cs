@@ -36,7 +36,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         Context.Set<TEntity>().Remove(entity);
     }
 
-    public async Task<TEntity?> FindByIdAsync(int id)
+    public async Task<TEntity?> FindByIdAsync(string id)
     {
         return await Context.Set<TEntity>().FindAsync(id);
     }

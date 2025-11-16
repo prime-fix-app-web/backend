@@ -111,3 +111,4 @@ C:\Users\User\Desktop\Codigos\C#\prime-fix-platform\PrimeFixPlatform.API\obj\Deb
 C:\Users\User\Desktop\Codigos\C#\prime-fix-platform\PrimeFixPlatform.API\obj\Debug\net9.0\PrimeFixPlatform.API.pdb
 C:\Users\User\Desktop\Codigos\C#\prime-fix-platform\PrimeFixPlatform.API\obj\Debug\net9.0\PrimeFixPlatform.API.genruntimeconfig.cache
 C:\Users\User\Desktop\Codigos\C#\prime-fix-platform\PrimeFixPlatform.API\obj\Debug\net9.0\ref\PrimeFixPlatform.API.dll
+C:\Users\User\Desktop\Codigos\C#\prime-fix-platform\PrimeFixPlatform.API\obj\Debug\net9.0\PrimeFixPlatform.API.sourcelink.json
