@@ -227,13 +227,6 @@ app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "PrimeFixPlatform API v1");
     options.DocumentTitle = "PrimeFixPlatform API Docs";
-
-    // In Production, disable TryOuts unless JWT is provided
-    if (app.Environment.IsProduction())
-    {
-        // No TryOut by default, only enabled when JWT is provided
-        options.SupportedSubmitMethods(); 
-    }
 });
 
 // Enforce HTTPS Redirection
