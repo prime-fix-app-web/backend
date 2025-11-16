@@ -1,5 +1,6 @@
 using Cortex.Mediator.Commands;
 using Cortex.Mediator.DependencyInjection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -214,21 +215,29 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    RequireHeaderSymmetry = false
+});
+
+// Global exception handler
 app.UseExceptionHandler();
 
-// Apply CORS Policy
+// CORS
 app.UseCors("AllowAllPolicy");
 
-// Enable Swagger in Development
+// Swagger UI
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "PrimeFixPlatform API v1");
     options.DocumentTitle = "PrimeFixPlatform API Docs";
+    options.RoutePrefix = "swagger"; // important for App Runner
     options.EnableTryItOutByDefault();
 });
 
-// Enforce HTTPS Redirection
+// HTTPS redirection only in dev
 if (app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
@@ -238,7 +247,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Health Check Endpoint
+// Health check
 app.MapGet("/health", () => Results.Ok("Healthy"));
 
 app.Run();
