@@ -209,8 +209,8 @@ var app = builder.Build();
 // Apply migrations always (Production & Development)
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.Migrate();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.
@@ -225,6 +225,7 @@ app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "PrimeFixPlatform API v1");
     options.DocumentTitle = "PrimeFixPlatform API Docs";
+    options.EnableTryItOutByDefault();
 });
 
 // Enforce HTTPS Redirection
