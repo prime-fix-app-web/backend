@@ -9,7 +9,7 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
 public interface IVisitQueryService
 {
     /// <summary>
-    ///     Hanldes the retrieval of all visit
+    ///     Handles the retrieval of all visit
     /// </summary>
     Task<IEnumerable<Visit>> Handle(GetAllVisitsQuery query);
 
@@ -17,4 +17,9 @@ public interface IVisitQueryService
     ///     Handles tre retrieval of a visit by its unique identifier
     /// </summary>
     Task<Visit?> Handle(GetAllVisitByAutoRepairIdQuery query);
+    
+    /// <summary>
+    ///     Handle the visit by id
+    /// </summary>
+    Task<Visit?> Handle(GetVisitByIdQuery query);
 }

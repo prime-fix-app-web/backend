@@ -20,5 +20,9 @@ public interface IDiagnosticQueryService
     ///     Handles the retrieval of a diagnosis by its unique identifier
     /// </summary>
     Task<Diagnostic?> Handle(GetAllDiagnosticsByVehicleIdQuery query);
-
+    
+    /// <summary>
+    ///     Handles the retrieval of an ID by its unique identifier
+    /// </summary>
+    Task<Diagnostic?> Handle(GetDiagnosticByIdQuery query);
 }

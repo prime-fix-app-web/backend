@@ -47,4 +47,9 @@ public class DiagnosticQueryService(IDiagnosticRepository diagnosticRepository):
                ?? throw new NotFoundArgumentException("Diagnostic with the Vehicle ID" + query.VehicleId +
                                                       "was not found");
     }
+
+    public async Task<Diagnostic?> Handle(GetDiagnosticByIdQuery query)
+    {
+        return await diagnosticRepository.FindByIdAsync(query.DiagnosticId);
+    }
 }

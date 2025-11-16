@@ -15,7 +15,7 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 /// <param name="Diagnosis">
 ///     The description of the diagnosis
 /// </param>
-/// <param name="ExpectedId">
+/// <param name="ExpectedVisitId">
 ///     The ID of the expected visit.
 /// </param>
-public record UpdateDiagnosisCommand(string DiagnosisId, float Price,string VehicleId, string Diagnosis, string ExpectedId );
+public record UpdateDiagnosisCommand(string DiagnosisId, float Price,string VehicleId, string Diagnosis, string ExpectedVisitId );

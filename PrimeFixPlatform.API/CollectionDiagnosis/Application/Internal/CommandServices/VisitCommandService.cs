@@ -1,7 +1,9 @@
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
+using PrimeFixPlatform.API.CollectionDiagnosis.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
 
@@ -16,7 +18,7 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.CommandS
 /// <param name="unitOfWork">
 ///     Unit of work
 /// </param>
-public class VisitCommandService(IVisitRepository visitRepository, IUnitOfWork unitOfWork): IVisitCommandService
+public class VisitCommandService(IVisitRepository visitRepository,IServiceRepository serviceRepository, IUnitOfWork unitOfWork): IVisitCommandService
 {
     /// <summary>
     ///     Handles the command to create a visit

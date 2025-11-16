@@ -41,8 +41,8 @@ public partial class Visit
     /// <param name="command">
     ///     Command objects containing data to create a visit.
     /// </param>
-    public Visit(CreateVisitCommand command):this(command.failure, command.vehicleId, command.timeVisit,
-        command.autoRepairId, command.serviceId){}
+    public Visit(CreateVisitCommand command):this(command.Failure, command.VehicleId, command.TimeVisit,
+        command.AutoRepairId, command.ServiceId){}
     
     
     public string Id { get; }
@@ -55,6 +55,4 @@ public partial class Visit
     public string AutoRepairId { get; private set; }
     
     public string ServiceId { get; private set; }
-    
-    public Service Service { get; internal set; }
 }

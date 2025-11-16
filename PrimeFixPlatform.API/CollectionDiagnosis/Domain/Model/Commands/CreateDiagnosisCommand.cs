@@ -12,7 +12,7 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 /// <param name="Diagnosis">
 ///     The description of the Diagnosis
 /// </param>
-/// <param name="ExpectedId">
+/// <param name="ExpectedVisitId">
 ///     The expected Visit id of the Diagnosis
 /// </param>
-public record CreateDiagnosisCommand(float Price, string VehicleId, string Diagnosis, string ExpectedId );
+public record CreateDiagnosisCommand(float Price, string VehicleId, string Diagnosis, string ExpectedVisitId );

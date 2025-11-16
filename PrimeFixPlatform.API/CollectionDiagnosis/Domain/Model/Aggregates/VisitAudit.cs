@@ -3,7 +3,7 @@ using EntityFrameworkCore.CreatedUpdatedDate.Contracts;
 
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 
-public partial class VisitAudit : IEntityWithCreatedUpdatedDate
+public partial class Visit : IEntityWithCreatedUpdatedDate
 {
     [Column("CreatedAt")]public DateTimeOffset? CreatedDate { get; set; }
     [Column("UpdatedAt")]public DateTimeOffset? UpdatedDate { get; set; }

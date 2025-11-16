@@ -8,14 +8,10 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 /// </summary>
 public interface IDiagnosticRepository : IBaseRepository<Diagnostic>
 {
-    
-    Task<bool> ExistByDiagnosticId(string diagnosticId);
-    
+
     /// <summary>
     ///     Find diagnosis by Vehicle ID
     /// </summary>
     Task<Diagnostic?> FindByVehicleId(string vehicleId);
-    
-    Task<bool> FindByDiagnosisId(string diagnosisId);
     
 }

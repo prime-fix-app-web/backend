@@ -44,4 +44,13 @@ public class VisitQueryService(IVisitRepository visitRepository): IVisitQuerySer
                throw new NotFoundArgumentException("Visit with the Auto Repair ID" + query.AutoRepairId
                    + "was not found");
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    public async Task<Visit?> Handle(GetVisitByIdQuery query)
+    {
+        return await visitRepository.FindByIdAsync(query.VisitId);
+    }
 }

@@ -52,13 +52,17 @@ public class DiagnosticCommandService(IDiagnosticRepository diagnosticRepository
     {
         var diagnosisId = command.DiagnosisId;
         var diagnosticToUpdate = await diagnosticRepository.FindByIdAsync(diagnosisId);
-        diagnosticToUpdate.UpdateDiagnosis(command);
+
         if (diagnosticToUpdate == null)
         {
             throw new NotFoundArgumentException("Diagnosis not found");
         }
+
+        diagnosticToUpdate.UpdateDiagnosis(command);
+    
         diagnosticRepository.Update(diagnosticToUpdate);
         await unitOfWork.CompleteAsync();
+
         return diagnosticToUpdate;
     }
 

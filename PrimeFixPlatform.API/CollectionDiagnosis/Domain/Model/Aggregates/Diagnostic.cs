@@ -20,15 +20,15 @@ public partial class Diagnostic
     /// <param name="diagnosis">
     ///     The description of the Diagnosis
     /// </param>
-    /// <param name="expectedId">
+    /// <param name="expectedVisitId">
     ///     The expected Visit id of the Diagnosis
     /// </param>
-    public Diagnostic(float price, string vehicleId, string diagnosis, string expectedId)
+    public Diagnostic(float price, string vehicleId, string diagnosis, string expectedVisitId)
     {
         Price = price;
         VehicleId = vehicleId;
         Diagnosis = diagnosis;
-        ExpectedId = expectedId;
+        ExpectedVisitId = expectedVisitId;
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ public partial class Diagnostic
     /// <param name="command">
     ///     Command object containing data to create a diagnstic.
     /// </param>
-    public Diagnostic(CreateDiagnosisCommand command) : this(command.Price, command.VehicleId, command.Diagnosis, command.ExpectedId){}
+    public Diagnostic(CreateDiagnosisCommand command) : this(command.Price, command.VehicleId, command.Diagnosis, command.ExpectedVisitId){}
 
     /// <summary>
     ///     Updates the diagnostic entity with data form UpdateDiagnosticCommand
@@ -50,14 +50,13 @@ public partial class Diagnostic
         Price = command.Price;
         VehicleId = command.VehicleId;
         Diagnosis = command.Diagnosis;
-        ExpectedId = command.ExpectedId;
+        ExpectedVisitId = command.ExpectedVisitId;
     }
     
-    public string Id { get; }
+    public string Id { get;}
     public float Price { get; private set; }
     public string VehicleId { get; private set; }
     public string Diagnosis { get; private set; }
-    public string ExpectedId { get; private set; }
+    public string ExpectedVisitId { get; private set; }
     
-    public ExpectedVisit ExpectedVisit { get; internal set; }
 }

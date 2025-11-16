@@ -5,7 +5,7 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 /// <summary>
 ///     Audit properties for Diagnostic aggregate
 /// </summary>
-public partial class DiagnosticAudit :  IEntityWithCreatedUpdatedDate
+public partial class Diagnostic :  IEntityWithCreatedUpdatedDate
 {
     [Column("CreatedAt")] public DateTimeOffset? CreatedDate { get; set; }
     [Column("UpdatedAt")] public DateTimeOffset? UpdatedDate { get; set; }

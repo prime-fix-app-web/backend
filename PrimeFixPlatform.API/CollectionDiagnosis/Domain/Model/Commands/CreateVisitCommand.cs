@@ -18,4 +18,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 /// <param name="serviceId">
 ///     The ID of the service designated for the visit
 /// </param>
-public record CreateVisitCommand(string failure, string vehicleId, string timeVisit, string autoRepairId, string serviceId);
+public record CreateVisitCommand(string Failure, string VehicleId, string TimeVisit, string AutoRepairId, string ServiceId);
