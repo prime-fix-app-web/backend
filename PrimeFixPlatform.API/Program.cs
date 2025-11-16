@@ -254,6 +254,18 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "PrimeFixPlatform API v1");
     options.DocumentTitle = "PrimeFixPlatform API Docs";
     options.RoutePrefix = "swagger";
+    
+    // Configure supported HTTP methods for "Try it out"
+    options.SupportedSubmitMethods(new[]
+    {
+        Swashbuckle.AspNetCore.SwaggerUI.SubmitMethod.Get,
+        Swashbuckle.AspNetCore.SwaggerUI.SubmitMethod.Post,
+        Swashbuckle.AspNetCore.SwaggerUI.SubmitMethod.Put,
+        Swashbuckle.AspNetCore.SwaggerUI.SubmitMethod.Delete,
+        Swashbuckle.AspNetCore.SwaggerUI.SubmitMethod.Patch
+    });
+    
+    // Enable "Try it out" by default
     options.EnableTryItOutByDefault();
 });
 
