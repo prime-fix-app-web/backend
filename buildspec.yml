@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    IMAGE_REPO_NAME: "primefix-api"
+    IMAGE_REPO_NAME: "primefix-web-backend"
     IMAGE_TAG: "latest"
 
 phases:
