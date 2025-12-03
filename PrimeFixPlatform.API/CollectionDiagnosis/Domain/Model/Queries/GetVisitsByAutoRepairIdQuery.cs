@@ -6,4 +6,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
 /// <param name="AutoRepairId">
 ///     The auto Repair ID
 /// </param>
-public record GetAllVisitByAutoRepairIdQuery(string AutoRepairId);
+public record GetVisitsByAutoRepairIdQuery(int AutoRepairId);

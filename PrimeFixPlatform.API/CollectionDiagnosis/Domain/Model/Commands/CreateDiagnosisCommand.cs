@@ -1,3 +1,5 @@
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
+
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 
 /// <summary>
@@ -15,4 +17,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 /// <param name="ExpectedVisitId">
 ///     The expected Visit id of the Diagnosis
 /// </param>
-public record CreateDiagnosisCommand(float Price, string VehicleId, string Diagnosis, string ExpectedVisitId );
+public record CreateDiagnosisCommand(float Price, int VehicleId, string Diagnosis, int ExpectedVisitId );

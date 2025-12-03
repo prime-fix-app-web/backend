@@ -18,4 +18,4 @@
 /// <param name="IdUserAccount">
 ///     The identifier of the user account associated with the Auto Repair.
 /// </param>
-public record CreateAutoRepairCommand(string IdAutoRepair, string Ruc, string ContactEmail, int TechniciansCount, string IdUserAccount);
+public record CreateAutoRepairCommand(int IdAutoRepair, string Ruc, string ContactEmail, int TechniciansCount, int IdUserAccount);

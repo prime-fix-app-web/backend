@@ -1,3 +1,6 @@
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
+
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
 
 /// <summary>
@@ -5,6 +8,8 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
 /// </summary>
 public partial class ExpectedVisit
 {
+    protected ExpectedVisit(){}
+    
     /// <summary>
     ///     Constructor for Expected Visit entity
     /// </summary>
@@ -17,14 +22,41 @@ public partial class ExpectedVisit
     /// <param name="isScheduled">
     ///     The confirmation od the visit
     /// </param>
-    public ExpectedVisit(string stateVisit, string visitId, bool isScheduled)
+    public ExpectedVisit(Status stateVisit, int visitId, bool isScheduled)
     {
         StateVisit = stateVisit;
         VisitId = visitId;
         IsScheduled = isScheduled;
     }
-    public string Id { get; }
-    public string StateVisit { get; private set; }
-    public string VisitId { get; private set; }
-    public bool IsScheduled { get; private set; }
+    
+    /// <summary>
+    ///     Constructor for ExpectedVisit entity with data from CreateExpectedVisitCommand
+    /// </summary>
+    /// <param name="command">
+    ///     Command object containing data to create ExpectedVisit
+    /// </param>
+    public ExpectedVisit(CreateExpectedVisitCommand command):this(command.StateVisit, command.VisitId, command.IsScheduled){}
+
+    /// <summary>
+    /// Updates the expected visit entity with data form UpdateExpectedVisitCommand
+    /// </summary>
+    /// <param name="command"></param>
+    public void UpdateExpectedVisit(UpdateExpectedVisitCommand command)
+    {
+        StateVisit = command.StateVisit;
+        VisitId = command.VisitId;
+        IsScheduled = command.IsScheduled;
+    }
+    
+    
+    public int Id { get; }
+    public Status StateVisit { get;  set; }
+    public int VisitId { get; private set; }
+    public bool IsScheduled { get; set; }
+    
+    
+    public void ChangeStatus(Status status)
+    {
+        StateVisit = status;
+    }
 }

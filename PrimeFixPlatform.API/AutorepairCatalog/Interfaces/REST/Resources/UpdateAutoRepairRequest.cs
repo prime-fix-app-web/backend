@@ -35,5 +35,4 @@ public record UpdateAutoRepairRequest(
     
     [property: JsonPropertyName("id_user_account")]
     [Required]
-    [MinLength(1)]
-    string IdUserAccount);
+    int IdUserAccount);

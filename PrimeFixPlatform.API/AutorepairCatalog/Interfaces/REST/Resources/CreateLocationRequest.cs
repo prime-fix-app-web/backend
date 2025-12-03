@@ -21,8 +21,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 public record CreateLocationRequest(
     [property: JsonPropertyName("id_location")]
     [Required]
-    [MinLength(1)]
-    string IdLocation,
+    int IdLocation,
     
     [Required]
     [MaxLength(100)]

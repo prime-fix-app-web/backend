@@ -18,7 +18,7 @@ public interface ILocationCommandService
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the created Location entity, or null if creation failed.
     /// </returns>
-    Task<string> Handle(CreateLocationCommand command);
+    Task<int> Handle(CreateLocationCommand command);
     
     /// <summary>
     ///      Handles the update of an existing location.

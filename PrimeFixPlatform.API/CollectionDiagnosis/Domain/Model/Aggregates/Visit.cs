@@ -1,5 +1,6 @@
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
 
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 
@@ -8,6 +9,7 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 /// </summary>
 public partial class Visit
 {
+    protected Visit(){}
     /// <summary>
     /// Private constructor for Visit aggregate root entity
     /// </summary>
@@ -26,13 +28,13 @@ public partial class Visit
     /// <param name="serviceId">
     ///     The ID of the service designated for the visit
     /// </param>
-    public Visit(string failure, string vehicleId, string timeVisit, string autoRepairId, string serviceId)
+    public Visit(string failure, int vehicleId, string timeVisit, int autoRepairId, int serviceId)
     {
         Failure = failure;
-        VehicleId = vehicleId;
+        VehicleId = new VehicleId(vehicleId);
         TimeVisit = timeVisit;
-        AutoRepairId = autoRepairId;
-        ServiceId = serviceId;
+        AutoRepairId = new AutoRepairId(autoRepairId);
+        ServiceId = new ServiceId(serviceId);
     }
 
     /// <summary>
@@ -45,14 +47,16 @@ public partial class Visit
         command.AutoRepairId, command.ServiceId){}
     
     
-    public string Id { get; }
+    public int Id { get; }
     public string Failure { get; private set; }
     
-    public string VehicleId { get; private set; }
+    public VehicleId VehicleId { get; private set; }
     
     public string TimeVisit { get; private set; }
     
-    public string AutoRepairId { get; private set; }
+    public AutoRepairId AutoRepairId { get; private set; }
     
-    public string ServiceId { get; private set; }
+    public ServiceId ServiceId { get; private set; }
+    
+    
 }

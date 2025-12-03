@@ -6,4 +6,4 @@
 /// <param name="IdLocation">
 ///     The identifier of the location to be deleted.
 /// </param>
-public record DeleteLocationCommand(string IdLocation);
+public record DeleteLocationCommand(int IdLocation);

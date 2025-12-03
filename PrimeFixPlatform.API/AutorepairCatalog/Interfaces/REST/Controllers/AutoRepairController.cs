@@ -56,7 +56,7 @@ public class AutoRepairController(IAutoRepairQueryService autoRepairQueryService
         var createAutoRepairCommand = AutoRepairAssembler.ToCommandFromRequest(request);
         var autoRepairId = await autoRepairCommandService.Handle(createAutoRepairCommand);
         
-        if (string.IsNullOrWhiteSpace(autoRepairId)) return BadRequest();
+        if (autoRepairId<0) return BadRequest();
 
         var getAutoRepairByIdQuery = new GetAutoRepairByIdQuery(autoRepairId);
         var autoRepair = await autoRepairQueryService.Handle(getAutoRepairByIdQuery);
@@ -119,7 +119,7 @@ public class AutoRepairController(IAutoRepairQueryService autoRepairQueryService
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetAutoRepairById(string id_auto_repair)
+    public async Task<IActionResult> GetAutoRepairById(int id_auto_repair)
     {
         var getAutoRepairByIdQuery = new GetAutoRepairByIdQuery(id_auto_repair);
         var autoRepair = await autoRepairQueryService.Handle(getAutoRepairByIdQuery);
@@ -162,7 +162,7 @@ public class AutoRepairController(IAutoRepairQueryService autoRepairQueryService
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateAutoRepair(string id_auto_repair, [FromBody] UpdateAutoRepairRequest request)
+    public async Task<IActionResult> UpdateAutoRepair(int id_auto_repair, [FromBody] UpdateAutoRepairRequest request)
     {
         var updateAutoRepairCommand = AutoRepairAssembler.ToCommandFromRequest(request, id_auto_repair);
         var updateAutoRepair = await autoRepairCommandService.Handle(updateAutoRepairCommand);
@@ -197,7 +197,7 @@ public class AutoRepairController(IAutoRepairQueryService autoRepairQueryService
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteAutoRepair(string id_auto_repair)
+    public async Task<IActionResult> DeleteAutoRepair(int id_auto_repair)
     {
         var deleteAutoRepairCommand = new DeleteAutoRepairCommand(id_auto_repair);
         var result = await autoRepairCommandService.Handle(deleteAutoRepairCommand);

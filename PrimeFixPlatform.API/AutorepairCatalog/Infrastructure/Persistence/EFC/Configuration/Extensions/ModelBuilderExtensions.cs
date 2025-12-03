@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.ValueObjects;
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
@@ -29,5 +30,7 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<Location>().Property(l => l.Address).IsRequired().HasMaxLength(100);
         modelBuilder.Entity<Location>().Property(l => l.District).IsRequired().HasMaxLength(50);
         modelBuilder.Entity<Location>().Property(l => l.Department).IsRequired().HasMaxLength(50);
+        
+        modelBuilder.Ignore<ServiceCatalog>();
     }
 }

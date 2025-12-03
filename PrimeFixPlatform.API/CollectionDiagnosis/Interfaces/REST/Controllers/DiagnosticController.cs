@@ -54,7 +54,7 @@ public class DiagnosticController(IDiagnosticQueryService diagnosticQueryService
         )]
     [SwaggerResponse(StatusCodes.Status200OK, "Deletes a Diagnostic Resource")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Deletes a Diagnostic Resource")]
-    public async Task<IActionResult> DeleteDiagnostic(string diagnosticId)
+    public async Task<IActionResult> DeleteDiagnostic(int diagnosticId)
     {
         var deleteDiagnostic = new DeleteDiagnosisCommand(diagnosticId);
         var result = await diagnosticCommandService.Handle(deleteDiagnostic);

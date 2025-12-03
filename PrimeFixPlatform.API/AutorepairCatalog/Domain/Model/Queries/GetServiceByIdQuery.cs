@@ -4,4 +4,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
 ///     
 /// </summary>
 /// <param name="ServiceId"></param>
-public record GetServiceByIdQuery(string ServiceId);
+public record GetServiceByIdQuery(int ServiceId);

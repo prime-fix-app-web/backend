@@ -27,7 +27,7 @@ public partial class Location
     /// <param name="department">
     ///     The department of the location
     /// </param>
-    public Location(string idLocation, string address, string district, string department)
+    public Location(int idLocation, string address, string district, string department)
     {
         IdLocation = idLocation;
         Address = address;
@@ -62,7 +62,7 @@ public partial class Location
         Department = command.Department;
     }
     
-    public string IdLocation { get; private set; }
+    public int IdLocation { get; private set; }
     public string Address { get; private set; }
     public string District { get; private set; }
     public string Department { get; private set; }

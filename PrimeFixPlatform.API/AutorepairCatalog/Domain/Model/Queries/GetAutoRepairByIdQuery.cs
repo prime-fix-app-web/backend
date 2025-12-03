@@ -6,4 +6,4 @@
 /// <param name="IdAutoRepair">
 ///     The ID of the Auto Repair to retrieve
 /// </param>
-public record GetAutoRepairByIdQuery(string IdAutoRepair);
+public record GetAutoRepairByIdQuery(int IdAutoRepair);

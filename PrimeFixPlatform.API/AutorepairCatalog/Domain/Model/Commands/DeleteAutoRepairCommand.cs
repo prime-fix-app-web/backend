@@ -6,4 +6,4 @@
 /// <param name="IdAutoRepair">
 ///     The unique identifier for the Auto Repair to be deleted.
 /// </param>
-public record DeleteAutoRepairCommand(string IdAutoRepair);
+public record DeleteAutoRepairCommand(int IdAutoRepair);

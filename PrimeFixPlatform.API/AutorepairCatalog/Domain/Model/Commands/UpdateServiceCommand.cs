@@ -12,4 +12,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 /// <param name="Description">
 ///     The description of the sevrice to be updated
 /// </param>
-public record UpdateServiceCommand(string ServiceId, string Name, string Description);
+public record UpdateServiceCommand(int ServiceId, string Name, string Description);

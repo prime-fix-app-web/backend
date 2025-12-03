@@ -1,6 +1,9 @@
+using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.EventHandler;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Events;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
 using PrimeFixPlatform.API.CollectionDiagnosis.Infrastructure.Persistence.EFC.Repositories;
@@ -18,7 +21,7 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.CommandS
 /// <param name="unitOfWork">
 ///     Unit of work
 /// </param>
-public class VisitCommandService(IVisitRepository visitRepository,IServiceRepository serviceRepository, IUnitOfWork unitOfWork): IVisitCommandService
+public class VisitCommandService(IVisitRepository visitRepository,IExpectedVisitRepository expectedVisitRepository, IUnitOfWork unitOfWork): IVisitCommandService
 {
     /// <summary>
     ///     Handles the command to create a visit
@@ -34,6 +37,17 @@ public class VisitCommandService(IVisitRepository visitRepository,IServiceReposi
         var visit = new Visit(command);
         await visitRepository.AddAsync(visit);
         await unitOfWork.CompleteAsync();
+        
+        var expectedVisitCreated = new CreateExpectedVisitEvent(visit.Id)
+        {
+            Status = Status.EN_ESPERA,
+            IsScheduled = true
+        };
+        
+        var handler = new CreateExpectedVisitEventHandler(visitRepository, expectedVisitRepository, unitOfWork);
+        await handler.Handle(expectedVisitCreated, CancellationToken.None);
+        
+
         return visit;
     }
 
@@ -58,4 +72,6 @@ public class VisitCommandService(IVisitRepository visitRepository,IServiceReposi
         await unitOfWork.CompleteAsync();
         return visit;
     }
+
+
 }

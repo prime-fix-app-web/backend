@@ -11,8 +11,7 @@ public record CreateDiagnosticRequest(
     
     [property:JsonPropertyName("vehicleId")]
     [Required]
-    [MinLength(1)]
-    string VehicleId,
+    int VehicleId,
     
     [property:JsonPropertyName("diagnosis")]
     [Required]
@@ -20,6 +19,5 @@ public record CreateDiagnosticRequest(
     string Diagnosis,
     
     [property:JsonPropertyName("expectedVisitId")]
-    [MinLength(1)]
-    string ExpectedVisitId
+    int ExpectedVisitId
     );

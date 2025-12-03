@@ -6,4 +6,4 @@
 /// <param name="IdLocation">
 ///     The identifier of the location to retrieve.
 /// </param>
-public record GetLocationByIdQuery(string IdLocation);
+public record GetLocationByIdQuery(int IdLocation);

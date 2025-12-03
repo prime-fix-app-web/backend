@@ -16,10 +16,20 @@ public interface IVisitQueryService
     /// <summary>
     ///     Handles tre retrieval of a visit by its unique identifier
     /// </summary>
-    Task<Visit?> Handle(GetAllVisitByAutoRepairIdQuery query);
+    Task<Visit?> Handle(GetVisitsByAutoRepairIdQuery query);
     
     /// <summary>
     ///     Handle the visit by id
     /// </summary>
     Task<Visit?> Handle(GetVisitByIdQuery query);
+    
+    /// <summary>
+    ///     Handle the retrieval of a visit by vehicle ID
+    /// </summary>
+    Task<Visit?> Handle(GetVisitByVehicleIdQuery query);
+    
+    /// <summary>
+    ///     Handle the retrieval of a visit by service ID
+    /// </summary>
+    Task<Visit?> Handle(GetVisitByServiceIdQuery query);
 }

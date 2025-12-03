@@ -5,4 +5,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 /// <param name="DiagnosisId">
 ///     The ID of the diagnosis to be deleted
 /// </param>
-public record DeleteDiagnosisCommand(string DiagnosisId);
+public record DeleteDiagnosisCommand(int DiagnosisId);

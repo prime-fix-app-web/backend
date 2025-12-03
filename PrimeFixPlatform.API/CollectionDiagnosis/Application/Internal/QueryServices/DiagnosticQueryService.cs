@@ -1,5 +1,6 @@
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
@@ -41,9 +42,9 @@ public class DiagnosticQueryService(IDiagnosticRepository diagnosticRepository):
     /// <exception cref="NotFoundArgumentException">
     ///     Indicates that a diagnostic with the specified identifier was no found
     /// </exception>
-    public async Task<Diagnostic?> Handle(GetAllDiagnosticsByVehicleIdQuery query)
+    public async Task<Diagnostic?> Handle(GetDiagnosticsByVehicleIdQuery query)
     {
-        return await diagnosticRepository.FindByVehicleId(query.VehicleId) 
+        return await diagnosticRepository.FindByVehicleId(new VehicleId(query.VehicleId)) 
                ?? throw new NotFoundArgumentException("Diagnostic with the Vehicle ID" + query.VehicleId +
                                                       "was not found");
     }
@@ -51,5 +52,10 @@ public class DiagnosticQueryService(IDiagnosticRepository diagnosticRepository):
     public async Task<Diagnostic?> Handle(GetDiagnosticByIdQuery query)
     {
         return await diagnosticRepository.FindByIdAsync(query.DiagnosticId);
+    }
+
+    public async Task<Diagnostic?> Handle(GetDiagnosticsByExpectedVisitQuery query)
+    {
+        return await diagnosticRepository.FindByExpectedId(query.ExpectedVisitId);
     }
 }

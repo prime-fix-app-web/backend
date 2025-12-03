@@ -38,7 +38,7 @@ public class AutoRepairAssembler
     /// <returns>
     ///     The corresponding UpdateAutoRepairCommand.
     /// </returns>
-    public static UpdateAutoRepairCommand ToCommandFromRequest(UpdateAutoRepairRequest request, string idAutoRepair)
+    public static UpdateAutoRepairCommand ToCommandFromRequest(UpdateAutoRepairRequest request, int idAutoRepair)
     {
         return new UpdateAutoRepairCommand(
             idAutoRepair, request.Ruc, request.ContactEmail,

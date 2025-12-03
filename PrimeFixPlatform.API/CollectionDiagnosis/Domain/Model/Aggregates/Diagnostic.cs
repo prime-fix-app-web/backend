@@ -1,5 +1,6 @@
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
 
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 
@@ -8,6 +9,9 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 /// </summary>
 public partial class Diagnostic
 {
+    
+    protected Diagnostic(){}
+    
     /// <summary>
     ///      The constructor for the Diagnostic aggregate root entity. 
     /// </summary>
@@ -23,10 +27,10 @@ public partial class Diagnostic
     /// <param name="expectedVisitId">
     ///     The expected Visit id of the Diagnosis
     /// </param>
-    public Diagnostic(float price, string vehicleId, string diagnosis, string expectedVisitId)
+    public Diagnostic(float price, int vehicleId, string diagnosis, int expectedVisitId)
     {
         Price = price;
-        VehicleId = vehicleId;
+        VehicleId = new VehicleId(vehicleId);
         Diagnosis = diagnosis;
         ExpectedVisitId = expectedVisitId;
     }
@@ -53,10 +57,10 @@ public partial class Diagnostic
         ExpectedVisitId = command.ExpectedVisitId;
     }
     
-    public string Id { get;}
+    public int Id { get;}
     public float Price { get; private set; }
-    public string VehicleId { get; private set; }
+    public VehicleId VehicleId { get; private set; }
     public string Diagnosis { get; private set; }
-    public string ExpectedVisitId { get; private set; }
+    public int ExpectedVisitId { get; private set; }
     
 }

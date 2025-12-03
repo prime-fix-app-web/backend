@@ -15,4 +15,4 @@
 /// <param name="Department">
 ///     The new department where the Location is situated.
 /// </param>
-public record UpdateLocationCommand(string IdLocation, string Address, string District, string Department);
+public record UpdateLocationCommand(int IdLocation, string Address, string District, string Department);

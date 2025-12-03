@@ -18,7 +18,7 @@ public interface IAutoRepairCommandService
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the created AutoRepair entity, or null if creation failed.
     /// </returns>
-    Task<string> Handle(CreateAutoRepairCommand command);
+    Task<int> Handle(CreateAutoRepairCommand command);
     
     /// <summary>
     ///     Handles the update of an existing auto repair entry.
@@ -43,4 +43,17 @@ public interface IAutoRepairCommandService
     ///     The task result contains a boolean indicating whether the deletion was successful.
     /// </returns>
     Task<bool> Handle(DeleteAutoRepairCommand command);
+    
+    
+    /// <summary>
+    ///     Handles adding a service to the AutoRepair service catalog.
+    /// </summary>
+    /// <param name="command">
+    ///     The command containing the service id and the auto repair id.
+    /// </param>
+    /// <returns>
+    ///     A task representing the asynchronous operation.
+    ///     The task result indicates whether the service was successfully added.
+    /// </returns>
+    Task<bool> Handle(AddServiceToAutoRepairServiceCatalogCommand command);
 }

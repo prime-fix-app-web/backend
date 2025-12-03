@@ -6,4 +6,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
 /// <param name="DiagnosticId">
 ///     The id of the diagnostic
 /// </param>
-public record GetDiagnosticByIdQuery(string DiagnosticId);
+public record GetDiagnosticByIdQuery(int DiagnosticId);

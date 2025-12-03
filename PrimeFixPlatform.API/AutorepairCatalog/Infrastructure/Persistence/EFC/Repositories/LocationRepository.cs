@@ -25,7 +25,7 @@ public class LocationRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a Location entity with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdLocation(string idLocation)
+    public async Task<bool> ExistsByIdLocation(int idLocation)
     {
         return await Context.Set<Location>().AnyAsync(location => location.IdLocation == idLocation);
     }

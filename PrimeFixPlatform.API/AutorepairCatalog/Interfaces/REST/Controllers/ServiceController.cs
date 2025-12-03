@@ -54,7 +54,7 @@ public class ServiceController(IServiceCommandService serviceCommandService, ISe
         OperationId = "DeleteService")]
     [SwaggerResponse(StatusCodes.Status200OK, "Deletes Service")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Bad Request")]
-    public async Task<IActionResult> DeleteService(string serviceId)
+    public async Task<IActionResult> DeleteService(int serviceId)
     {
         var deleteService = new DeleteServiceCommand(serviceId);
         var result = await serviceCommandService.Handle(deleteService);

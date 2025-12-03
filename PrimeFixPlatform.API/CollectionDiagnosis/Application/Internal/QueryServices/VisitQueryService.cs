@@ -38,7 +38,7 @@ public class VisitQueryService(IVisitRepository visitRepository): IVisitQuerySer
     /// <exception cref="NotFoundArgumentException">
     ///     Indicates that a visit with the specified identifier was no found
     /// </exception>
-    public async Task<Visit?> Handle(GetAllVisitByAutoRepairIdQuery query)
+    public async Task<Visit?> Handle(GetVisitsByAutoRepairIdQuery query)
     {
         return await visitRepository.FindByAutoRepairId(query.AutoRepairId) ??
                throw new NotFoundArgumentException("Visit with the Auto Repair ID" + query.AutoRepairId
@@ -52,5 +52,15 @@ public class VisitQueryService(IVisitRepository visitRepository): IVisitQuerySer
     public async Task<Visit?> Handle(GetVisitByIdQuery query)
     {
         return await visitRepository.FindByIdAsync(query.VisitId);
+    }
+
+    public async Task<Visit?> Handle(GetVisitByVehicleIdQuery query)
+    {
+        return await visitRepository.FindByVehicleId(query.VehicleId);
+    }
+
+    public async Task<Visit?> Handle(GetVisitByServiceIdQuery query)
+    {
+        return await visitRepository.FindByServiceId(query.ServiceId); 
     }
 }

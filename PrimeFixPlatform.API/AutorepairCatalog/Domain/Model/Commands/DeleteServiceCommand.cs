@@ -5,4 +5,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 /// <param name="ServiceId">
 ///     The ID of the service to be deleted
 /// </param>
-public record DeleteServiceCommand(string ServiceId);
+public record DeleteServiceCommand(int ServiceId);

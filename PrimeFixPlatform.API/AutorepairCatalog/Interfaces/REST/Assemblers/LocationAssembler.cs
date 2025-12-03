@@ -37,7 +37,7 @@ public class LocationAssembler
     /// <returns>
     ///     The corresponding UpdateLocationCommand.
     /// </returns>
-    public static UpdateLocationCommand ToCommandFromRequest(UpdateLocationRequest request, string idLocation)
+    public static UpdateLocationCommand ToCommandFromRequest(UpdateLocationRequest request, int idLocation)
     {
         return new UpdateLocationCommand(
             idLocation, request.Address, request.District, request.Department

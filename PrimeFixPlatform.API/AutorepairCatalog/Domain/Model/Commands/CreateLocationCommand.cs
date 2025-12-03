@@ -15,4 +15,4 @@
 /// <param name="Department">
 ///     The department where the Location is situated.
 /// </param>
-public record CreateLocationCommand(string IdLocation, string Address, string District, string Department);
+public record CreateLocationCommand(int IdLocation, string Address, string District, string Department);

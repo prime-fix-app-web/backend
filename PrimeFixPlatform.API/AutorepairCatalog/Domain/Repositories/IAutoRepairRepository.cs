@@ -18,7 +18,7 @@ public interface IAutoRepairRepository : IBaseRepository<AutoRepair>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether the AutoRepair entity exists.
     /// </returns>
-    Task<bool> ExistsByIdAutoRepair(string idAutoRepair);
+    Task<bool> ExistsByIdAutoRepair(int idAutoRepair);
     
     /// <summary>
     ///     Checks if an AutoRepair entity exists by its RUC.
@@ -45,7 +45,7 @@ public interface IAutoRepairRepository : IBaseRepository<AutoRepair>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether the AutoRepair entity exists.
     /// </returns>
-    Task<bool> ExistsByRucAndIdAutoRepairIsNot(string ruc, string idAutoRepair);
+    Task<bool> ExistsByRucAndIdAutoRepairIsNot(string ruc, int idAutoRepair);
     
     /// <summary>
     ///     Checks if an AutoRepair entity exists by its contact email.
@@ -72,5 +72,5 @@ public interface IAutoRepairRepository : IBaseRepository<AutoRepair>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether the AutoRepair entity exists.
     /// </returns>
-    Task<bool> ExistsByContactEmailAndIdAutoRepairIsNot(string contactEmail, string idAutoRepair);
+    Task<bool> ExistsByContactEmailAndIdAutoRepairIsNot(string contactEmail, int idAutoRepair);
 }

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
 
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Resources;
 
@@ -7,7 +8,7 @@ public record UpdateDiagnosticRequest(
     
     [property:JsonPropertyName("diagnosisId")]
     [Required]
-    string DiagnosisId,
+    int DiagnosisId,
     
     [property: JsonPropertyName("price")]
     [Required]
@@ -15,7 +16,7 @@ public record UpdateDiagnosticRequest(
     
     [property: JsonPropertyName("vehicleId")]
     [Required]
-    string VehicleId,
+    VehicleId VehicleId,
     
     [property: JsonPropertyName("diagnosis")]
     [MaxLength(100)]
@@ -24,7 +25,6 @@ public record UpdateDiagnosticRequest(
     
     [property: JsonPropertyName("expectedVisitId")]
     [Required]
-    [MaxLength(50)]
-    string ExpectedVisitId
+    int ExpectedVisitId
     
     );

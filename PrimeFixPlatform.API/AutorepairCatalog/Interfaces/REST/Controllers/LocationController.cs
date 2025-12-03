@@ -56,7 +56,7 @@ public class LocationController(ILocationQueryService locationQueryService, ILoc
         var createLocationCommand = LocationAssembler.ToCommandFromRequest(request);
         var locationId = await locationCommandService.Handle(createLocationCommand);
         
-        if (string.IsNullOrWhiteSpace(locationId)) return BadRequest();
+        if (locationId<0) return BadRequest();
 
         var getLocationByIdQuery = new GetLocationByIdQuery(locationId);
         var location = await locationQueryService.Handle(getLocationByIdQuery);
@@ -119,7 +119,7 @@ public class LocationController(ILocationQueryService locationQueryService, ILoc
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetLocationById(string id_location)
+    public async Task<IActionResult> GetLocationById(int id_location)
     {
         var getLocationByIdQuery = new GetLocationByIdQuery(id_location);
         var location = await locationQueryService.Handle(getLocationByIdQuery);
@@ -162,7 +162,7 @@ public class LocationController(ILocationQueryService locationQueryService, ILoc
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateLocation(string id_location,[FromBody] UpdateLocationRequest request)
+    public async Task<IActionResult> UpdateLocation(int id_location,[FromBody] UpdateLocationRequest request)
     {
         var updateLocationCommand = LocationAssembler.ToCommandFromRequest(request, id_location);
         var updateLocation = await locationCommandService.Handle(updateLocationCommand);
@@ -197,7 +197,7 @@ public class LocationController(ILocationQueryService locationQueryService, ILoc
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteLocationById(string id_location)
+    public async Task<IActionResult> DeleteLocationById(int id_location)
     {
         var deleteLocationCommand = new DeleteLocationCommand(id_location);
         var result = await locationCommandService.Handle(deleteLocationCommand);

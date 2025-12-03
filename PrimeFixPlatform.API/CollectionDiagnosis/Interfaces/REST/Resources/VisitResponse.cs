@@ -3,10 +3,10 @@ using System.Text.Json.Serialization;
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Resources;
 
 public record VisitResponse(
-    [property:JsonPropertyName("id")] string Id,
+    [property:JsonPropertyName("id")] int Id,
     [property:JsonPropertyName("failure")] string Failure,
-    [property:JsonPropertyName("vehicleId")] string VehicleId,
+    [property:JsonPropertyName("vehicleId")] int VehicleId,
     [property:JsonPropertyName("timeVisit")] string TimeVisit,
-    [property:JsonPropertyName("autoRepairId")] string AutoRepairId,
-    [property:JsonPropertyName("serviceId")] string ServiceId
+    [property:JsonPropertyName("autoRepairId")] int AutoRepairId,
+    [property:JsonPropertyName("serviceId")] int ServiceId
     );

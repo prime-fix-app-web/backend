@@ -18,5 +18,5 @@ public interface ILocationRepository : IBaseRepository<Location>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether the Location entity exists.
     /// </returns>
-    Task<bool> ExistsByIdLocation(string idLocation);
+    Task<bool> ExistsByIdLocation(int idLocation);
 }

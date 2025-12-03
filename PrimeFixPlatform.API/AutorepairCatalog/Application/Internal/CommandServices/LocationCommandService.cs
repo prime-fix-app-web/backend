@@ -32,7 +32,7 @@ public class LocationCommandService(ILocationRepository locationRepository, IUni
     /// <exception cref="ConflictException">
     ///     Indicates that a location with the same id already exists
     /// </exception>
-    public async Task<string> Handle(CreateLocationCommand command)
+    public async Task<int> Handle(CreateLocationCommand command)
     {
         var idLocation = command.IdLocation;
         

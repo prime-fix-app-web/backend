@@ -1,4 +1,6 @@
 ﻿using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.ValueObjects;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
 
@@ -30,7 +32,7 @@ public partial class AutoRepair
     /// <param name="idUserAccount">
     ///     The unique identifier of the user account associated with the auto repair
     /// </param>
-    public AutoRepair(string idAutoRepair, string ruc, string contactEmail, int techniciansCount, string idUserAccount)
+    public AutoRepair(int idAutoRepair, string ruc, string contactEmail, int techniciansCount, int idUserAccount)
     {
         IdAutoRepair = idAutoRepair;
         Ruc = ruc;
@@ -68,9 +70,15 @@ public partial class AutoRepair
         IdUserAccount = command.IdUserAccount;
     }
     
-    public string IdAutoRepair { get; private set;  }
+    public int IdAutoRepair { get; private set;  }
     public string Ruc { get; private set;  }
     public string ContactEmail { get; private set;  }
     public int TechniciansCount { get; private set;  }
-    public string IdUserAccount { get; private set;  }
+    public int IdUserAccount { get; private set;  }
+    public ServiceCatalog ServiceCatalog { get; private set; }
+
+    public void RegisterNewOffer(Service service, decimal price)
+    {
+        ServiceCatalog.AddServiceOffer(this, service, price);
+    }
 }

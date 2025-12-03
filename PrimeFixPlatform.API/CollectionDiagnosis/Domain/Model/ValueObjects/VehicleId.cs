@@ -6,4 +6,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
 /// <param name="Id">
 ///     The Id of the Vehicle
 /// </param>
-public record VehicleId(string Id);
+public record VehicleId(int Id);

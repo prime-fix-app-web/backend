@@ -14,7 +14,8 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Controllers;
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Services Endpoints")]
 public class VisitController(IVisitQueryService visitQueryService,
-    IVisitCommandService visitCommandService):ControllerBase
+    IVisitCommandService visitCommandService,
+    IExpectedVisitCommandService expectedVisitCommandService):ControllerBase
 {
 
     [HttpPost]
@@ -56,7 +57,7 @@ public class VisitController(IVisitQueryService visitQueryService,
         OperationId = "DeleteVisit")]
     [SwaggerResponse(StatusCodes.Status200OK, "Deletes a Visit Resource")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Deletes a Visit Resource")]
-    public async Task<IActionResult> DeleteVisit(string visitId)
+    public async Task<IActionResult> DeleteVisit(int visitId)
     {
         var deleteVisit = new DeleteVisitCommand(visitId);
         var visit = await visitCommandService.Handle(deleteVisit);
@@ -64,5 +65,18 @@ public class VisitController(IVisitQueryService visitQueryService,
         return Ok(visit);
     }
     
+    [HttpPut]
+    [SwaggerOperation(
+        Summary = "Cancels a Visit Resource",
+        Description = "Cancels a Visit Resource",
+        OperationId = "CancelVisit")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Cancels a Visit Resource")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Cancels a Visit Resource")]
+    public async Task<IActionResult> CancelVisit(int visitId)
+    {
+        var cancelVisit = new CancelVisitCommand(visitId);
+        await expectedVisitCommandService.Handle(cancelVisit);
+        return NoContent();
+    }
     
 }

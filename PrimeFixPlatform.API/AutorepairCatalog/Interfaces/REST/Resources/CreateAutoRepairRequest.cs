@@ -24,8 +24,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 public record CreateAutoRepairRequest(
     [property: JsonPropertyName("id_auto_repair")]
     [Required]
-    [MinLength(1)]
-    string IdAutoRepair,
+    int IdAutoRepair,
     
     [Required]
     [StringLength(11, MinimumLength = 11)]
@@ -43,5 +42,4 @@ public record CreateAutoRepairRequest(
     
     [property: JsonPropertyName("id_user_account")]
     [Required]
-    [MinLength(1)]
-    string IdUserAccount);
+    int IdUserAccount);

@@ -11,5 +11,9 @@ public interface IVisitRepository :IBaseRepository<Visit>
     /// <summary>
     ///     Find visits by auto repair ID.
     /// </summary>
-    Task<Visit?> FindByAutoRepairId(string autoRepairId);
+    Task<Visit?> FindByAutoRepairId(int autoRepairId);
+    
+    Task<Visit?> FindByServiceId(int serviceId);
+    
+    Task<Visit?> FindByVehicleId(int vehicleId);
 }

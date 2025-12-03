@@ -7,7 +7,7 @@ public record UpdateServiceRequest(
     
     [property:JsonPropertyName("serviceId")]
     [Required]
-    string ServiceId,
+    int ServiceId,
     
     [property:JsonPropertyName("Name")]
     [Required]

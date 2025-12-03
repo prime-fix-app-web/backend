@@ -2,6 +2,7 @@
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Repositories;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Services;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
 
@@ -16,7 +17,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.CommandSer
 /// <param name="unitOfWork">
 ///     Unit of work
 /// </param>
-public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository, IUnitOfWork unitOfWork)
+public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository,IServiceRepository serviceRepository, IUnitOfWork unitOfWork)
 : IAutoRepairCommandService
 {
     /// <summary>
@@ -32,7 +33,7 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
     /// <exception cref="ConflictException">
     ///     Indicates that an auto repair with the same id, RUC, or contact email already exists
     /// </exception>
-    public async Task<string> Handle(CreateAutoRepairCommand command)
+    public async Task<int> Handle(CreateAutoRepairCommand command)
     {
         var idAutoRepair = command.IdAutoRepair;
         var ruc = command.Ruc;
@@ -122,5 +123,26 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
         autoRepairRepository.Remove(autoRepair);
         await unitOfWork.CompleteAsync();
         return true;
+    }
+    
+    public async Task<bool> Handle(AddServiceToAutoRepairServiceCatalogCommand command)
+    {
+        var service = await serviceRepository.FindByIdAsync(command.ServiceId) ?? throw new KeyNotFoundException($"Service with id {command.ServiceId} was not found");
+        var autoRepair = await autoRepairRepository.FindByIdAsync(command.AutoRepairId) ?? throw new KeyNotFoundException($"AutoRepair with id {command.AutoRepairId} was not found");
+        try
+        {
+            autoRepair.RegisterNewOffer(service, command.Price);
+            autoRepairRepository.Update(autoRepair);
+            await unitOfWork.CompleteAsync();
+            return true;
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new ArgumentException("Domain error while registering the service offer: " + ex.Message, ex);
+        }
+        catch (Exception ex)
+        {
+            throw new ArgumentException("Error while saving the auto repair service offer: " + ex.Message, ex);
+        }
     }
 }

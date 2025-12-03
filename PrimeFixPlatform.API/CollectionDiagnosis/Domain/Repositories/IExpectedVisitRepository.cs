@@ -8,5 +8,5 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 /// </summary>
 public interface IExpectedVisitRepository : IBaseRepository<ExpectedVisit>
 {
-    Task<bool> ExistsByExpectedId(string expectedId);
+    Task<ExpectedVisit?> FindByVisitId(int visitId);
 }

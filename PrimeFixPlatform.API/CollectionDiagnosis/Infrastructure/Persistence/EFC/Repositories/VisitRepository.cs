@@ -22,8 +22,18 @@ public class VisitRepository(AppDbContext context) : BaseRepository<Visit>(conte
     /// <returns>
     ///     The matching Visit if found; otherwise, null.
     /// </returns>
-    public async Task<Visit?> FindByAutoRepairId(string autoRepairId)
+    public async Task<Visit?> FindByAutoRepairId(int autoRepairId)
     {
-        return await Context.Set<Visit>().FirstOrDefaultAsync(visit => visit.AutoRepairId == autoRepairId);        
+        return await Context.Set<Visit>().FirstOrDefaultAsync(visit => visit.AutoRepairId.Id == autoRepairId);        
+    }
+
+    public async Task<Visit?> FindByServiceId(int serviceId)
+    {
+        return await Context.Set<Visit>().FindAsync(serviceId);
+    }
+
+    public async Task<Visit?> FindByVehicleId(int vehicleId)
+    {
+        return await Context.Set<Visit>().FindAsync(vehicleId);
     }
 }

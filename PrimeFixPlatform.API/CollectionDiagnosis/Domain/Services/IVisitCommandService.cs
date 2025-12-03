@@ -6,7 +6,7 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
 public interface IVisitCommandService
 {
     /// <summary>
-    ///  Hanlde the creation of a new visit
+    ///  Handle the creation of a new visit
     /// </summary>
     Task<Visit?> Handle(CreateVisitCommand command);
     
