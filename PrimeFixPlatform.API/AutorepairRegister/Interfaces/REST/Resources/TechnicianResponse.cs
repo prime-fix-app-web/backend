@@ -5,7 +5,7 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Resources;
 /// <summary>
 ///     Response for a technician
 /// </summary>
-/// <param name="IdTechnician">
+/// <param name="Id">
 ///     The unique identifier of the technician
 /// </param>
 /// <param name="Name">
@@ -18,7 +18,7 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Resources;
 ///     The unique identifier of the auto repair shop the technician belongs to
 /// </param>
 public record TechnicianResponse(
-    [property: JsonPropertyName("id_technician")] string IdTechnician,
+    int Id,
     string Name,
     string LastName,
-    [property: JsonPropertyName("id_auto_repair")] string IdAutoRepair);
+    [property: JsonPropertyName("auto_repair_id")] int AutoRepairId);

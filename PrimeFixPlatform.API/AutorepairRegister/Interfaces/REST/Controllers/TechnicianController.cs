@@ -55,8 +55,6 @@ public class TechnicianController(ITechnicianQueryService technicianQueryService
     {
         var createTechnicianCommand = TechnicianAssembler.ToCommandFromRequest(request);
         var technicianId = await technicianCommandService.Handle(createTechnicianCommand);
-        
-        if (string.IsNullOrWhiteSpace(technicianId)) return BadRequest();
 
         var getTechnicianByIdQuery = new GetTechnicianByIdQuery(technicianId);
         var technician = await technicianQueryService.Handle(getTechnicianByIdQuery);
@@ -99,13 +97,13 @@ public class TechnicianController(ITechnicianQueryService technicianQueryService
     /// <summary>
     ///     Get a technician by its ID
     /// </summary>
-    /// <param name="id_technician">
+    /// <param name="technician_id">
     ///     The unique ID of the technician
     /// </param>
     /// <returns>
     ///     The technician response
     /// </returns>
-    [HttpGet("{id_technician}")]
+    [HttpGet("{technician_id}")]
     [SwaggerOperation(
         Summary = "Retrieve a technician by its ID",
         Description = "Retrieves a technician using its unique ID"
@@ -119,9 +117,9 @@ public class TechnicianController(ITechnicianQueryService technicianQueryService
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetTechnicianById([FromRoute] string id_technician)
+    public async Task<IActionResult> GetTechnicianById([FromRoute] int technician_id)
     {
-        var getTechnicianByIdQuery = new GetTechnicianByIdQuery(id_technician);
+        var getTechnicianByIdQuery = new GetTechnicianByIdQuery(technician_id);
         var technician = await technicianQueryService.Handle(getTechnicianByIdQuery);
         
         if (technician is null) return NotFound();
@@ -133,7 +131,7 @@ public class TechnicianController(ITechnicianQueryService technicianQueryService
     /// <summary>
     ///     Update an existing technician
     /// </summary>
-    /// <param name="id_technician">
+    /// <param name="technician_id">
     ///     The unique ID of the technician to update
     /// </param>
     /// <param name="request">
@@ -142,7 +140,7 @@ public class TechnicianController(ITechnicianQueryService technicianQueryService
     /// <returns>
     ///     The updated technician response
     /// </returns>
-    [HttpPut("{id_technician}")]
+    [HttpPut("{technician_id}")]
     [SwaggerOperation(
         Summary = "Update an existing technician",
         Description = "Update an existing technician with the provided data"
@@ -162,9 +160,9 @@ public class TechnicianController(ITechnicianQueryService technicianQueryService
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateTechnician([FromRoute] string id_technician, [FromBody] UpdateTechnicianRequest request)
+    public async Task<IActionResult> UpdateTechnician([FromRoute] int technician_id, [FromBody] UpdateTechnicianRequest request)
     {
-        var updateTechnicianCommand = TechnicianAssembler.ToCommandFromRequest(request, id_technician);
+        var updateTechnicianCommand = TechnicianAssembler.ToCommandFromRequest(request, technician_id);
         var updateTechnician = await technicianCommandService.Handle(updateTechnicianCommand);
         if (updateTechnician is null) return BadRequest();
         
@@ -175,13 +173,13 @@ public class TechnicianController(ITechnicianQueryService technicianQueryService
     /// <summary>
     ///     Delete a technician by its ID
     /// </summary>
-    /// <param name="id_technician">
+    /// <param name="technician_id">
     ///     The unique ID of the technician to delete
     /// </param>
     /// <returns>
     ///     No content response
     /// </returns>
-    [HttpDelete("{id_technician}")]
+    [HttpDelete("{technician_id}")]
     [SwaggerOperation(
         Summary = "Delete a technician by its ID",
         Description = "Deletes a technician using its unique ID"
@@ -197,9 +195,9 @@ public class TechnicianController(ITechnicianQueryService technicianQueryService
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteTechnician([FromRoute] string id_technician)
+    public async Task<IActionResult> DeleteTechnician([FromRoute] int technician_id)
     {
-        var deleteTechnicianCommand = new DeleteTechnicianCommand(id_technician);
+        var deleteTechnicianCommand = new DeleteTechnicianCommand(technician_id);
         var result = await technicianCommandService.Handle(deleteTechnicianCommand);
         
         if (!result) return NotFound();

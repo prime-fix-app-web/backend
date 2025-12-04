@@ -9,11 +9,6 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Aggregates;
 public partial class Technician
 {
     /// <summary>
-    ///     Private constructor for ORM
-    /// </summary>
-    private Technician() { }
-
-    /// <summary>
     ///     Constructor with all parameters
     /// </summary>
     /// <param name="idTechnician">
@@ -25,15 +20,14 @@ public partial class Technician
     /// <param name="lastName">
     ///     The last name of the technician
     /// </param>
-    /// <param name="idAutoRepair">
+    /// <param name="autoRepairId">
     ///     The unique identifier of the auto repair associated with the technician
     /// </param>
-    public Technician(string idTechnician, string name, string lastName, string idAutoRepair)
+    public Technician(string name, string lastName, int autoRepairId)
     {
-        IdTechnician = idTechnician;
         Name = name;
         LastName = lastName;
-        IdAutoRepair = idAutoRepair;
+        AutoRepairId = autoRepairId;
     }
     
     /// <summary>
@@ -43,10 +37,9 @@ public partial class Technician
     ///     The command containing the data to create the technician
     /// </param>
     public Technician(CreateTechnicianCommand command) : this(
-        command.IdTechnician,
         command.Name,
         command.LastName,
-        command.IdAutoRepair)
+        command.AutoRepairId)
     {
     }
     
@@ -60,11 +53,11 @@ public partial class Technician
     {
         Name = command.Name;
         LastName = command.LastName;
-        IdAutoRepair = command.IdAutoRepair;
+        AutoRepairId = command.AutoRepairId;
     }
     
-    public string IdTechnician { get; private set; }
+    public int Id { get; }
     public string Name { get; private set; }
     public string LastName { get; private set; }
-    public string IdAutoRepair { get; private set; }
+    public int AutoRepairId { get; private set; }
 }

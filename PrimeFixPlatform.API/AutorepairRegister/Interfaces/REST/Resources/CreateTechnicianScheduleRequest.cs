@@ -6,10 +6,7 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Resources;
 /// <summary>
 ///     Request to create a technician schedule
 /// </summary>
-/// <param name="IdSchedule">
-///     The unique identifier of the technician schedule to be created
-/// </param>
-/// <param name="IdTechnician">
+/// <param name="TechnicianId">
 ///     The unique identifier of the technician for whom the schedule is being created
 /// </param>
 /// <param name="DayOfWeek">
@@ -25,15 +22,9 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Resources;
 ///     Flag indicating if the schedule is active
 /// </param>
 public record CreateTechnicianScheduleRequest(
-    [property: JsonPropertyName("id_schedule")]
+    [property: JsonPropertyName("technician_id")]
     [Required]
-    [MinLength(1)]
-    string IdSchedule,
-    
-    [property: JsonPropertyName("id_technician")]
-    [Required]
-    [MinLength(1)]
-    string IdTechnician,
+    int TechnicianId,
     
     [property: JsonPropertyName("day_of_week")]
     [Required]

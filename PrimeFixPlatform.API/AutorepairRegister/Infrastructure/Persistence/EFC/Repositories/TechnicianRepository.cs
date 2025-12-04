@@ -18,15 +18,15 @@ public class TechnicianRepository(AppDbContext context)
     /// <summary>
     ///     Checks if a Technician entity exists by its unique identifier.
     /// </summary>
-    /// <param name="idTechnician">
+    /// <param name="technicianId">
     ///     The unique identifier of the Technician entity.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a Technician entity with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdTechnician(string idTechnician)
+    public async Task<bool> ExistsByTechnicianId(int technicianId)
     {
-        return await Context.Set<Technician>().AnyAsync(technician => technician.IdTechnician == idTechnician);
+        return await Context.Set<Technician>().AnyAsync(technician => technician.Id == technicianId);
     }
 }

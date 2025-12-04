@@ -3,11 +3,11 @@
 /// <summary>
 ///     Command to update an existing Technician Schedule
 /// </summary>
-/// <param name="IdSchedule">
+/// <param name="TechnicianScheduleId">
 ///     The unique identifier for the schedule to be updated
 /// </param>
-/// <param name="IdTechnician">
-///     The unique identifier for the technician
+/// <param name="TechnicianId">
+///     The unique identifier for the technician whose schedule is to be updated
 /// </param>
 /// <param name="DayOfWeek">
 ///     The day of the week for the schedule to be updated
@@ -21,4 +21,4 @@
 /// <param name="IsActive">
 ///     Flag indicating if the schedule is active
 /// </param>
-public record UpdateTechnicianScheduleCommand(string IdSchedule, string IdTechnician, string DayOfWeek, TimeOnly StartTime, TimeOnly EndTime, bool IsActive);
+public record UpdateTechnicianScheduleCommand(int TechnicianScheduleId, int TechnicianId, string DayOfWeek, TimeOnly StartTime, TimeOnly EndTime, bool IsActive);

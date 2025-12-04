@@ -21,7 +21,7 @@ public static class TechnicianAssembler
     public static CreateTechnicianCommand ToCommandFromRequest(CreateTechnicianRequest request)
     {
         return new CreateTechnicianCommand(
-            request.IdTechnician, request.Name, request.LastName, request.IdAutoRepair
+            request.Name, request.LastName, request.AutoRepairId
         );
     }
     
@@ -31,16 +31,16 @@ public static class TechnicianAssembler
     /// <param name="request">
     ///     The UpdateTechnicianRequest containing updated technician details.
     /// </param>
-    /// <param name="idTechnician">
+    /// <param name="technicianId">
     ///     The identifier of the technician to be updated.
     /// </param>
     /// <returns>
     ///     The corresponding UpdateTechnicianCommand.
     /// </returns>
-    public static UpdateTechnicianCommand ToCommandFromRequest(UpdateTechnicianRequest request, string idTechnician)
+    public static UpdateTechnicianCommand ToCommandFromRequest(UpdateTechnicianRequest request, int technicianId)
     {
         return new UpdateTechnicianCommand(
-            idTechnician, request.Name, request.LastName, request.IdAutoRepair
+            technicianId, request.Name, request.LastName, request.AutoRepairId
         );
     }
     
@@ -56,7 +56,7 @@ public static class TechnicianAssembler
     public static TechnicianResponse ToResponseFromEntity(Technician entity)
     {
         return new TechnicianResponse(
-            entity.IdTechnician, entity.Name, entity.LastName, entity.IdAutoRepair
+            entity.Id, entity.Name, entity.LastName, entity.AutoRepairId
         );
     }
 }

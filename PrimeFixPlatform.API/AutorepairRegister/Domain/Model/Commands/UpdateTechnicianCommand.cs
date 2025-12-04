@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to update an existing Technician
 /// </summary>
-/// <param name="IdTechnician">
+/// <param name="TechnicianId">
 ///     The unique identifier for the technician to be updated
 /// </param>
 /// <param name="Name">
@@ -12,7 +12,7 @@
 /// <param name="LastName">
 ///     The last name of the technician to be updated
 /// </param>
-/// <param name="IdAutoRepair">
+/// <param name="AutoRepairId">
 ///     The unique identifier of the auto repair shop associated with the technician
 /// </param>
-public record UpdateTechnicianCommand(string IdTechnician, string Name, string LastName, string IdAutoRepair);
+public record UpdateTechnicianCommand(int TechnicianId, string Name, string LastName, int AutoRepairId);

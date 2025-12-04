@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to delete a Technician
 /// </summary>
-/// <param name="IdTechnician">
+/// <param name="TechnicianId">
 ///     The unique identifier for the technician to be deleted
 /// </param>
-public record DeleteTechnicianCommand(string IdTechnician);
+public record DeleteTechnicianCommand(int TechnicianId);

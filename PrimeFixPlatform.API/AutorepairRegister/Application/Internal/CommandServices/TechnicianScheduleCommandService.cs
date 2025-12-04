@@ -32,17 +32,12 @@ public class TechnicianScheduleCommandService(ITechnicianScheduleRepository tech
     /// <exception cref="ConflictException">
     ///     Indicates that a technician schedule with the same id already exists
     /// </exception>
-    public async Task<string> Handle(CreateTechnicianScheduleCommand command)
+    public async Task<int> Handle(CreateTechnicianScheduleCommand command)
     {
-        var idSchedule = command.IdSchedule;
-        
-        if (await technicianScheduleRepository.ExistsByIdSchedule(idSchedule))
-            throw new ConflictException("Technician Schedule with the same id " + idSchedule  + " already exists");
-        
         var technicianSchedule = new TechnicianSchedule(command);
         await technicianScheduleRepository.AddAsync(technicianSchedule);
         await unitOfWork.CompleteAsync();
-        return technicianSchedule.IdSchedule;
+        return technicianSchedule.Id;
     }
 
     /// <summary>
@@ -63,12 +58,12 @@ public class TechnicianScheduleCommandService(ITechnicianScheduleRepository tech
     /// </exception>
     public async Task<TechnicianSchedule?> Handle(UpdateTechnicianScheduleCommand command)
     {
-        var idSchedule = command.IdSchedule;
+        var technicianScheduleId = command.TechnicianScheduleId;
         
-        if (!await technicianScheduleRepository.ExistsByIdSchedule(idSchedule))
-            throw new NotFoundIdException("Technician Schedule with id " + idSchedule  + " does not exist");
+        if (!await technicianScheduleRepository.ExistsByTechnicianScheduleId(technicianScheduleId))
+            throw new NotFoundIdException("Technician Schedule with id " + technicianScheduleId  + " does not exist");
         
-        var technicianScheduleToUpdate = await technicianScheduleRepository.FindByIdAsync(idSchedule);
+        var technicianScheduleToUpdate = await technicianScheduleRepository.FindByIdAsync(technicianScheduleId);
         if (technicianScheduleToUpdate is null)
             throw new NotFoundArgumentException("Technician Schedule not found");
         technicianScheduleToUpdate.UpdateTechnicianSchedule(command);
@@ -95,9 +90,9 @@ public class TechnicianScheduleCommandService(ITechnicianScheduleRepository tech
     /// </exception>
     public async Task<bool> Handle(DeleteTechnicianScheduleCommand command)
     {
-        if (!await technicianScheduleRepository.ExistsByIdSchedule(command.IdSchedule))
-            throw new NotFoundIdException("Technician Schedule with id " + command.IdSchedule  + " does not exist");
-        var technicianSchedule = await technicianScheduleRepository.FindByIdAsync(command.IdSchedule);
+        if (!await technicianScheduleRepository.ExistsByTechnicianScheduleId(command.TechnicianScheduleId))
+            throw new NotFoundIdException("Technician Schedule with id " + command.TechnicianScheduleId  + " does not exist");
+        var technicianSchedule = await technicianScheduleRepository.FindByIdAsync(command.TechnicianScheduleId);
         if (technicianSchedule is null)
             throw new NotFoundArgumentException("Technician Schedule not found");
         technicianScheduleRepository.Remove(technicianSchedule);

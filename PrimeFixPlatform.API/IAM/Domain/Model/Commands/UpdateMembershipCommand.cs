@@ -5,7 +5,7 @@ namespace PrimeFixPlatform.API.Iam.Domain.Model.Commands;
 /// <summary>
 ///     Command to update an existing membership
 /// </summary>
-/// <param name="IdMembership">
+/// <param name="MembershipId">
 ///     The unique identifier for the membership to be updated.
 /// </param>
 /// <param name="MembershipDescription">
@@ -17,4 +17,4 @@ namespace PrimeFixPlatform.API.Iam.Domain.Model.Commands;
 /// <param name="Over">
 ///     The end date of the membership to be updated.
 /// </param>
-public record UpdateMembershipCommand(string IdMembership, MembershipDescription MembershipDescription, DateOnly Started, DateOnly Over);
+public record UpdateMembershipCommand(int MembershipId, MembershipDescription MembershipDescription, DateOnly Started, DateOnly Over);

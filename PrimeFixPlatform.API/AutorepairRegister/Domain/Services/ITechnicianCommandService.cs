@@ -18,7 +18,7 @@ public interface ITechnicianCommandService
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the ID of the created Technician entity, or null if creation
     /// </returns>
-    Task<string> Handle(CreateTechnicianCommand command);
+    Task<int> Handle(CreateTechnicianCommand command);
     
     /// <summary>
     ///     Handles the update of an existing technician.
