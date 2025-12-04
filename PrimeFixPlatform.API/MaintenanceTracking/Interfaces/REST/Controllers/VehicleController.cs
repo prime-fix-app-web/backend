@@ -57,7 +57,7 @@ public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicl
         var createVehicleCommand = VehicleAssembler.ToCommandFromRequest(request);
         var vehicleId = await vehicleCommandService.Handle(createVehicleCommand);
         
-        if (string.IsNullOrWhiteSpace(vehicleId)) return BadRequest();
+        /*if (string.IsNullOrWhiteSpace(vehicleId)) return BadRequest();*/
 
         var getVehicleByIdQuery = new GetVehicleByIdQuery(vehicleId);
         var vehicle = await vehicleQueryService.Handle(getVehicleByIdQuery);
@@ -113,13 +113,13 @@ public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicl
     /// <summary>
     ///     Get a vehicle by its ID
     /// </summary>
-    /// <param name="id_vehicle">
+    /// <param name="vehicleId">
     ///     The unique ID of the vehicle
     /// </param>
     /// <returns>
     ///     The vehicle response details
     /// </returns>
-    [HttpGet("{id_vehicle}")]
+    [HttpGet("{vehicleId}")]
     [SwaggerOperation(
         Summary = "Retrieve a vehicle by its ID",
         Description = "Retrieves a vehicle using its unique ID"
@@ -133,9 +133,9 @@ public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicl
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetVehicleById(string id_vehicle)
+    public async Task<IActionResult> GetVehicleById(int vehicleId)
     {
-        var getVehicleByIdQuery = new GetVehicleByIdQuery(id_vehicle);
+        var getVehicleByIdQuery = new GetVehicleByIdQuery(vehicleId);
         var vehicle = await vehicleQueryService.Handle(getVehicleByIdQuery);
         
         if (vehicle is null) return NotFound();
@@ -147,7 +147,7 @@ public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicl
     /// <summary>
     ///     Update an existing vehicle
     /// </summary>
-    /// <param name="id_vehicle">
+    /// <param name="vehicleId">
     ///     The unique ID of the vehicle to update
     /// </param>
     /// <param name="request">
@@ -156,7 +156,7 @@ public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicl
     /// <returns>
     ///     The updated vehicle response details
     /// </returns>
-    [HttpPut("{id_vehicle}")]
+    [HttpPut("{vehicleId}")]
     [SwaggerOperation(
         Summary = "Update an existing vehicle",
         Description = "Update an existing vehicle with the provided data"
@@ -176,9 +176,9 @@ public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicl
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateVehicle(string id_vehicle, [FromBody] UpdateVehicleRequest request)
+    public async Task<IActionResult> UpdateVehicle(int vehicleId, [FromBody] UpdateVehicleRequest request)
     {
-        var updateVehicleCommand = VehicleAssembler.ToCommandFromRequest(request, id_vehicle);
+        var updateVehicleCommand = VehicleAssembler.ToCommandFromRequest(request, vehicleId);
         var vehicle = await vehicleCommandService.Handle(updateVehicleCommand);
         if (vehicle is null) return BadRequest();
         
@@ -189,13 +189,13 @@ public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicl
     /// <summary>
     ///     Delete a vehicle by its ID
     /// </summary>
-    /// <param name="id_vehicle">
+    /// <param name="vehicleId">
     ///     The unique ID of the vehicle to delete
     /// </param>
     /// <returns>
     ///     No content on successful deletion
     /// </returns>
-    [HttpDelete("{id_vehicle}")]
+    [HttpDelete("{vehicleId}")]
     [SwaggerOperation(
         Summary = "Delete a vehicle by its ID",
         Description = "Deletes a vehicle using its unique ID"
@@ -211,9 +211,9 @@ public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicl
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteVehicle(string id_vehicle)
+    public async Task<IActionResult> DeleteVehicle(int vehicleId)
     {
-        var deleteVehicleCommand = new DeleteVehicleCommand(id_vehicle);
+        var deleteVehicleCommand = new DeleteVehicleCommand(vehicleId);
         var result = await vehicleCommandService.Handle(deleteVehicleCommand);
         
         if (!result) return BadRequest();

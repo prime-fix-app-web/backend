@@ -12,7 +12,7 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 /// <param name="Model">
 ///     The model of the vehicle to be updated
 /// </param>
-/// <param name="IdUser">
+/// <param name="UserId">
 ///     The identifier of the user associated with the vehicle to be updated
 /// </param>
 /// <param name="VehiclePlate">
@@ -38,10 +38,9 @@ public record UpdateVehicleRequest(
     [MaxLength(100)]
     string Model,
     
-    [property: JsonPropertyName("id_user")]
+    [property: JsonPropertyName("user_id")]
     [Required]
-    [MinLength(1)]
-    string IdUser,
+    int UserId,
     
     [property: JsonPropertyName("vehicle_brand")]
     [Required]

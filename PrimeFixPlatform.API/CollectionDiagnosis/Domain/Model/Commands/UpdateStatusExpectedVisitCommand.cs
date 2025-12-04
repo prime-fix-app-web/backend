@@ -2,4 +2,4 @@
 
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 
-public record UpdateStatusExpectedVisitCommand(Status newStatus, int expectedVisitId);
+public record UpdateStatusExpectedVisitCommand(Status NewStatus, int ExpectedVisitId);

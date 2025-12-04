@@ -36,4 +36,9 @@ public class VisitRepository(AppDbContext context) : BaseRepository<Visit>(conte
     {
         return await Context.Set<Visit>().FindAsync(vehicleId);
     }
+
+    public async Task<Visit?> FindById(int clientId)
+    {
+        return await Context.Set<Visit>().FindAsync(clientId);
+    }
 }

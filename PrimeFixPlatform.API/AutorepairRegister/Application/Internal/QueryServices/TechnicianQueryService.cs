@@ -43,7 +43,7 @@ public class TechnicianQueryService(ITechnicianRepository technicianRepository)
     /// <exception cref="NotFoundIdException"></exception>
     public async Task<Technician?> Handle(GetTechnicianByIdQuery query)
     {
-        return await technicianRepository.FindByIdAsync(query.IdTechnician)
-            ?? throw new NotFoundIdException("Technician with the id " + query.IdTechnician + " was not found.");
+        return await technicianRepository.FindByIdAsync(query.TechnicianId)
+            ?? throw new NotFoundIdException("Technician with the id " + query.TechnicianId + " was not found.");
     }
 }

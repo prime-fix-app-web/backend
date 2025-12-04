@@ -35,13 +35,13 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
     /// </exception>
     public async Task<int> Handle(CreateAutoRepairCommand command)
     {
-        var idAutoRepair = command.IdAutoRepair;
+        /*var idAutoRepair = command.;*/
         var ruc = command.Ruc;
         var contactEmail = command.ContactEmail;
         
-        if (await autoRepairRepository.ExistsByIdAutoRepair(idAutoRepair))
+        /*if (await autoRepairRepository.ExistsByIdAutoRepair(idAutoRepair))
             throw new ConflictException("Auto repair with the same id " + idAutoRepair  + " already exists");
-        
+        */
         if (await autoRepairRepository.ExistsByRuc(ruc))
             throw new ConflictException("Auto repair with the same RUC " + ruc  + " already exists");
         
@@ -51,7 +51,7 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
         var autoRepair = new AutoRepair(command);
         await autoRepairRepository.AddAsync(autoRepair);
         await unitOfWork.CompleteAsync();
-        return autoRepair.IdAutoRepair;
+        return autoRepair.AutoRepairId;
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
     /// </exception>
     public async Task<AutoRepair?> Handle(UpdateAutoRepairCommand command)
     {
-        var idAutoRepair = command.IdAutoRepair;
+        var idAutoRepair = command.AutoRepairId;
         var ruc = command.Ruc;
         var contactEmail = command.ContactEmail;
         
@@ -115,9 +115,9 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
     /// </exception>
     public async Task<bool> Handle(DeleteAutoRepairCommand command)
     {
-        if (!await autoRepairRepository.ExistsByIdAutoRepair(command.IdAutoRepair))
-            throw new NotFoundIdException("Auto repair with id " + command.IdAutoRepair  + " does not exist");
-        var autoRepair = await autoRepairRepository.FindByIdAsync(command.IdAutoRepair);
+        if (!await autoRepairRepository.ExistsByIdAutoRepair(command.AutoRepairId))
+            throw new NotFoundIdException("Auto repair with id " + command.AutoRepairId  + " does not exist");
+        var autoRepair = await autoRepairRepository.FindByIdAsync(command.AutoRepairId);
         if (autoRepair is null)
             throw new NotFoundArgumentException("Auto repair not found");
         autoRepairRepository.Remove(autoRepair);
@@ -125,24 +125,78 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
         return true;
     }
     
+    /// <summary>
+    /// Handles the command to add a new service offer to an auto repair service catalog.
+    /// </summary>
+    /// <param name="command">
+    /// Command containing the data required to register a new service offer.
+    /// </param>
+    /// <returns>
+    /// A task representing the asynchronous operation.
+    /// The result is <c>true</c> if the offer was successfully created.
+    /// </returns>
+    /// <exception cref="KeyNotFoundException">
+    /// Thrown when the specified service or auto repair does not exist.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    /// Thrown when a domain or persistence error occurs.
+    /// </exception>
     public async Task<bool> Handle(AddServiceToAutoRepairServiceCatalogCommand command)
     {
         var service = await serviceRepository.FindByIdAsync(command.ServiceId) ?? throw new KeyNotFoundException($"Service with id {command.ServiceId} was not found");
         var autoRepair = await autoRepairRepository.FindByIdAsync(command.AutoRepairId) ?? throw new KeyNotFoundException($"AutoRepair with id {command.AutoRepairId} was not found");
         try
         {
-            autoRepair.RegisterNewOffer(service, command.Price);
+            autoRepair.RegisterNewOffer(service, command.Price, command.DurationHours, command.IsActive);
+            autoRepairRepository.Update(autoRepair);
+            await unitOfWork.CompleteAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new ArgumentException("Error while saving the auto repair service offer: " + ex.Message, ex);
+        }
+    }
+
+    
+    
+    /// <summary>
+    /// Handles the command to remove a service offer from an auto repair service catalog.
+    /// </summary>
+    /// <param name="command">
+    /// Command containing the data required to delete the service offer.
+    /// </param>
+    /// <returns>
+    /// A task representing the asynchronous operation.
+    /// The result is <c>true</c> if the offer was successfully removed.
+    /// </returns>
+    /// <exception cref="KeyNotFoundException">
+    /// Thrown when the specified service or auto repair does not exist.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    /// Thrown when a domain error occurs while removing the service offer.
+    /// </exception>
+    public async Task<bool> Handle(DeleteServiceToAutoRepairServiceCommand command)
+    {
+        var service = await serviceRepository.FindByIdAsync(command.ServiceId)
+                      ?? throw new KeyNotFoundException($"Service with id {command.ServiceId} was not found");
+
+        var autoRepair = await autoRepairRepository.FindByIdAsync(command.AutoRepairId)
+                         ?? throw new KeyNotFoundException($"AutoRepair with id {command.AutoRepairId} was not found");
+
+        try
+        {
+            autoRepair.DeleteOffer(service);
             autoRepairRepository.Update(autoRepair);
             await unitOfWork.CompleteAsync();
             return true;
         }
         catch (InvalidOperationException ex)
         {
-            throw new ArgumentException("Domain error while registering the service offer: " + ex.Message, ex);
-        }
-        catch (Exception ex)
-        {
-            throw new ArgumentException("Error while saving the auto repair service offer: " + ex.Message, ex);
+            throw new ArgumentException(
+                "Domain error while removing the offer: " + ex.Message,
+                ex
+            );
         }
     }
 }

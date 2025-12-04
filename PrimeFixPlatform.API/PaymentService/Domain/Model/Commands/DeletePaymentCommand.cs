@@ -3,5 +3,5 @@
 /// <summary>
 ///     Command to delete a payment
 /// </summary>
-/// <param name="IdPayment"></param>
-public record DeletePaymentCommand(string IdPayment);
+/// <param name="PaymentId"></param>
+public record DeletePaymentCommand(int PaymentId);

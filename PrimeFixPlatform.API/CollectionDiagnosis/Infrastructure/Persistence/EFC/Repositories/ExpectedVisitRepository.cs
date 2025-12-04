@@ -16,4 +16,9 @@ public class ExpectedVisitRepository(AppDbContext context): BaseRepository<Expec
     {
         return await Context.Set<ExpectedVisit>().FindAsync(visitId);
     }
+
+    public async Task<ExpectedVisit?> FindById(int expectedVisitId)
+    {
+        return await Context.Set<ExpectedVisit>().FindAsync(expectedVisitId);
+    }
 }

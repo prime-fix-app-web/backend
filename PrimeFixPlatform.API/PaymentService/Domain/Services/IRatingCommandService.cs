@@ -8,7 +8,7 @@ namespace PrimeFixPlatform.API.PaymentService.Domain.Services;
 /// </summary>
 public interface IRatingCommandService
 {
-    Task<string> Handle(CreateRatingCommand command);
+    Task<int> Handle(CreateRatingCommand command);
     
     Task<Rating?> Handle(UpdateRatingCommand command);
     

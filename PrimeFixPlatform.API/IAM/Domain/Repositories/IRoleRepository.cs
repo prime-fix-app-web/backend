@@ -19,7 +19,7 @@ public interface IRoleRepository : IBaseRepository<Role>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a role with the specified ID exists.
     /// </returns>
-    Task<bool> ExitsByIdRole(string idRole);
+    Task<bool> ExitsByIdRole(int idRole);
     
     /// <summary>
     ///     Checks if a role exists by its role information.
@@ -47,5 +47,5 @@ public interface IRoleRepository : IBaseRepository<Role>
     ///     a boolean indicating whether a role with the specified role information exists,
     ///     excluding the role with the specified ID.
     /// </returns>
-    Task<bool> ExistsByRoleInformationAndIdRoleIsNot(RoleInformation roleInformation, string idRole);
+    Task<bool> ExistsByRoleInformationAndIdRoleIsNot(RoleInformation roleInformation, int idRole);
 }

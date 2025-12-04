@@ -1,11 +1,14 @@
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
+using Service = PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates.Service;
 
-namespace PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.CommandServices;
+namespace PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.CommandServices;
 /// <summary>
 /// Command service of service aggregate
 /// </summary>

@@ -24,9 +24,9 @@ public class MembershipRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a Membership with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdMembership(string idMembership)
+    public async Task<bool> ExistsByIdMembership(int idMembership)
     {
-        return await Context.Set<Membership>().AnyAsync(membership => membership.IdMembership == idMembership);
+        return await Context.Set<Membership>().AnyAsync(membership => membership.MembershipId == idMembership);
     }
 
     /// <summary>
@@ -58,10 +58,10 @@ public class MembershipRepository(AppDbContext context)
     ///     excluding the Membership with the specified ID.
     /// </returns>
     public async Task<bool> ExistsByMembershipDescriptionAndIdMembershipIsNot(MembershipDescription membershipDescription,
-        string idMembership)
+        int idMembership)
     {
         return await Context.Set<Membership>().AnyAsync(membership => 
             membership.MembershipDescription.Description == membershipDescription.Description &&
-            membership.IdMembership != idMembership);
+            membership.MembershipId != idMembership);
     }
 }

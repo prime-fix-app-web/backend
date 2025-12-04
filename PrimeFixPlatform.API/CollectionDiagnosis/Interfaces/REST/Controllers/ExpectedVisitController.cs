@@ -71,9 +71,9 @@ public class ExpectedVisitController(IExpectedVisitCommandService expectedVisitC
         OperationId = "UpdateExpectedVisit")]
     [SwaggerResponse(200, "Expected Resource", typeof(ExpectedVisit))]
     [SwaggerResponse(400, "Expected Resource", typeof(ExpectedVisit))]
-    public async Task<IActionResult> UpdateExpected([FromBody] UpdateExpectedVisitRequest request)
+    public async Task<IActionResult> UpdateExpected([FromBody] UpdateExpectedVisitRequest request, int expectedId)
     {
-        var updateExpected = ExpectedVisitAssembler.ToCommandFromRequest(request);
+        var updateExpected = ExpectedVisitAssembler.ToCommandFromRequest(request, expectedId);
         var expected = await expectedVisitCommandService.Handle(updateExpected);
         if(expected is null) return BadRequest();
         

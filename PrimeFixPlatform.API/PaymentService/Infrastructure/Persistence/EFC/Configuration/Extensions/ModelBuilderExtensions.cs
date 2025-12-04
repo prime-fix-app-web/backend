@@ -16,27 +16,27 @@ public static class ModelBuilderExtensions
     /// </param>
     public static void ApplyPaymentServiceConfiguration(this ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Payment>().HasKey(p => p.IdPayment);
-        modelBuilder.Entity<Payment>().Property(p => p.IdPayment).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Payment>().HasKey(p => p.PaymentId);
+        modelBuilder.Entity<Payment>().Property(p => p.PaymentId).IsRequired().HasMaxLength(255);
         modelBuilder.Entity<Payment>().Property(p => p.CardNumber).IsRequired().HasMaxLength(50);
         modelBuilder.Entity<Payment>().OwnsOne(p => p.CardType, ct =>
         {
             ct.WithOwner().HasForeignKey("PaymentIdPayment");
-            ct.Property<string>("PaymentIdPayment").HasColumnName("id_payment");
+            ct.Property<int>("PaymentIdPayment").HasColumnName("id_payment");
             ct.Property(p => p.Type).IsRequired().HasMaxLength(50);
         });
         modelBuilder.Entity<Payment>().Property(p => p.Cvv).IsRequired();
-        modelBuilder.Entity<Payment>().Property(p => p.IdUserAccount).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Payment>().Property(p => p.UserAccountId).IsRequired().HasMaxLength(255);
         modelBuilder.Entity<Payment>().Property(p => p.Month).IsRequired();
         modelBuilder.Entity<Payment>().Property(p => p.Year).IsRequired();
         
         
-        modelBuilder.Entity<Rating>().HasKey(r => r.IdRating);
-        modelBuilder.Entity<Rating>().Property(r => r.IdRating).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Rating>().HasKey(r => r.RatingId);
+        modelBuilder.Entity<Rating>().Property(r => r.RatingId).IsRequired().HasMaxLength(255);
         modelBuilder.Entity<Rating>().Property(r => r.StarRating).IsRequired();
         modelBuilder.Entity<Rating>().Property(r => r.Comment).IsRequired().HasMaxLength(255);
-        modelBuilder.Entity<Rating>().Property(r => r.IdAutoRepair).IsRequired().HasMaxLength(255);
-        modelBuilder.Entity<Rating>().Property(r => r.IdUserAccount).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Rating>().Property(r => r.AutoRepairId).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Rating>().Property(r => r.AutoRepairId).IsRequired().HasMaxLength(255);
 
     }
 }

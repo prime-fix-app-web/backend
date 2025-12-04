@@ -34,22 +34,22 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     /// <exception cref="ConflictException">
     ///     Indicates that a user with the same IdUser or Name and LastName already exists
     /// </exception>
-    public async Task<string> Handle(CreateUserCommand command)
+    public async Task<int> Handle(CreateUserCommand command)
     {
-        var idUser = command.IdUser;
+        /*var idUser = command.IdUser;**/
         var name = command.Name;
         var lastName = command.LastName;
         
-        if (await userRepository.ExistsByIdUser(idUser))
+        /*if (await userRepository.ExistsByIdUser(idUser))
             throw new ConflictException("User with the same id " + idUser  + " already exists");
-        
+        */
         if (await userRepository.ExistsByNameAndLastName(name, lastName))
             throw new ConflictException("User with the same name " + name + " and last name " + lastName + " already exists");
         
         var user = new User(command);
         await userRepository.AddAsync(user);
         await unitOfWork.CompleteAsync();
-        return user.IdUser;
+        return user.UserId;
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     /// </exception>
     public async Task<User?> Handle(UpdateUserCommand command)
     {
-        var idUser = command.IdUser;
+        var idUser = command.UserId;
         var name = command.Name;
         var lastName = command.LastName;
         
@@ -109,9 +109,9 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     /// </exception>
     public async Task<bool> Handle(DeleteUserCommand command)
     {
-        if (!await userRepository.ExistsByIdUser(command.IdUser))
-            throw new NotFoundIdException("User with id " + command.IdUser  + " does not exist");
-        var user = await userRepository.FindByIdAsync(command.IdUser);
+        if (!await userRepository.ExistsByIdUser(command.UserId))
+            throw new NotFoundIdException("User with id " + command.UserId  + " does not exist");
+        var user = await userRepository.FindByIdAsync(command.UserId);
         if (user == null)
             throw new NotFoundArgumentException("User not found");
         userRepository.Remove(user);

@@ -3,7 +3,7 @@
 /// <summary>
 ///     Query to get a membership by its identifier.
 /// </summary>
-/// <param name="IdMembership">
+/// <param name="MembershipId">
 ///     The identifier of the membership to retrieve.
 /// </param>
-public record GetMembershipByIdQuery(string IdMembership);
+public record GetMembershipByIdQuery(int MembershipId);

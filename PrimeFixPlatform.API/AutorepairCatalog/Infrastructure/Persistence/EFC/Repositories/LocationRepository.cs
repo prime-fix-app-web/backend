@@ -27,6 +27,6 @@ public class LocationRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByIdLocation(int idLocation)
     {
-        return await Context.Set<Location>().AnyAsync(location => location.IdLocation == idLocation);
+        return await Context.Set<Location>().AnyAsync(location => location.LocationId == idLocation);
     }
 }

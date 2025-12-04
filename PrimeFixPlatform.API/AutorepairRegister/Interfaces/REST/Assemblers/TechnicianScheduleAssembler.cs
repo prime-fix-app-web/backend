@@ -21,7 +21,7 @@ public static class TechnicianScheduleAssembler
     public static CreateTechnicianScheduleCommand ToCommandFromRequest(CreateTechnicianScheduleRequest request)
     {
         return new CreateTechnicianScheduleCommand(
-            request.IdSchedule, request.IdTechnician, 
+            request.TechnicianId, 
             request.DayOfWeek, request.StartTime, request.EndTime,
             request.IsActive
         );
@@ -37,10 +37,10 @@ public static class TechnicianScheduleAssembler
     ///     The identifier of the technician schedule to be updated.
     /// </param>
     /// <returns></returns>
-    public static UpdateTechnicianScheduleCommand ToCommandFromRequest(UpdateTechnicianScheduleRequest request, string idSchedule)
+    public static UpdateTechnicianScheduleCommand ToCommandFromRequest(UpdateTechnicianScheduleRequest request, int idSchedule)
     {
         return new UpdateTechnicianScheduleCommand(
-            idSchedule, request.IdTechnician, 
+            idSchedule, request.TechnicianId, 
             request.DayOfWeek, request.StartTime, request.EndTime,
             request.IsActive
         );
@@ -58,7 +58,7 @@ public static class TechnicianScheduleAssembler
     public static TechnicianScheduleResponse ToResponseFromEntity(TechnicianSchedule entity)
     {
         return new TechnicianScheduleResponse(
-            entity.IdSchedule, entity.IdTechnician, 
+            entity.ScheduleId, entity.TechnicianId, 
             entity.DayOfWeek, entity.StartTime, entity.EndTime,
             entity.IsActive
         );

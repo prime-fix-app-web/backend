@@ -15,4 +15,4 @@
 /// <param name="IdAutoRepair">
 ///     The unique identifier of the auto repair shop associated with the technician
 /// </param>
-public record UpdateTechnicianCommand(string IdTechnician, string Name, string LastName, string IdAutoRepair);
+public record UpdateTechnicianCommand(int TechnicianId, string Name, string LastName, int AutoRepairId);

@@ -18,7 +18,7 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 ///     The end date of the membership
 /// </param>
 public record MembershipResponse(
-    [property: JsonPropertyName("id_membership")] string IdMembership,
+    [property: JsonPropertyName("id_membership")] int IdMembership,
     string Description,
     DateOnly Started,
     DateOnly Over);

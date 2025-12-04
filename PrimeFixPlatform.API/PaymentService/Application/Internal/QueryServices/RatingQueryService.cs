@@ -16,12 +16,12 @@ public class RatingQueryService(IRatingRepository ratingRepository)
 
     public async Task<Rating?> Handle(GetRatingByIdQuery query)
     {
-        return await ratingRepository.FindByIdAsync(query.IdRating)
-            ?? throw new NotFoundIdException("Rating with the id " + query.IdRating + " was not found");
+        return await ratingRepository.FindByIdAsync(query.RatingId)
+            ?? throw new NotFoundIdException("Rating with the id " + query.RatingId + " was not found");
     }
 
     public async Task<IEnumerable<Rating>> Handle(GetRatingByIdAutoRepairQuery query)
     {
-        return await ratingRepository.FindByIdAutoRepair(query.IdAutoRepair);
+        return await ratingRepository.FindByIdAutoRepair(query.AutoRepairId);
     }
 }

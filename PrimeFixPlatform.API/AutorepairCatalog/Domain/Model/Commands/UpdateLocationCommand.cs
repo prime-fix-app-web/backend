@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to update an existing Location entity.
 /// </summary>
-/// <param name="IdLocation">
+/// <param name="LocationId">
 ///     The unique identifier for the Location to be updated.
 /// </param>
 /// <param name="Address">
@@ -15,4 +15,4 @@
 /// <param name="Department">
 ///     The new department where the Location is situated.
 /// </param>
-public record UpdateLocationCommand(int IdLocation, string Address, string District, string Department);
+public record UpdateLocationCommand(int LocationId, string Address, string District, string Department);

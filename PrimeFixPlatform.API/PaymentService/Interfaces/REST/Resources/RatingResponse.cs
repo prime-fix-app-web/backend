@@ -22,9 +22,9 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 ///     The identifier of the user associated with the rating 
 /// </param>
 public record RatingResponse(
-    [property: JsonPropertyName("id_rating")] string IdRating,
+    [property: JsonPropertyName("id_rating")] int IdRating,
     [property: JsonPropertyName("star_rating")] int StarRating,
     string Comment,
-    [property: JsonPropertyName("id_auto_repair")] string IdAutoRepair,
-    [property: JsonPropertyName("id_user_account")] string IdUserAccount
+    [property: JsonPropertyName("id_auto_repair")] int IdAutoRepair,
+    [property: JsonPropertyName("id_user_account")] int IdUserAccount
     );

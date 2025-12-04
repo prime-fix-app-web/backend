@@ -21,4 +21,4 @@
 /// <param name="IsActive">
 ///     Flag indicating if the schedule is active
 /// </param>
-public record UpdateTechnicianScheduleCommand(string IdSchedule, string IdTechnician, string DayOfWeek, TimeOnly StartTime, TimeOnly EndTime, bool IsActive);
+public record UpdateTechnicianScheduleCommand(int IdSchedule, int TechnicianId, string DayOfWeek, TimeOnly StartTime, TimeOnly EndTime, bool IsActive);

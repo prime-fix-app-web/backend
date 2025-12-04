@@ -65,7 +65,7 @@ public class VisitCommandService(IVisitRepository visitRepository,IExpectedVisit
     /// </exception>
     public async Task<Visit?> Handle(DeleteVisitCommand command)
     {
-        var visit = await visitRepository.FindByIdAsync(command.VisitId);
+        var visit = await visitRepository.FindById(command.VisitId);
         if (visit == null)
             throw new NotFoundArgumentException("Visit not found");
         visitRepository.Remove(visit);

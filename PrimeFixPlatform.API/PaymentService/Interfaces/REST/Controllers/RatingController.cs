@@ -60,7 +60,7 @@ public class RatingController(IRatingQueryService ratingQueryService,
         var createRatingCommand = RatingAssembler.ToCommandFromRequest(request);
         var ratingId = await ratingCommandService.Handle(createRatingCommand);
         
-        if (string.IsNullOrWhiteSpace(ratingId)) return BadRequest();
+        /*if (string.IsNullOrWhiteSpace(ratingId)) return BadRequest();*/
 
         var getRatingByIdQuery = new GetRatingByIdQuery(ratingId);
         var rating = await ratingQueryService.Handle(getRatingByIdQuery);
@@ -74,7 +74,7 @@ public class RatingController(IRatingQueryService ratingQueryService,
     /// <summary>
     ///     Get all ratings, optionally filtered by auto repair ID
     /// </summary>
-    /// <param name="idAutoRepair">
+    /// <param name="autoRepairId">
     ///     The auto repair ID to filter ratings by (optional)
     /// </param>
     /// <returns>
@@ -91,18 +91,18 @@ public class RatingController(IRatingQueryService ratingQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetAllRatings([FromQuery] string? idAutoRepair)
+    public async Task<IActionResult> GetAllRatings([FromQuery] int autoRepairId)
     {
         IEnumerable<Rating> ratings;
         
-        if (idAutoRepair is null)
+        if (autoRepairId ==0 )
         {
             var getAllRatingsQuery = new GetAllRatingsQuery();
             ratings = await ratingQueryService.Handle(getAllRatingsQuery);
         }
         else
         {
-            var query = new GetRatingByIdAutoRepairQuery(idAutoRepair);
+            var query = new GetRatingByIdAutoRepairQuery(autoRepairId);
             ratings = await ratingQueryService.Handle(query);
         }
         
@@ -116,13 +116,13 @@ public class RatingController(IRatingQueryService ratingQueryService,
     /// <summary>
     ///     Get a rating by its ID
     /// </summary>
-    /// <param name="id_rating">
+    /// <param name="ratingId">
     ///     The unique ID of the rating
     /// </param>
     /// <returns>
     ///     The rating response details
     /// </returns>
-    [HttpGet("{id_rating}")]
+    [HttpGet("{ratingId}")]
     [SwaggerOperation(
         Summary = "Retrieve a rating by its ID",
         Description = "Retrieves a rating using its unique ID"
@@ -136,9 +136,9 @@ public class RatingController(IRatingQueryService ratingQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetRatingById(string id_rating)
+    public async Task<IActionResult> GetRatingById(int ratingId)
     {
-        var getRatingByIdQuery = new GetRatingByIdQuery(id_rating);
+        var getRatingByIdQuery = new GetRatingByIdQuery(ratingId);
         var rating = await ratingQueryService.Handle(getRatingByIdQuery);
         
         if (rating is null) return NotFound();
@@ -151,7 +151,7 @@ public class RatingController(IRatingQueryService ratingQueryService,
     /// <summary>
     ///     Update an existing rating
     /// </summary>
-    /// <param name="id_rating">
+    /// <param name="ratingId">
     ///     The unique ID of the rating to update
     /// </param>
     /// <param name="request">
@@ -160,7 +160,7 @@ public class RatingController(IRatingQueryService ratingQueryService,
     /// <returns>
     ///     The updated rating response details
     /// </returns>
-    [HttpPut("{id_rating}")]
+    [HttpPut("{ratingId}")]
     [SwaggerOperation(
         Summary = "Update an existing rating",
         Description = "Update an existing rating with the provided data"
@@ -180,9 +180,9 @@ public class RatingController(IRatingQueryService ratingQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateRating(string id_rating, [FromBody] UpdateRatingRequest request)
+    public async Task<IActionResult> UpdateRating(int ratingId, [FromBody] UpdateRatingRequest request)
     {
-        var updateRatingCommand = RatingAssembler.ToCommandFromRequest(request, id_rating);
+        var updateRatingCommand = RatingAssembler.ToCommandFromRequest(request, ratingId);
         var rating = await ratingCommandService.Handle(updateRatingCommand);
         if (rating is null) return BadRequest();
         
@@ -193,13 +193,13 @@ public class RatingController(IRatingQueryService ratingQueryService,
     /// <summary>
     ///     Delete a rating by its ID
     /// </summary>
-    /// <param name="id_rating">
+    /// <param name="ratingId">
     ///     The unique ID of the rating to delete
     /// </param>
     /// <returns>
     ///     No content on successful deletion
     /// </returns>
-    [HttpDelete("{id_rating}")]
+    [HttpDelete("{ratingId}")]
     [SwaggerOperation(
         Summary = "Delete a rating by its ID",
         Description = "Deletes a rating using its unique ID"
@@ -215,9 +215,9 @@ public class RatingController(IRatingQueryService ratingQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteRating(string id_rating)
+    public async Task<IActionResult> DeleteRating(int ratingId)
     {
-        var deleteRatingCommand = new DeleteRatingCommand(id_rating);
+        var deleteRatingCommand = new DeleteRatingCommand(ratingId);
         var result = await ratingCommandService.Handle(deleteRatingCommand);
         
         if (!result) return BadRequest();

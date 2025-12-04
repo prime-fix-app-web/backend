@@ -45,7 +45,7 @@ public class UserQueryService(IUserRepository userRepository)
     /// </exception>
     public async Task<User?> Handle(GetUserByIdQuery query)
     {
-        return await userRepository.FindByIdAsync(query.IdUser) 
-               ?? throw new NotFoundIdException("User with the id " + query.IdUser + " was not found.");
+        return await userRepository.FindByIdAsync(query.UserId) 
+               ?? throw new NotFoundIdException("User with the id " + query.UserId + " was not found.");
     }
 }

@@ -18,7 +18,7 @@ public interface ITechnicianScheduleCommandService
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the ID of the created TechnicianSchedule entity, or null if creation
     /// </returns>
-    Task<string> Handle(CreateTechnicianScheduleCommand command);
+    Task<int> Handle(CreateTechnicianScheduleCommand command);
     
     /// <summary>
     ///     Handles the update of an existing technician schedule.

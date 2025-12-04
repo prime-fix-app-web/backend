@@ -18,5 +18,5 @@ public interface ITechnicianScheduleRepository : IBaseRepository<TechnicianSched
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether the TechnicianSchedule entity exists.
     /// </returns>
-    Task<bool> ExistsByIdSchedule(string idSchedule);
+    Task<bool> ExistsByIdSchedule(int scheduleId);
 }

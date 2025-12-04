@@ -45,7 +45,7 @@ public class RoleQueryService(IRoleRepository roleRepository)
     /// </exception>
     public async Task<Role?> Handle(GetRoleByIdQuery query)
     {
-        return await roleRepository.FindByIdAsync(query.IdRole)
-            ?? throw new NotFoundIdException("Role with the id " + query.IdRole + " was not found.");
+        return await roleRepository.FindByIdAsync(query.RoleId)
+            ?? throw new NotFoundIdException("Role with the id " + query.RoleId + " was not found.");
     }
 }

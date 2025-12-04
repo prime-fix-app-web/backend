@@ -6,4 +6,4 @@
 /// <param name="IdTechnician">
 ///     The unique identifier for the technician to be deleted
 /// </param>
-public record DeleteTechnicianCommand(string IdTechnician);
+public record DeleteTechnicianCommand(int TechnicianId);

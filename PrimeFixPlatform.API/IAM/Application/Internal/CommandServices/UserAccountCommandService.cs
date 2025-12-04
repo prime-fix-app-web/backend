@@ -31,15 +31,15 @@ public class UserAccountCommandService(IUserAccountRepository userAccountReposit
     /// <exception cref="ConflictException">
     ///     Indicates that a user account with the same IdUserAccount, Username or Email already exists
     /// </exception>
-    public async Task<string> Handle(CreateUserAccountCommand command)
+    public async Task<int> Handle(CreateUserAccountCommand command)
     {
-        var idUserAccount = command.IdUserAccount;
+        /*var idUserAccount = command.IdUserAccount;*/
         var username = command.Username;
         var email = command.Email;
         
-        if (await userAccountRepository.ExistsByIdUserAccount(idUserAccount))
+        /*if (await userAccountRepository.ExistsByIdUserAccount(idUserAccount))
             throw new ConflictException("UserAccount with the same id " + idUserAccount + " already exists");
-        
+        */
         if (await userAccountRepository.ExistsByUsername(username))
             throw new ConflictException("UserAccount with the same username " + username + " already exists");
         
@@ -49,7 +49,7 @@ public class UserAccountCommandService(IUserAccountRepository userAccountReposit
         var userAccount = new UserAccount(command);
         await userAccountRepository.AddAsync(userAccount);
         await unitOfWork.CompleteAsync();
-        return userAccount.IdUserAccount;
+        return userAccount.UserAccountId;
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public class UserAccountCommandService(IUserAccountRepository userAccountReposit
     /// </exception>
     public async Task<UserAccount?> Handle(UpdateUserAccountCommand command)
     {
-        var idUserAccount = command.IdUserAccount;
+        var idUserAccount = command.UserAccountId;
         var username = command.Username;
         var email = command.Email;
         
@@ -113,9 +113,9 @@ public class UserAccountCommandService(IUserAccountRepository userAccountReposit
     /// </exception>
     public async Task<bool> Handle(DeleteUserAccountCommand command)
     {
-        if (!await userAccountRepository.ExistsByIdUserAccount(command.IdUserAccount)) 
-            throw new NotFoundIdException("UserAccount with id " + command.IdUserAccount + " not found");
-        var userAccount = await userAccountRepository.FindByIdAsync(command.IdUserAccount);
+        if (!await userAccountRepository.ExistsByIdUserAccount(command.UserAccountId)) 
+            throw new NotFoundIdException("UserAccount with id " + command.UserAccountId + " not found");
+        var userAccount = await userAccountRepository.FindByIdAsync(command.UserAccountId);
         if (userAccount == null)
             throw new NotFoundArgumentException("UserAccount not found");
         userAccountRepository.Remove(userAccount);

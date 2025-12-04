@@ -22,7 +22,7 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 /// <param name="Cvv">
 ///     The cvv  of the payment to be updated
 /// </param>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The identifier of the user account of the payment to be updated
 /// </param>
 public record UpdatePaymentRequest(
@@ -47,7 +47,7 @@ public record UpdatePaymentRequest(
     [Required]
     int Cvv,
     
-    [property: JsonPropertyName("id_user_account")]
+    [property: JsonPropertyName("user_account_id")]
     [Required]
     [MinLength(1)]
-    string IdUserAccount);
+    int UserAccountId);

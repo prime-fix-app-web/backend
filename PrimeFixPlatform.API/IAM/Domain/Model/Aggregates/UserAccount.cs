@@ -14,19 +14,16 @@ public partial class UserAccount
     /// <summary>
     ///     Constructor for UserAccount Aggregate Root
     /// </summary>
-    /// <param name="idUserAccount">
-    ///     The unique identifier for the UserAccount
-    /// </param>
     /// <param name="username">
     ///     The username of the UserAccount
     /// </param>
     /// <param name="email">
     ///     The email of the UserAccount
     /// </param>
-    /// <param name="idRole">
+    /// <param name="roleId">
     ///     The role identifier associated with the UserAccount
     /// </param>
-    /// <param name="idUser">
+    /// <param name="userId">
     ///     The user identifier associated with the UserAccount
     /// </param>
     /// <param name="password">
@@ -35,13 +32,12 @@ public partial class UserAccount
     /// <param name="isNew">
     ///     Flag indicating if the UserAccount is new
     /// </param>
-    public UserAccount(string idUserAccount, string username, string email, string idRole, string idUser, string password, bool isNew)
+    public UserAccount( string username, string email, int roleId, int userId, string password, bool isNew)
     {
-        IdUserAccount = idUserAccount;
         Username = username;
         Email = email;
-        IdRole = idRole;
-        IdUser = idUser;
+        RoleId = roleId;
+        UserId = userId;
         Password = password;
         IsNew = isNew;
     }
@@ -53,11 +49,10 @@ public partial class UserAccount
     ///     Command object containing data to create a UserAccount
     /// </param>
     public UserAccount(CreateUserAccountCommand command): this(
-        command.IdUserAccount,
         command.Username,
         command.Email,
-        command.IdRole,
-        command.IdUser,
+        command.RoleId,
+        command.UserId,
         command.Password,
         command.IsNew)
     {
@@ -71,24 +66,25 @@ public partial class UserAccount
     /// </param>
     public void UpdateUserAccount(UpdateUserAccountCommand command)
     {
+        UserAccountId = command.UserAccountId;
         Username = command.Username;
         Email = command.Email;
-        IdRole = command.IdRole;
-        IdUser = command.IdUser;
+        RoleId = command.RoleId;
+        UserId = command.UserId;
         Password = command.Password;
         IsNew = command.IsNew;
     }
     
     
-    public string IdUserAccount { get; private set; }
+    public int UserAccountId { get; private set; }
 
     public string Username { get; private set; }
     
     public string Email { get; private set; }
     
-    public string IdRole { get; private set; }
+    public int RoleId { get; private set; }
     
-    public string IdUser { get; private set; }
+    public int UserId { get; private set; }
     
     public string Password { get; private set; }
     

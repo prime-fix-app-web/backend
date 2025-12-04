@@ -17,7 +17,7 @@ public interface IUserAccountCommandService
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains the created UserAccount ID, or null if creation failed.
     /// </returns>
-    Task<string> Handle(CreateUserAccountCommand command);
+    Task<int> Handle(CreateUserAccountCommand command);
     
     /// <summary>
     ///     Handles the update of an existing user account.

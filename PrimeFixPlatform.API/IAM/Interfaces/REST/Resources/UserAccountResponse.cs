@@ -27,10 +27,10 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 ///     Flag indicating if the user account is new
 /// </param>
 public record UserAccountResponse(
-    [property: JsonPropertyName("id_user_account")] string IdUserAccount,
+    [property: JsonPropertyName("id_user_account")] int IdUserAccount,
     string Username,
     string Email,
-    [property: JsonPropertyName("id_role")] string IdRole,
-    [property: JsonPropertyName("id_user")] string IdUser,
+    [property: JsonPropertyName("id_role")] int IdRole,
+    [property: JsonPropertyName("id_user")] int IdUser,
     string Password,
     [property: JsonPropertyName("is_new")] bool IsNew);

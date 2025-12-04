@@ -32,17 +32,17 @@ public class NotificationCommandService(INotificationRepository notificationRepo
     /// <exception cref="ConflictException">
     ///     Indicates that a notification with the same ID already exists.
     /// </exception>
-    public async Task<string> Handle(CreateNotificationCommand command)
+    public async Task<int> Handle(CreateNotificationCommand command)
     {
-        var idNotification = command.IdNotification;
+        /*var idNotification = command.IdNotification;*/
         
-        if (await notificationRepository.ExistsByIdNotification(idNotification))
-            throw new ConflictException("Notification with the same id " + idNotification  + " already exists");
+        /*if (await notificationRepository.ExistsByIdNotification(idNotification))
+            throw new ConflictException("Notification with the same id " + idNotification  + " already exists");*/
         
         var notification = new Notification(command);
         await notificationRepository.AddAsync(notification);
         await unitOfWork.CompleteAsync();
-        return notification.IdNotification;
+        return notification.NotificationId;
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class NotificationCommandService(INotificationRepository notificationRepo
     /// </exception>
     public async Task<Notification?> Handle(UpdateNotificationCommand command)
     {
-        var idNotification = command.IdNotification;
+        var idNotification = command.NotificationId;
         
         if (!await notificationRepository.ExistsByIdNotification(idNotification))
             throw new NotFoundIdException("Notification with id " + idNotification  + " does not exist");
@@ -95,9 +95,9 @@ public class NotificationCommandService(INotificationRepository notificationRepo
     /// </exception>
     public async Task<bool> Handle(DeleteNotificationCommand command)
     {
-        if (!await notificationRepository.ExistsByIdNotification(command.IdNotification))
-            throw new NotFoundIdException("Notification with id " + command.IdNotification  + " does not exist");
-        var notification = await notificationRepository.FindByIdAsync(command.IdNotification);
+        if (!await notificationRepository.ExistsByIdNotification(command.NotificationId))
+            throw new NotFoundIdException("Notification with id " + command.NotificationId  + " does not exist");
+        var notification = await notificationRepository.FindByIdAsync(command.NotificationId);
         if (notification is null)
             throw new NotFoundArgumentException("Notification not found");
         notificationRepository.Remove(notification);

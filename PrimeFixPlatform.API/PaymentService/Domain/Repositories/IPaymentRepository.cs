@@ -8,34 +8,34 @@ public interface IPaymentRepository : IBaseRepository<Payment>
     /// <summary>
     ///     Checks if a payment exists by its unique identifier
     /// </summary>
-    /// <param name="idPayment">
+    /// <param name="paymentId">
     ///     The unique identifier of the payment
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a payment with the specified ID exists. 
     /// </returns>
-    Task<bool> ExistsByIdPayment(string idPayment);
+    Task<bool> ExistsByIdPayment(int paymentId);
     
     /// <summary>
     ///     Checks if a payment exists by a user account associated.
     /// </summary>
-    /// <param name="idUserAccount">
+    /// <param name="userAccountId">
     ///     The unique identifier of the user account to check.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a payment with the specified user account exists.
     /// </returns>
-    Task<bool> ExistsByIdUserAccount(string idUserAccount);
+    Task<bool> ExistsByIdUserAccount(int userAccountId);
     
     /// <summary>
     ///     Checks if a payment exists by a user account associated, excluding a specific payment by its ID.
     /// </summary>
-    /// <param name="idUserAccount">
+    /// <param name="userAccountId">
     ///     The unique identifier of the user account to check.
     /// </param>
-    /// <param name="idPayment">
+    /// <param name="paymentId">
     ///     The unique identifier of the payment to exclude from the check.
     /// </param>
     /// <returns>
@@ -43,17 +43,17 @@ public interface IPaymentRepository : IBaseRepository<Payment>
     ///     a boolean indicating whether a payment with the specified user account associated exists,
     ///     excluding the payment with the specified ID.
     /// </returns>
-    Task<bool> ExistsByIdUserAccountAndIdPaymentIsNot(string idUserAccount, string idPayment);
+    Task<bool> ExistsByIdUserAccountAndIdPaymentIsNot(int userAccountId, int paymentId);
     
     /// <summary>
     ///     Finds ratings by the user account associated.
     /// </summary>
-    /// <param name="idUserAccount">
+    /// <param name="userAccountId">
     ///     The unique identifier of the user account to filter payments by.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     an enumerable of payments with the specified user account associated.
     /// </returns>
-    Task<IEnumerable<Payment>> FindByIdUserAccount(string idUserAccount);
+    Task<IEnumerable<Payment>> FindByIdUserAccount(int userAccountId);
 }

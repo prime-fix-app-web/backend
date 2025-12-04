@@ -6,9 +6,6 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 /// <summary>
 ///     Request to create a new location
 /// </summary>
-/// <param name="IdLocation">
-///     The unique identifier for the location to be created
-/// </param>
 /// <param name="Address">
 ///     The address of the location to be created
 /// </param>
@@ -19,9 +16,6 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 ///     The department where the location is situated
 /// </param>
 public record CreateLocationRequest(
-    [property: JsonPropertyName("id_location")]
-    [Required]
-    int IdLocation,
     
     [Required]
     [MaxLength(100)]

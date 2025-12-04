@@ -1,4 +1,4 @@
-namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
+namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Queries;
 
 /// <summary>
 /// Query to retrieve all services

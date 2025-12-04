@@ -25,9 +25,9 @@ public class UserRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a User with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdUser(string idUser)
+    public async Task<bool> ExistsByIdUser(int idUser)
     {
-        return await Context.Set<User>().AnyAsync(user => user.IdUser == idUser);
+        return await Context.Set<User>().AnyAsync(user => user.UserId == idUser);
     }
 
     /// <summary>
@@ -64,8 +64,8 @@ public class UserRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a User with the specified name and last name exists,
     /// </returns>
-    public async Task<bool> ExistsByNameAndLastNameAndIdUserIsNot(string name, string lastName, string idUser)
+    public async Task<bool> ExistsByNameAndLastNameAndIdUserIsNot(string name, string lastName, int idUser)
     {
-        return await Context.Set<User>().AnyAsync(user => user.Name == name && user.LastName == lastName && user.IdUser != idUser);
+        return await Context.Set<User>().AnyAsync(user => user.Name == name && user.LastName == lastName && user.UserId != idUser);
     }
 }

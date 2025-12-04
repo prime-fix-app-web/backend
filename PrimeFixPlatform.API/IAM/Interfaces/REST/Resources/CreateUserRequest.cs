@@ -21,14 +21,10 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 /// <param name="PhoneNumber">
 ///     The phone number of the user to be created
 /// </param>
-/// <param name="IdLocation">
+/// <param name="LocationId">
 ///     The location identifier associated with the user to be created
 /// </param>
 public record CreateUserRequest(
-    [property: JsonPropertyName("id_user")]
-    [Required]
-    [MinLength(1)]
-    string IdUser,
 
     [Required]
     [MinLength(1)]
@@ -52,4 +48,4 @@ public record CreateUserRequest(
 
     [property: JsonPropertyName("id_location")]
     [Required]
-    string IdLocation);
+    int LocationId);

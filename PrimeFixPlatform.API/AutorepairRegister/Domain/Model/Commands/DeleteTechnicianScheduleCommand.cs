@@ -6,4 +6,4 @@
 /// <param name="IdSchedule">
 ///     The unique identifier for the schedule to be deleted
 /// </param>
-public record DeleteTechnicianScheduleCommand(string IdSchedule);
+public record DeleteTechnicianScheduleCommand(int ScheduleId);

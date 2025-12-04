@@ -26,9 +26,9 @@ public class RoleRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a Role with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExitsByIdRole(string idRole)
+    public async Task<bool> ExitsByIdRole(int idRole)
     {
-        return await Context.Set<Role>().AnyAsync(role => role.IdRole == idRole);
+        return await Context.Set<Role>().AnyAsync(role => role.RoleId == idRole);
     }
 
     /// <summary>
@@ -61,10 +61,10 @@ public class RoleRepository(AppDbContext context)
     ///     a boolean indicating whether a Role with the specified RoleInformation exists,
     ///     excluding the Role with the specified ID.
     /// </returns>
-    public async Task<bool> ExistsByRoleInformationAndIdRoleIsNot(RoleInformation roleInformation, string idRole)
+    public async Task<bool> ExistsByRoleInformationAndIdRoleIsNot(RoleInformation roleInformation, int idRole)
     {
         return await Context.Set<Role>().AnyAsync(role => (role.RoleInformation.Name == roleInformation.Name 
                                                            || role.RoleInformation.Description == roleInformation.Description)
-                                                          && role.IdRole != idRole);
+                                                          && role.RoleId != idRole);
     }
 }

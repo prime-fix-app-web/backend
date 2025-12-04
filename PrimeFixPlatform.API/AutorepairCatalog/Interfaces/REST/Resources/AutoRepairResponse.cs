@@ -6,7 +6,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 /// <summary>
 ///     Response representing an auto repair.
 /// </summary>
-/// <param name="IdAutoRepair">
+/// <param name="AutoRepairId">
 ///     The unique identifier of the auto repair.
 /// </param>
 /// <param name="Ruc">
@@ -18,12 +18,15 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 /// <param name="TechniciansCount">
 ///     The number of technicians in the auto repair.
 /// </param>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The unique identifier of the user account associated with the auto repair.
 /// </param>
 public record AutoRepairResponse(
-    [property: JsonPropertyName("id_auto_repair")] int IdAutoRepair,
+    [property: JsonPropertyName("auto_repair_id")] int AutoRepairId,
     string Ruc,
     [property: JsonPropertyName("contact_email")] string ContactEmail,
     [property: JsonPropertyName("technicians_count")] int TechniciansCount,
-    [property: JsonPropertyName("id_user_account")] int IdUserAccount);
+    [property: JsonPropertyName("user_account_id")] int UserAccountId,
+    [property: JsonPropertyName("service_catalog")] IReadOnlyList<ServiceOfferResource> ServiceCatalog
+    
+    );

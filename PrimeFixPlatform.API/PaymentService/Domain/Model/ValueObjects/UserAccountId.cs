@@ -3,5 +3,5 @@
 /// <summary>
 ///     Represents the identifier of a User Account
 /// </summary>
-/// <param name="idUserAccount"></param>
-public record IdUserAccount(string idUserAccount);
+/// <param name="userAccountId"></param>
+public record UserAccountId(int userAccountId);

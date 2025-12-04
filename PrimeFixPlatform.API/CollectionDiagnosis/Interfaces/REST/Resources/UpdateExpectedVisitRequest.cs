@@ -5,8 +5,6 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Resources;
 
 public record UpdateExpectedVisitRequest(
     
-    [property:JsonPropertyName("id")]
-    int Id,
     
     [property:JsonPropertyName("StateOfVisit")]
     Status StateVisit,

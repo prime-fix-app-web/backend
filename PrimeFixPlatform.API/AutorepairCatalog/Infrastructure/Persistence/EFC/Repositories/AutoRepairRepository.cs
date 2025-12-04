@@ -27,7 +27,7 @@ public class AutoRepairRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByIdAutoRepair(int idAutoRepair)
     {
-        return await Context.Set<AutoRepair>().AnyAsync(autoRepair => autoRepair.IdAutoRepair == idAutoRepair);
+        return await Context.Set<AutoRepair>().AnyAsync(autoRepair => autoRepair.AutoRepairId == idAutoRepair);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class AutoRepairRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByRucAndIdAutoRepairIsNot(string ruc, int idAutoRepair)
     {
-        return await Context.Set<AutoRepair>().AnyAsync(autoRepair => autoRepair.Ruc == ruc && autoRepair.IdAutoRepair != idAutoRepair);
+        return await Context.Set<AutoRepair>().AnyAsync(autoRepair => autoRepair.Ruc == ruc && autoRepair.AutoRepairId != idAutoRepair);
     }
 
     /// <summary>
@@ -95,6 +95,6 @@ public class AutoRepairRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByContactEmailAndIdAutoRepairIsNot(string contactEmail, int idAutoRepair)
     {
-        return await Context.Set<AutoRepair>().AnyAsync(autoRepair => autoRepair.ContactEmail == contactEmail && autoRepair.IdAutoRepair != idAutoRepair);
+        return await Context.Set<AutoRepair>().AnyAsync(autoRepair => autoRepair.ContactEmail == contactEmail && autoRepair.AutoRepairId != idAutoRepair);
     }
 }

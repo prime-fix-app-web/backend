@@ -6,4 +6,4 @@
 /// <param name="IdSchedule">
 ///     The identifier of the technician schedule to retrieve.
 /// </param>
-public record GetTechnicianScheduleByIdQuery(string IdSchedule);
+public record GetTechnicianScheduleByIdQuery(int ScheduleId);

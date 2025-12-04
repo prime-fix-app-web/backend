@@ -18,7 +18,7 @@ public interface IUserRepository : IBaseRepository<User>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a user with the specified ID exists.
     /// </returns>
-    Task<bool> ExistsByIdUser(string idUser);
+    Task<bool> ExistsByIdUser(int idUser);
     
     /// <summary>
     ///     Checks if a user exists by their name and last name.
@@ -52,5 +52,5 @@ public interface IUserRepository : IBaseRepository<User>
     ///     a boolean indicating whether a user with the specified name and last name exists,
     ///     excluding the user with the specified ID.
     /// </returns>
-    Task<bool> ExistsByNameAndLastNameAndIdUserIsNot(string name, string lastName, string idUser);
+    Task<bool> ExistsByNameAndLastNameAndIdUserIsNot(string name, string lastName, int idUser);
 }

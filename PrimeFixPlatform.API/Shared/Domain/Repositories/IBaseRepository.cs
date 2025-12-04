@@ -33,7 +33,7 @@ public interface IBaseRepository<TEntity>
     /// </summary>
     /// <param name="id">The entity ID to find</param>
     /// <returns>Entity object if found</returns>
-    Task<TEntity?> FindByIdAsync(string id);
+    Task<TEntity?> FindByIdAsync(int id);
     
     /// <summary>
     ///     Gets all entities.

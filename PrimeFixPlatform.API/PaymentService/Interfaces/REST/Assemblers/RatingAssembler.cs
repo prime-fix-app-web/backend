@@ -21,8 +21,8 @@ public class RatingAssembler
     public static CreateRatingCommand ToCommandFromRequest(CreateRatingRequest request)
     {
         return new CreateRatingCommand(
-            request.IdRating, request.StarRating, request.Comment, request.IdAutoRepair,
-            request.IdUserAccount
+             request.StarRating, request.Comment, request.AutoRepairId,
+            request.UserIdAccountId
         );
     }
     
@@ -38,11 +38,11 @@ public class RatingAssembler
     /// <returns>
     ///     The corresponding UpdateRatingCommand.
     /// </returns>
-    public static UpdateRatingCommand ToCommandFromRequest(UpdateRatingRequest request, string idRating)
+    public static UpdateRatingCommand ToCommandFromRequest(UpdateRatingRequest request, int idRating)
     {
         return new UpdateRatingCommand(
-            idRating, request.StarRating, request.Comment, request.IdAutoRepair,
-            request.IdUserAccount
+            idRating, request.StarRating, request.Comment, request.AutoRepairId,
+            request.UserAccountId
         );
     }
 
@@ -58,7 +58,7 @@ public class RatingAssembler
     public static RatingResponse ToResponseFromEntity(Rating entity)
     {
         return new RatingResponse(
-            entity.IdRating, entity.StarRating, entity.Comment, entity.IdAutoRepair,
-            entity.IdUserAccount);
+            entity.RatingId, entity.StarRating, entity.Comment, entity.AutoRepairId,
+            entity.UserAccountId);
     }
 }

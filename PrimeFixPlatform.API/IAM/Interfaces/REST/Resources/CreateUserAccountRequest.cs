@@ -6,19 +6,16 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 /// <summary>
 ///     Request to create a user account
 /// </summary>
-/// <param name="IdUserAccount">
-///     The unique identifier for the user account to be created
-/// </param>
 /// <param name="Username">
 ///     The username of the user account to be created
 /// </param>
 /// <param name="Email">
 ///     The email of the user account to be created
 /// </param>
-/// <param name="IdRole">
+/// <param name="RoleId">
 ///     The role identifier associated with the user account to be created
 /// </param>
-/// <param name="IdUser">
+/// <param name="UserId">
 ///     The user identifier associated with the user account to be created
 /// </param>
 /// <param name="Password">
@@ -28,10 +25,6 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 ///     Flag indicating if the user account is new
 /// </param>
 public record CreateUserAccountRequest(
-    [property: JsonPropertyName("id_user_account")]
-    [Required]
-    [MinLength(1)]
-    string IdUserAccount,
     
     [Required]
     [MinLength(1)]
@@ -45,13 +38,11 @@ public record CreateUserAccountRequest(
     
     [property: JsonPropertyName("id_role")]
     [Required]
-    [MinLength(1)]
-    string IdRole,
+    int RoleId,
     
     [property: JsonPropertyName("id_user")]
     [Required]
-    [MinLength(1)]
-    string IdUser,
+    int UserId,
     
     [Required]
     [MinLength(6)]

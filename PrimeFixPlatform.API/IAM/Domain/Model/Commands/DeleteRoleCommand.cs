@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to delete a role by its identifier.
 /// </summary>
-/// <param name="IdRole">
+/// <param name="RoleId">
 ///     The identifier of the role to be deleted.
 /// </param>
-public record DeleteRoleCommand(string IdRole);
+public record DeleteRoleCommand(int RoleId);

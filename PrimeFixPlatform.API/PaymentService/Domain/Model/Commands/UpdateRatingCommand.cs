@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to update a new Rating
 /// </summary>
-/// <param name="IdRating">
+/// <param name="RatingId">
 ///     The unique identifier of the rating to be updated
 /// </param>
 /// <param name="StarRating">
@@ -12,11 +12,11 @@
 /// <param name="Comment">
 ///     The comment of the rating to be updated
 /// </param>
-/// <param name="IdAutoRepair">
+/// <param name="AutoRepairId">
 ///     The unique identifier of the auto repair performing the update
 /// </param>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The unique identifier of the user account performing the update
 /// </param>
-public record UpdateRatingCommand(string IdRating, int StarRating, string Comment, 
-    string IdAutoRepair, string IdUserAccount);
+public record UpdateRatingCommand(int RatingId, int StarRating, string Comment, 
+    int AutoRepairId, int UserAccountId);

@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to delete an existing Auto Repair entity.
 /// </summary>
-/// <param name="IdAutoRepair">
+/// <param name="AutoRepairId">
 ///     The unique identifier for the Auto Repair to be deleted.
 /// </param>
-public record DeleteAutoRepairCommand(int IdAutoRepair);
+public record DeleteAutoRepairCommand(int AutoRepairId);

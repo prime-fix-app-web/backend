@@ -17,7 +17,7 @@ public interface IUserAccountRepository : IBaseRepository<UserAccount>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains true if the user account exists; otherwise, false.
     /// </returns>
-    Task<bool> ExistsByIdUserAccount(string idUserAccount);
+    Task<bool> ExistsByIdUserAccount(int idUserAccount);
     
     /// <summary>
     ///     Checks if a user account exists by its username.
@@ -53,7 +53,7 @@ public interface IUserAccountRepository : IBaseRepository<UserAccount>
     /// <returns>
     ///    A task that represents the asynchronous operation. The task result contains true if the user account exists; otherwise, false.
     /// </returns>
-    Task<bool> ExistsByUsernameAndIdUserAccountIsNot(string username, string idUserAccount);
+    Task<bool> ExistsByUsernameAndIdUserAccountIsNot(string username, int idUserAccount);
     
     /// <summary>
     ///     Checks if a user account exists by its email excluding a specific user account ID.
@@ -67,7 +67,7 @@ public interface IUserAccountRepository : IBaseRepository<UserAccount>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains true if the user account exists; otherwise, false.
     /// </returns>
-    Task<bool> ExistsByEmailAndIdUserAccountIsNot(string email, string idUserAccount);
+    Task<bool> ExistsByEmailAndIdUserAccountIsNot(string email, int idUserAccount);
     
     /// <summary>
     ///     Finds a user account by its username.

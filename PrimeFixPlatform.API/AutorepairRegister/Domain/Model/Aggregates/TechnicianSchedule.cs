@@ -33,10 +33,9 @@ public partial class TechnicianSchedule
     /// <param name="isActive">
     ///     Flag indicating if the schedule is active
     /// </param>
-    public TechnicianSchedule(string idSchedule, string idTechnician, string dayOfWeek, TimeOnly startTime, TimeOnly endTime, bool isActive)
+    public TechnicianSchedule( int technicianId, string dayOfWeek, TimeOnly startTime, TimeOnly endTime, bool isActive)
     {
-        IdSchedule = idSchedule;
-        IdTechnician = idTechnician;
+        TechnicianId = technicianId;
         DayOfWeek = dayOfWeek;
         StartTime = startTime;
         EndTime = endTime;
@@ -50,8 +49,7 @@ public partial class TechnicianSchedule
     ///     The command containing the data to create a TechnicianSchedule
     /// </param>
     public TechnicianSchedule(CreateTechnicianScheduleCommand command) : this(
-        command.IdSchedule,
-        command.IdTechnician,
+        command.TechnicianId,
         command.DayOfWeek,
         command.StartTime,
         command.EndTime,
@@ -67,15 +65,16 @@ public partial class TechnicianSchedule
     /// </param>
     public void UpdateTechnicianSchedule(UpdateTechnicianScheduleCommand command)
     {
-        IdTechnician = command.IdTechnician;
+        TechnicianId = command.TechnicianId;
         DayOfWeek = command.DayOfWeek;
         StartTime = command.StartTime;
         EndTime = command.EndTime;
         IsActive = command.IsActive;
     }
     
-    public string IdSchedule { get; private set; }
-    public string IdTechnician { get; private set; }
+    public int ScheduleId { get; private set; }
+    
+    public int TechnicianId { get; private set; }
     public string DayOfWeek { get; private set; }
     public TimeOnly StartTime { get; private set; }
     public TimeOnly EndTime { get; private set; }

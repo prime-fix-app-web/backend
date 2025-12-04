@@ -22,7 +22,7 @@ public class VehicleAssembler
     public static CreateVehicleCommand ToCommandFromRequest(CreateVehicleRequest request)
     {
         return new CreateVehicleCommand(
-            request.IdVehicle, request.Color, request.Model, request.IdUser,
+             request.Color, request.Model, request.UserId,
             new VehicleInformation(request.VehicleBrand, request.VehiclePlate, request.VehicleType), request.MaintenanceStatus
             );
     }
@@ -39,10 +39,10 @@ public class VehicleAssembler
     /// <returns>
     ///     The corresponding UpdateVehicleCommand.
     /// </returns>
-    public static UpdateVehicleCommand ToCommandFromRequest(UpdateVehicleRequest request, string idVehicle)
+    public static UpdateVehicleCommand ToCommandFromRequest(UpdateVehicleRequest request, int idVehicle)
     {
         return new UpdateVehicleCommand(
-            idVehicle, request.Color, request.Model, request.IdUser,
+            idVehicle, request.Color, request.Model, request.UserId,
             new VehicleInformation(request.VehicleBrand, request.VehiclePlate, request.VehicleType), request.MaintenanceStatus
             );
     }
@@ -59,7 +59,7 @@ public class VehicleAssembler
     public static VehicleResponse ToResponseFromEntity(Vehicle entity)
     {
         return new VehicleResponse(
-            entity.IdVehicle, entity.Color, entity.Model, entity.IdUser,
+            entity.VehicleId, entity.Color, entity.Model, entity.UserId,
             entity.VehicleInformation.VehicleBrand, entity.VehicleInformation.VehiclePlate,
             entity.VehicleInformation.VehicleType, entity.MaintenanceStatus
             );

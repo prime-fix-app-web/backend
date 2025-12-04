@@ -3,5 +3,5 @@
 /// <summary>
 ///     Represents the identifier of the Auto Repair
 /// </summary>
-/// <param name="idAutoRepair"></param>
-public record IdAutoRepair (string idAutoRepair);
+/// <param name="autoRepairId"></param>
+public record AutoRepairId (int autoRepairId);

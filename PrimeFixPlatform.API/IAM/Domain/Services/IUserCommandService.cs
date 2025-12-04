@@ -17,7 +17,7 @@ public interface IUserCommandService
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains the created User entity, or null if creation failed.
     /// </returns>
-    Task<string> Handle(CreateUserCommand command);
+    Task<int> Handle(CreateUserCommand command);
     
     /// <summary>
     ///     Handles the update of an existing user.

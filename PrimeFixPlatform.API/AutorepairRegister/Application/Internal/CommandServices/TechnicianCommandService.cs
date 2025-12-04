@@ -32,17 +32,12 @@ public class TechnicianCommandService(ITechnicianRepository technicianRepository
     /// <exception cref="ConflictException">
     ///     Indicates that a technician with the same id already exists
     /// </exception>
-    public async Task<string> Handle(CreateTechnicianCommand command)
+    public async Task<int> Handle(CreateTechnicianCommand command)
     {
-        var idTechnician = command.IdTechnician;
-        
-        if (await technicianRepository.ExistsByIdTechnician(idTechnician))
-            throw new ConflictException("Technician with the same id " + idTechnician  + " already exists");
-        
         var technician = new Technician(command);
         await technicianRepository.AddAsync(technician);
         await unitOfWork.CompleteAsync();
-        return technician.IdTechnician;
+        return technician.TechnicianId;
     }
 
     /// <summary>
@@ -63,7 +58,7 @@ public class TechnicianCommandService(ITechnicianRepository technicianRepository
     /// </exception>
     public async Task<Technician?> Handle(UpdateTechnicianCommand command)
     {
-        var idTechnician = command.IdTechnician;
+        var idTechnician = command.TechnicianId;
         
         if (!await technicianRepository.ExistsByIdTechnician(idTechnician))
             throw new NotFoundIdException("Technician with id " + idTechnician  + " does not exist");
@@ -95,9 +90,9 @@ public class TechnicianCommandService(ITechnicianRepository technicianRepository
     /// </exception>
     public async Task<bool> Handle(DeleteTechnicianCommand command)
     {
-        if (!await technicianRepository.ExistsByIdTechnician(command.IdTechnician))
-            throw new NotFoundIdException("Technician with id " + command.IdTechnician  + " does not exist");
-        var technician = await technicianRepository.FindByIdAsync(command.IdTechnician);
+        if (!await technicianRepository.ExistsByIdTechnician(command.TechnicianId))
+            throw new NotFoundIdException("Technician with id " + command.TechnicianId  + " does not exist");
+        var technician = await technicianRepository.FindByIdAsync(command.TechnicianId);
         if (technician == null)
             throw new NotFoundArgumentException("Technician not found");
         technicianRepository.Remove(technician);

@@ -18,16 +18,16 @@ public class NotificationRepository(AppDbContext context)
     /// <summary>
     ///     Checks if a notification exists by its unique identifier.
     /// </summary>
-    /// <param name="idNotification">
+    /// <param name="notificationId">
     ///     The unique identifier of the notification.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a notification with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdNotification(string idNotification)
+    public async Task<bool> ExistsByIdNotification(int notificationId)
     {
         return await Context.Set<Notification>()
-            .AnyAsync(notification => notification.IdNotification == idNotification);
+            .AnyAsync(notification => notification.NotificationId == notificationId);
     }
 }

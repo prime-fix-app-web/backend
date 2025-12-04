@@ -45,7 +45,7 @@ public class NotificationQueryService(INotificationRepository notificationReposi
     /// </exception>
     public async Task<Notification?> Handle(GetNotificationByIdQuery query)
     {
-        return await notificationRepository.FindByIdAsync(query.IdNotification)
-            ?? throw new NotFoundIdException("Notification with the id " + query.IdNotification + " was not found.");
+        return await notificationRepository.FindByIdAsync(query.NotificationId)
+            ?? throw new NotFoundIdException("Notification with the id " + query.NotificationId + " was not found.");
     }
 }

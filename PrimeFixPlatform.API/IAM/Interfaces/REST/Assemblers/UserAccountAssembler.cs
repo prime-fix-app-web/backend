@@ -21,8 +21,8 @@ public class UserAccountAssembler
     public static CreateUserAccountCommand ToCommandFromRequest(CreateUserAccountRequest request)
     {
         return new CreateUserAccountCommand(
-            request.IdUserAccount,request.Username, request.Email, request.IdRole,
-            request.IdUser, request.Password, request.IsNew
+            request.Username, request.Email, request.RoleId,
+            request.UserId, request.Password, request.IsNew
         );
     }
     
@@ -32,17 +32,17 @@ public class UserAccountAssembler
     /// <param name="request">
     ///     The UpdateUserAccountRequest containing updated user account details.
     /// </param>
-    /// <param name="idUserAccount">
+    /// <param name="userAccountId">
     ///     The identifier of the user account to be updated.
     /// </param>
     /// <returns>
     ///     The corresponding UpdateUserAccountCommand.
     /// </returns>
-    public static UpdateUserAccountCommand ToCommandFromRequest(UpdateUserAccountRequest request, string idUserAccount)
+    public static UpdateUserAccountCommand ToCommandFromRequest(UpdateUserAccountRequest request, int userAccountId)
     {
         return new UpdateUserAccountCommand(
-            idUserAccount, request.Username, request.Email, request.IdRole,
-            request.IdUser, request.Password, request.IsNew
+            userAccountId, request.Username, request.Email, request.RoleId,
+            request.UserId, request.Password, request.IsNew
         );
     }
     
@@ -58,8 +58,8 @@ public class UserAccountAssembler
     public static UserAccountResponse ToResponseFromEntity(UserAccount entity)
     {
         return new UserAccountResponse(
-            entity.IdUserAccount, entity.Username, entity.Email, entity.IdRole,
-            entity.IdUser, entity.Password, entity.IsNew
+            entity.UserAccountId, entity.Username, entity.Email, entity.RoleId,
+            entity.UserId, entity.Password, entity.IsNew
         );
     }
 }

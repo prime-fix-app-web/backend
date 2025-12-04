@@ -20,9 +20,8 @@ public class AutoRepairAssembler
     /// </returns>
     public static CreateAutoRepairCommand ToCommandFromRequest(CreateAutoRepairRequest request)
     {
-        return new CreateAutoRepairCommand(
-            request.IdAutoRepair, request.Ruc, request.ContactEmail,
-            request.TechniciansCount, request.IdUserAccount
+        return new CreateAutoRepairCommand(request.Ruc, request.ContactEmail,
+            request.TechniciansCount, request.UserAccountId
         );
     }
     
@@ -32,16 +31,16 @@ public class AutoRepairAssembler
     /// <param name="request">
     ///     The UpdateAutoRepairRequest containing updated auto repair details.
     /// </param>
-    /// <param name="idAutoRepair">
+    /// <param name="autoRepairId">
     ///     The identifier of the auto repair to be updated.
     /// </param>
     /// <returns>
     ///     The corresponding UpdateAutoRepairCommand.
     /// </returns>
-    public static UpdateAutoRepairCommand ToCommandFromRequest(UpdateAutoRepairRequest request, int idAutoRepair)
+    public static UpdateAutoRepairCommand ToCommandFromRequest(UpdateAutoRepairRequest request, int autoRepairId )
     {
         return new UpdateAutoRepairCommand(
-            idAutoRepair, request.Ruc, request.ContactEmail,
+            autoRepairId, request.Ruc, request.ContactEmail,
             request.TechniciansCount, request.IdUserAccount
         );
     }
@@ -57,9 +56,11 @@ public class AutoRepairAssembler
     /// </returns>
     public static AutoRepairResponse ToResponseFromEntity(AutoRepair entity)
     {
+        List<ServiceOfferResource> serviceOffer = entity.ServiceCatalog.ServiceOffers.Select(ServiceOfferAssembler.ToResponseFromEntity).ToList();
         return new AutoRepairResponse(
-            entity.IdAutoRepair, entity.Ruc, entity.ContactEmail,
-            entity.TechniciansCount, entity.IdUserAccount
+            entity.AutoRepairId, entity.Ruc, entity.ContactEmail,
+            entity.TechniciansCount, entity.UserAccountId,
+            serviceOffer
         );
     }
 }

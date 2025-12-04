@@ -24,10 +24,10 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 ///     The location identifier of the user
 /// </param>
 public record UserResponse(
-    [property: JsonPropertyName("id_user")] string IdUser,
+    [property: JsonPropertyName("id_user")] int IdUser,
     string Name,
     [property: JsonPropertyName("last_name")] string LastName,
     string Dni,
     [property: JsonPropertyName("phone_number")] string PhoneNumber,
-    [property: JsonPropertyName("id_location")] string IdLocation
+    [property: JsonPropertyName("id_location")] int IdLocation
 );

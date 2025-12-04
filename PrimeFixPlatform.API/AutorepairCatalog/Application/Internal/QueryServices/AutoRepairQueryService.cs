@@ -45,7 +45,7 @@ public class AutoRepairQueryService(IAutoRepairRepository autoRepairRepository)
     /// </exception>
     public async Task<AutoRepair?> Handle(GetAutoRepairByIdQuery query)
     {
-        return await autoRepairRepository.FindByIdAsync(query.IdAutoRepair)
-            ?? throw new NotFoundIdException("AutoRepair with the id " + query.IdAutoRepair + " was not found.");
+        return await autoRepairRepository.FindByIdAsync(query.AutoRepairId)
+            ?? throw new NotFoundIdException("AutoRepair with the id " + query.AutoRepairId + " was not found.");
     }
 }

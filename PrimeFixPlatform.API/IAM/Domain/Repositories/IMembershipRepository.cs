@@ -19,7 +19,7 @@ public interface IMembershipRepository : IBaseRepository<Membership>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a membership with the specified ID exists.
     /// </returns>
-    Task<bool> ExistsByIdMembership(string idMembership);
+    Task<bool> ExistsByIdMembership(int idMembership);
     
     /// <summary>
     ///     Checks if a membership exists by its membership description.
@@ -47,5 +47,5 @@ public interface IMembershipRepository : IBaseRepository<Membership>
     ///     a boolean indicating whether a membership with the specified membership description exists,
     ///     excluding the membership with the specified ID.
     /// </returns>
-    Task<bool> ExistsByMembershipDescriptionAndIdMembershipIsNot(MembershipDescription membershipDescription, string idMembership);
+    Task<bool> ExistsByMembershipDescriptionAndIdMembershipIsNot(MembershipDescription membershipDescription, int idMembership);
 }

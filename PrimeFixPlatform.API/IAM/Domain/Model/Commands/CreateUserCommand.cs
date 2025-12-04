@@ -3,9 +3,6 @@
 /// <summary>
 ///     Command to create a new user
 /// </summary>
-/// <param name="IdUser">
-///     The ID of the user to be created
-/// </param>
 /// <param name="Name">
 ///     The name of the user to be created
 /// </param>
@@ -18,7 +15,7 @@
 /// <param name="PhoneNumber">
 ///     The phone number of the user to be created
 /// </param>
-/// <param name="IdLocation">
+/// <param name="LocationId">
 ///     The location ID of the user to be created
 /// </param>
-public record CreateUserCommand(string IdUser, string Name, string LastName, string Dni, string PhoneNumber, string IdLocation);
+public record CreateUserCommand(string Name, string LastName, string Dni, string PhoneNumber, int LocationId);

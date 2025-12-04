@@ -25,8 +25,8 @@ public class TechnicianScheduleRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a TechnicianSchedule entity with the specified schedule identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdSchedule(string idSchedule)
+    public async Task<bool> ExistsByIdSchedule(int idSchedule)
     {
-        return await Context.Set<TechnicianSchedule>().AnyAsync(technicianSchedule => technicianSchedule.IdSchedule == idSchedule);
+        return await Context.Set<TechnicianSchedule>().AnyAsync(technicianSchedule => technicianSchedule.ScheduleId == idSchedule);
     }
 }

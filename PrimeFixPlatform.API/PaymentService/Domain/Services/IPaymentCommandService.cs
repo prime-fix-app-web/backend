@@ -8,7 +8,7 @@ namespace PrimeFixPlatform.API.PaymentService.Domain.Services;
 /// </summary>
 public interface IPaymentCommandService
 {
-    Task<string> Handle(CreatePaymentCommand command);
+    Task<int> Handle(CreatePaymentCommand command);
     
     Task<Payment?> Handle(UpdatePaymentCommand command);
     

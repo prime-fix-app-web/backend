@@ -3,7 +3,7 @@
 /// <summary>
 ///     Query to get ratings by their auto repair associated.
 /// </summary>
-/// <param name="IdAutoRepair">
+/// <param name="AutoRepairId">
 ///     The user account to filter ratings by.
 /// </param>
-public record GetRatingByIdAutoRepairQuery(string  IdAutoRepair);
+public record GetRatingByIdAutoRepairQuery(int  AutoRepairId);

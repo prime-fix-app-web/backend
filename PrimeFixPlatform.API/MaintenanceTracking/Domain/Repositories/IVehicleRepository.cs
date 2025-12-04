@@ -11,14 +11,14 @@ public interface IVehicleRepository : IBaseRepository<Vehicle>
     /// <summary>
     ///     Checks if a vehicle exists by its unique identifier.
     /// </summary>
-    /// <param name="idVehicle">
+    /// <param name="vehicleId">
     ///     The unique identifier of the vehicle.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a vehicle with the specified ID exists.
     /// </returns>
-    Task<bool> ExistsByIdVehicle(string idVehicle);
+    Task<bool> ExistsByIdVehicle(int vehicleId);
     
     /// <summary>
     ///     Checks if a vehicle exists by its vehicle plate.
@@ -38,7 +38,7 @@ public interface IVehicleRepository : IBaseRepository<Vehicle>
     /// <param name="vehiclePlate">
     ///     The vehicle plate to check.
     /// </param>
-    /// <param name="idVehicle">
+    /// <param name="vehicleId">
     ///     The unique identifier of the vehicle to exclude from the check.
     /// </param>
     /// <returns>
@@ -46,7 +46,7 @@ public interface IVehicleRepository : IBaseRepository<Vehicle>
     ///     a boolean indicating whether a vehicle with the specified vehicle plate exists,
     ///     excluding the vehicle with the specified ID.
     /// </returns>
-    Task<bool> ExistsByVehiclePlateAndIdVehicleIsNot(string vehiclePlate, string idVehicle);
+    Task<bool> ExistsByVehiclePlateAndIdVehicleIsNot(string vehiclePlate, int vehicleId);
     
     /// <summary>
     ///     Finds vehicles by their maintenance status.

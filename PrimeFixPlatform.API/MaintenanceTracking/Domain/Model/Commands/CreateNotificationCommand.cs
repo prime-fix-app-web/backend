@@ -3,23 +3,20 @@
 /// <summary>
 ///     Command to create a new Notification
 /// </summary>
-/// <param name="IdNotification">
-///     The unique identifier for the notification to be created
-/// </param>
 /// <param name="Message">
 ///     The message content of the notification to be created
 /// </param>
 /// <param name="Read">
 ///     The read status of the notification to be created
 /// </param>
-/// <param name="IdVehicle">
+/// <param name="VehicleId">
 ///     The unique identifier of the vehicle associated with the notification to be created
 /// </param>
 /// <param name="Sent">
 ///     The date the notification was sent
 /// </param>
-/// <param name="IdDiagnostic">
+/// <param name="DiagnosticId">
 ///     The unique identifier of the diagnostic associated with the notification to be created
 /// </param>
-public record CreateNotificationCommand(string IdNotification, string Message, bool Read, 
-    string IdVehicle, DateOnly Sent, string IdDiagnostic);
+public record CreateNotificationCommand( string Message, bool Read, 
+    int VehicleId, DateOnly Sent, int DiagnosticId);

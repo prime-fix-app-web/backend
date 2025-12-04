@@ -51,7 +51,7 @@ public class DiagnosticQueryService(IDiagnosticRepository diagnosticRepository):
 
     public async Task<Diagnostic?> Handle(GetDiagnosticByIdQuery query)
     {
-        return await diagnosticRepository.FindByIdAsync(query.DiagnosticId);
+        return await diagnosticRepository.FindById(query.DiagnosticId);
     }
 
     public async Task<Diagnostic?> Handle(GetDiagnosticsByExpectedVisitQuery query)

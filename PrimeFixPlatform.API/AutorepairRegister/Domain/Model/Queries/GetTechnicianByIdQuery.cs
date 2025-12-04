@@ -3,7 +3,7 @@
 /// <summary>
 ///     Query to get a Technician by its unique identifier
 /// </summary>
-/// <param name="IdTechnician">
+/// <param name="TechnicianId">
 ///     The unique identifier of the technician to be retrieved
 /// </param>
-public record GetTechnicianByIdQuery(string IdTechnician);
+public record GetTechnicianByIdQuery(int TechnicianId);

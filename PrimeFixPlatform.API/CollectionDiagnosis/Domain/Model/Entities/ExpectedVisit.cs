@@ -54,6 +54,7 @@ public partial class ExpectedVisit
     public int VisitId { get; private set; }
     public bool IsScheduled { get; set; }
     
+
     
     public void ChangeStatus(Status status)
     {

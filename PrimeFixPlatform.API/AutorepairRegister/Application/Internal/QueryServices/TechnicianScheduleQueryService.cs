@@ -45,7 +45,7 @@ public class TechnicianScheduleQueryService(ITechnicianScheduleRepository techni
     /// </exception>
     public async Task<TechnicianSchedule?> Handle(GetTechnicianScheduleByIdQuery query)
     {
-        return await technicianScheduleRepository.FindByIdAsync(query.IdSchedule)
-            ?? throw new NotFoundIdException("TechnicianSchedule with the id " + query.IdSchedule + " was not found.");
+        return await technicianScheduleRepository.FindByIdAsync(query.ScheduleId)
+            ?? throw new NotFoundIdException("TechnicianSchedule with the id " + query.ScheduleId + " was not found.");
     }
 }

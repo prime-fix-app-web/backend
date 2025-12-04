@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using EntityFrameworkCore.CreatedUpdatedDate.Contracts;
 
-namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
+namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
 
 /// <summary>
 ///     Audit properties for Service aggregate

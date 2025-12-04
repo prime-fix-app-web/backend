@@ -23,9 +23,9 @@ public class PaymentRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a payment with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdPayment(string idPayment)
+    public async Task<bool> ExistsByIdPayment(int idPayment)
     {
-        return await Context.Set<Payment>().AnyAsync(payment => payment.IdPayment == idPayment);
+        return await Context.Set<Payment>().AnyAsync(payment => payment.PaymentId == idPayment);
     }
     
     /// <summary>
@@ -38,9 +38,9 @@ public class PaymentRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a payment with the specified user account ID exists.
     /// </returns>
-    public async Task<bool> ExistsByIdUserAccount(string idUserAccount)
+    public async Task<bool> ExistsByIdUserAccount(int idUserAccount)
     {
-        return await Context.Set<Payment>().AnyAsync(payment => payment.IdUserAccount == idUserAccount);
+        return await Context.Set<Payment>().AnyAsync(payment => payment.UserAccountId == idUserAccount);
     }
 
     /// <summary>
@@ -57,10 +57,10 @@ public class PaymentRepository(AppDbContext context)
     ///     a boolean indicating whether a payment with the specified user account ID exists,
     ///     excluding the payment with the specified ID.
     /// </returns>
-    public async Task<bool> ExistsByIdUserAccountAndIdPaymentIsNot(string idUserAccount, string idPayment)
+    public async Task<bool> ExistsByIdUserAccountAndIdPaymentIsNot(int idUserAccount, int idPayment)
     {
         return await Context.Set<Payment>().AnyAsync(payment =>
-            payment.IdUserAccount == idUserAccount && payment.IdPayment != idPayment);
+            payment.UserAccountId == idUserAccount && payment.PaymentId != idPayment);
     }
 
     /// <summary>
@@ -73,10 +73,10 @@ public class PaymentRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     an enumerable of payments with the specified user account ID.
     /// </returns>
-    public async Task<IEnumerable<Payment>> FindByIdUserAccount(string idUserAccount)
+    public async Task<IEnumerable<Payment>> FindByIdUserAccount(int idUserAccount)
     {
         return await Context.Set<Payment>()
-            .Where(payment => payment.IdUserAccount == idUserAccount)
+            .Where(payment => payment.UserAccountId == idUserAccount)
             .ToListAsync();
     }
 }

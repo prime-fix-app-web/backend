@@ -25,8 +25,8 @@ public class TechnicianRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a Technician entity with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdTechnician(string idTechnician)
+    public async Task<bool> ExistsByIdTechnician(int technicianId)
     {
-        return await Context.Set<Technician>().AnyAsync(technician => technician.IdTechnician == idTechnician);
+        return await Context.Set<Technician>().AnyAsync(technician => technician.TechnicianId == technicianId);
     }
 }

@@ -15,9 +15,6 @@ public partial class Membership
     /// <summary>
     ///     Constructor for the Membership aggregate root entity.
     /// </summary>
-    /// <param name="idMembership">
-    ///     The unique identifier for the membership.
-    /// </param>
     /// <param name="membershipDescription">
     ///     The description associated with the membership.
     /// </param>
@@ -27,10 +24,9 @@ public partial class Membership
     /// <param name="over">
     ///     The end date of the membership.
     /// </param>
-    public Membership(string idMembership, MembershipDescription membershipDescription,
+    public Membership( MembershipDescription membershipDescription,
         DateOnly started, DateOnly over)
     {
-        IdMembership = idMembership;
         MembershipDescription = membershipDescription;
         Started = started;
         Over = over;
@@ -43,7 +39,6 @@ public partial class Membership
     ///     Command object containing data to create a Membership
     /// </param>
     public Membership(CreateMembershipCommand command): this(
-        command.IdMembership,
         command.MembershipDescription,
         command.Started,
         command.Over)
@@ -58,12 +53,13 @@ public partial class Membership
     /// </param>
     public void UpdateMembership(UpdateMembershipCommand command)
     {
+        MembershipId = command.MembershipId;
         MembershipDescription = command.MembershipDescription;
         Started = command.Started;
         Over = command.Over;
     }
     
-    public string IdMembership { get; private set;  }
+    public int MembershipId { get; private set;  }
     public MembershipDescription MembershipDescription { get; private set; }
     
     public DateOnly Started { get; private set; }

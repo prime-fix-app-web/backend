@@ -22,7 +22,7 @@ public class MembershipAssembler
     public static CreateMembershipCommand ToCommandFromRequest(CreateMembershipRequest request)
     {
         return new CreateMembershipCommand(
-            request.IdMembership, new MembershipDescription(request.Description), 
+            new MembershipDescription(request.Description), 
             request.Started, request.Over
         );
     }
@@ -33,16 +33,16 @@ public class MembershipAssembler
     /// <param name="request">
     ///     The UpdateMembershipRequest containing updated membership details.
     /// </param>
-    /// <param name="idMembership">
+    /// <param name="membershipId">
     ///     The identifier of the membership to be updated.
     /// </param>
     /// <returns>
     ///     The corresponding UpdateMembershipCommand.
     /// </returns>
-    public static UpdateMembershipCommand ToCommandFromRequest(UpdateMembershipRequest request, string idMembership)
+    public static UpdateMembershipCommand ToCommandFromRequest(UpdateMembershipRequest request, int membershipId)
     {
         return new UpdateMembershipCommand(
-            idMembership, new MembershipDescription(request.Description), 
+            membershipId, new MembershipDescription(request.Description), 
             request.Started, request.Over
         );
     }
@@ -59,7 +59,7 @@ public class MembershipAssembler
     public static MembershipResponse ToResponseFromEntity(Membership entity)
     {
         return new MembershipResponse(
-            entity.IdMembership, entity.MembershipDescription.Description, 
+            entity.MembershipId, entity.MembershipDescription.Description, 
             entity.Started, entity.Over
         );
     }

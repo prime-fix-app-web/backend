@@ -15,15 +15,11 @@ public partial class Role
     /// <summary>
     ///     The constructor for the Role aggregate root entity.
     /// </summary>
-    /// <param name="idRole">
-    ///     The unique identifier for the role.
-    /// </param>
     /// <param name="roleInformation">
     ///     The information associated with the role.
     /// </param>
-    public Role(string idRole, RoleInformation roleInformation)
+    public Role( RoleInformation roleInformation)
     {
-        IdRole = idRole;
         RoleInformation = roleInformation;
     }
     
@@ -34,7 +30,6 @@ public partial class Role
     ///     Command object containing data to create a Role
     /// </param>
     public Role(CreateRoleCommand command) : this(
-        command.IdRole,
        command.RoleInformation)
     {
     }
@@ -50,6 +45,6 @@ public partial class Role
         RoleInformation = command.RoleInformation;
     }
     
-    public string IdRole { get; private set; }
+    public int RoleId { get; private set; }
     public RoleInformation RoleInformation { get; private set; }
 }

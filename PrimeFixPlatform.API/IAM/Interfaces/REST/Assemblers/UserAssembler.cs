@@ -21,8 +21,8 @@ public class UserAssembler
     public static CreateUserCommand ToCommandFromRequest(CreateUserRequest request)
     {
         return new CreateUserCommand(
-            request.IdUser, request.Name, request.LastName,
-            request.Dni, request.PhoneNumber, request.IdLocation
+             request.Name, request.LastName,
+            request.Dni, request.PhoneNumber, request.LocationId
         );
     }
     
@@ -32,17 +32,17 @@ public class UserAssembler
     /// <param name="request">
     ///     The UpdateUserRequest containing updated user details.
     /// </param>
-    /// <param name="idUser">
+    /// <param name="userId">
     ///     The identifier of the user to be updated.
     /// </param>
     /// <returns>
     ///     The corresponding UpdateUserCommand.
     /// </returns>
-    public static UpdateUserCommand ToCommandFromRequest(UpdateUserRequest request, string idUser)
+    public static UpdateUserCommand ToCommandFromRequest(UpdateUserRequest request, int userId)
     {
         return new UpdateUserCommand(
-            idUser, request.Name, request.LastName,
-            request.Dni, request.PhoneNumber, request.IdLocation
+            userId, request.Name, request.LastName,
+            request.Dni, request.PhoneNumber, request.LocationId
         );
     }
 
@@ -58,8 +58,8 @@ public class UserAssembler
     public static UserResponse ToResponseFromEntity(User entity)
     {
         return new UserResponse(
-            entity.IdUser, entity.Name, entity.LastName,
-            entity.Dni, entity.PhoneNumber, entity.IdLocation
+            entity.UserId, entity.Name, entity.LastName,
+            entity.Dni, entity.PhoneNumber, entity.LocationId
         );
     }
 }

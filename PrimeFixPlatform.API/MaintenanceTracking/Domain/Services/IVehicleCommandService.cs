@@ -18,7 +18,7 @@ public interface IVehicleCommandService
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the created Vehicle entity, or null if creation failed.
     /// </returns>
-    Task<string> Handle(CreateVehicleCommand command);
+    Task<int> Handle(CreateVehicleCommand command);
     
     /// <summary>
     ///     Handles the update of an existing vehicle.

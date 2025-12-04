@@ -5,10 +5,10 @@ namespace PrimeFixPlatform.API.Iam.Domain.Model.Commands;
 /// <summary>
 ///     Command to update an existing role
 /// </summary>
-/// <param name="IdRole">
+/// <param name="RoleId">
 ///     The ID of the role to be updated
 /// </param>
 /// <param name="RoleInformation">
 ///     The new information of the role to be updated
 /// </param>
-public record UpdateRoleCommand(string IdRole, RoleInformation RoleInformation);
+public record UpdateRoleCommand(int RoleId, RoleInformation RoleInformation);

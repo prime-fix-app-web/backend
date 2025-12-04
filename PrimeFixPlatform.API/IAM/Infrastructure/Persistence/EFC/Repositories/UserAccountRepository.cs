@@ -9,9 +9,9 @@ namespace PrimeFixPlatform.API.Iam.Infrastructure.Persistence.EFC.Repositories;
 public class UserAccountRepository(AppDbContext context)
 : BaseRepository<UserAccount>(context), IUserAccountRepository
 {
-    public async Task<bool> ExistsByIdUserAccount(string idUserAccount)
+    public async Task<bool> ExistsByIdUserAccount(int idUserAccount)
     {
-        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.IdUserAccount == idUserAccount);
+        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.UserAccountId == idUserAccount);
     }
 
     public async Task<bool> ExistsByUsername(string username)
@@ -24,14 +24,14 @@ public class UserAccountRepository(AppDbContext context)
         return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.Email == email);
     }
 
-    public async Task<bool> ExistsByUsernameAndIdUserAccountIsNot(string username, string idUserAccount)
+    public async Task<bool> ExistsByUsernameAndIdUserAccountIsNot(string username, int idUserAccount)
     {
-        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.Username == username && userAccount.IdUserAccount != idUserAccount);
+        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.Username == username && userAccount.UserAccountId != idUserAccount);
     }
 
-    public async Task<bool> ExistsByEmailAndIdUserAccountIsNot(string email, string idUserAccount)
+    public async Task<bool> ExistsByEmailAndIdUserAccountIsNot(string email, int idUserAccount)
     {
-        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.Email == email && userAccount.IdUserAccount != idUserAccount);
+        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.Email == email && userAccount.UserAccountId != idUserAccount);
     }
 
     public async Task<UserAccount?> FindByUsername(string username)

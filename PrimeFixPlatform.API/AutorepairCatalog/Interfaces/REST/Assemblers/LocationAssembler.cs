@@ -20,9 +20,7 @@ public class LocationAssembler
     /// </returns>
     public static CreateLocationCommand ToCommandFromRequest(CreateLocationRequest request)
     {
-        return new CreateLocationCommand(
-            request.IdLocation, request.Address, request.District, request.Department
-        );
+        return new CreateLocationCommand(request.Address, request.District, request.Department);
     }
     
     /// <summary>
@@ -31,16 +29,16 @@ public class LocationAssembler
     /// <param name="request">
     ///     The UpdateLocationRequest containing updated location details.
     /// </param>
-    /// <param name="idLocation">
+    /// <param name="locationId">
     ///     The identifier of the location to be updated.
     /// </param>
     /// <returns>
     ///     The corresponding UpdateLocationCommand.
     /// </returns>
-    public static UpdateLocationCommand ToCommandFromRequest(UpdateLocationRequest request, int idLocation)
+    public static UpdateLocationCommand ToCommandFromRequest(UpdateLocationRequest request, int locationId)
     {
         return new UpdateLocationCommand(
-            idLocation, request.Address, request.District, request.Department
+            locationId, request.Address, request.District, request.Department
         );
     }
     
@@ -56,7 +54,7 @@ public class LocationAssembler
     public static LocationResponse ToResponseFromEntity(Location entity)
     {
         return new LocationResponse(
-            entity.IdLocation, entity.Address, entity.District, entity.Department
+            entity.LocationId, entity.Address, entity.District, entity.Department
         );
     }
 }

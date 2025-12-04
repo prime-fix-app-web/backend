@@ -56,4 +56,16 @@ public interface IAutoRepairCommandService
     ///     The task result indicates whether the service was successfully added.
     /// </returns>
     Task<bool> Handle(AddServiceToAutoRepairServiceCatalogCommand command);
+    
+    /// <summary>
+    ///     Handles deleting a service to the AutoRepair service catalog
+    /// </summary>
+    /// <param name="command">
+    ///     The command conatining the service id and the autorepair id
+    /// </param>
+    /// <returns>
+    ///     A task representing the asynchronous operation.
+    ///     The task result indicates whether the service was successfully deleted.
+    /// </returns>
+    Task<bool> Handle(DeleteServiceToAutoRepairServiceCommand command);
 }

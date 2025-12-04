@@ -15,9 +15,6 @@ public partial class Location
     /// <summary>
     ///     Constructor with all parameters
     /// </summary>
-    /// <param name="idLocation">
-    ///     The unique identifier of the location
-    /// </param>
     /// <param name="address">
     ///     The address of the location
     /// </param>
@@ -27,9 +24,8 @@ public partial class Location
     /// <param name="department">
     ///     The department of the location
     /// </param>
-    public Location(int idLocation, string address, string district, string department)
+    public Location( string address, string district, string department)
     {
-        IdLocation = idLocation;
         Address = address;
         District = district;
         Department = department;
@@ -42,7 +38,6 @@ public partial class Location
     ///     The command containing the data to create the location
     /// </param>
     public Location(CreateLocationCommand command): this(
-        command.IdLocation,
         command.Address,
         command.District,
         command.Department)
@@ -62,7 +57,7 @@ public partial class Location
         Department = command.Department;
     }
     
-    public int IdLocation { get; private set; }
+    public int LocationId { get; private set; }
     public string Address { get; private set; }
     public string District { get; private set; }
     public string Department { get; private set; }

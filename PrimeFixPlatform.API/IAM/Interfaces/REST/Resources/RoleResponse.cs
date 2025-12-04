@@ -15,6 +15,6 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 ///     The description of the role
 /// </param>
 public record RoleResponse(
-    [property: JsonPropertyName("id_role")] string IdRole,
+    [property: JsonPropertyName("id_role")] int IdRole,
     string Name,
     string Description);

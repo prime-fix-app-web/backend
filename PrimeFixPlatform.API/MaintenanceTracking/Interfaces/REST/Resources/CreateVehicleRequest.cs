@@ -6,16 +6,13 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 /// <summary>
 ///     Request to create a vehicle
 /// </summary>
-/// <param name="IdVehicle">
-///     The unique identifier of the vehicle to be created
-/// </param>
 /// <param name="Color">
 ///     The color of the vehicle to be created
 /// </param>
 /// <param name="Model">
 ///     The model of the vehicle to be created
 /// </param>
-/// <param name="IdUser">
+/// <param name="UserId">
 ///     The identifier of the user associated with the vehicle to be created
 /// </param>
 /// <param name="VehiclePlate">
@@ -31,10 +28,6 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 ///     The maintenance status of the vehicle to be created
 /// </param>
 public record CreateVehicleRequest(
-    [property: JsonPropertyName("id_vehicle")]
-    [Required]
-    [MinLength(1)]
-    string IdVehicle,
     
     [Required]
     [MinLength(1)]
@@ -46,10 +39,10 @@ public record CreateVehicleRequest(
     [MaxLength(100)]
     string Model,
     
-    [property: JsonPropertyName("id_user")]
+    [property: JsonPropertyName("user_id")]
     [Required]
     [MinLength(1)]
-    string IdUser,
+    int UserId,
     
     [property: JsonPropertyName("vehicle_brand")]
     [Required]

@@ -57,8 +57,6 @@ public class TechnicianScheduleController(ITechnicianScheduleQueryService techni
         var createTechnicianScheduleCommand = TechnicianScheduleAssembler.ToCommandFromRequest(request);
         var technicianScheduleId = await technicianScheduleCommandService.Handle(createTechnicianScheduleCommand);
         
-        if (string.IsNullOrWhiteSpace(technicianScheduleId)) return BadRequest();
-        
         var getTechnicianScheduleByIdQuery = new GetTechnicianScheduleByIdQuery(technicianScheduleId);
         var technicianSchedule = await technicianScheduleQueryService.Handle(getTechnicianScheduleByIdQuery);
         
@@ -100,13 +98,13 @@ public class TechnicianScheduleController(ITechnicianScheduleQueryService techni
     /// <summary>
     ///     Get a technician schedule by its ID
     /// </summary>
-    /// <param name="id_schedule">
+    /// <param name="scheduleId">
     ///     The unique ID of the technician schedule
     /// </param>
     /// <returns>
     ///     The technician schedule with the specified ID
     /// </returns>
-    [HttpGet("{id_schedule}")]
+    [HttpGet("{scheduleId}")]
     [SwaggerOperation(
         Summary = "Retrieve a technician schedule by its ID",
         Description = "Retrieves a technician schedule using its unique ID"
@@ -120,9 +118,9 @@ public class TechnicianScheduleController(ITechnicianScheduleQueryService techni
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetTechnicianScheduleById([FromRoute] string id_schedule)
+    public async Task<IActionResult> GetTechnicianScheduleById([FromRoute] int scheduleId)
     {
-        var getTechnicianScheduleByIdQuery = new GetTechnicianScheduleByIdQuery(id_schedule);
+        var getTechnicianScheduleByIdQuery = new GetTechnicianScheduleByIdQuery(scheduleId);
         var technicianSchedule = await technicianScheduleQueryService.Handle(getTechnicianScheduleByIdQuery);
         
         if (technicianSchedule is null) return BadRequest();
@@ -134,7 +132,7 @@ public class TechnicianScheduleController(ITechnicianScheduleQueryService techni
     /// <summary>
     ///     Update an existing technician schedule
     /// </summary>
-    /// <param name="id_schedule">
+    /// <param name="scheduleId">
     ///     The unique ID of the technician schedule to update
     /// </param>
     /// <param name="request">
@@ -143,7 +141,7 @@ public class TechnicianScheduleController(ITechnicianScheduleQueryService techni
     /// <returns>
     ///     The updated technician schedule
     /// </returns>
-    [HttpPut("{id_schedule}")]
+    [HttpPut("{scheduleId}")]
     [SwaggerOperation(
         Summary = "Update an existing technician schedule",
         Description = "Update an existing technician schedule with the provided data"
@@ -163,9 +161,9 @@ public class TechnicianScheduleController(ITechnicianScheduleQueryService techni
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateTechnicianSchedule([FromRoute] string id_schedule, [FromBody] UpdateTechnicianScheduleRequest request)
+    public async Task<IActionResult> UpdateTechnicianSchedule([FromRoute] int scheduleId, [FromBody] UpdateTechnicianScheduleRequest request)
     {
-        var updateTechnicianScheduleCommand = TechnicianScheduleAssembler.ToCommandFromRequest(request, id_schedule);
+        var updateTechnicianScheduleCommand = TechnicianScheduleAssembler.ToCommandFromRequest(request, scheduleId);
         var updatedTechnicianSchedule = await technicianScheduleCommandService.Handle(updateTechnicianScheduleCommand);
         if (updatedTechnicianSchedule is null) return BadRequest();
         
@@ -176,13 +174,13 @@ public class TechnicianScheduleController(ITechnicianScheduleQueryService techni
     /// <summary>
     ///     Delete a technician schedule by its ID
     /// </summary>
-    /// <param name="id_schedule">
+    /// <param name="scheduleId">
     ///     The unique ID of the technician schedule to delete
     /// </param>
     /// <returns>
     ///     The result of the delete operation
     /// </returns>
-    [HttpDelete("{id_schedule}")]
+    [HttpDelete("{scheduleId}")]
     [SwaggerOperation(
         Summary = "Delete a technician schedule by its ID",
         Description = "Deletes a technician schedule using its unique ID"
@@ -198,9 +196,9 @@ public class TechnicianScheduleController(ITechnicianScheduleQueryService techni
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteTechnicianSchedule([FromRoute] string id_schedule)
+    public async Task<IActionResult> DeleteTechnicianSchedule([FromRoute] int scheduleId)
     {
-        var deleteTechnicianScheduleCommand = new DeleteTechnicianScheduleCommand(id_schedule);
+        var deleteTechnicianScheduleCommand = new DeleteTechnicianScheduleCommand(scheduleId);
         var result = await technicianScheduleCommandService.Handle(deleteTechnicianScheduleCommand);
         
         if (!result) return NotFound();
