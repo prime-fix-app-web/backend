@@ -45,7 +45,7 @@ public class MembershipQueryService(IMembershipRepository membershipRepository)
     /// </exception>
     public async Task<Membership?> Handle(GetMembershipByIdQuery query)
     {
-        return await membershipRepository.FindByIdAsync(query.IdMembership)
-            ?? throw new NotFoundIdException("Membership with the id " + query.IdMembership + " was not found.");
+        return await membershipRepository.FindByIdAsync(query.MembershipId)
+            ?? throw new NotFoundIdException("Membership with the id " + query.MembershipId + " was not found.");
     }
 }

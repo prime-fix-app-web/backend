@@ -18,7 +18,7 @@ public interface IRoleCommandService
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the created Role entity, or null if creation failed.
     /// </returns>
-    Task<string> Handle(CreateRoleCommand command);
+    Task<int> Handle(CreateRoleCommand command);
     
     /// <summary>
     ///     Handles the update of an existing role.

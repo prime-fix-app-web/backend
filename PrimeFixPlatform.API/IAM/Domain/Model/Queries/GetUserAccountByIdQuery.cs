@@ -3,7 +3,7 @@
 /// <summary>
 ///     Query to retrieve a user account by its unique identifier.
 /// </summary>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The unique identifier of the user account to be retrieved.
 /// </param>
-public record GetUserAccountByIdQuery(string IdUserAccount);
+public record GetUserAccountByIdQuery(int UserAccountId);

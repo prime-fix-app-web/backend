@@ -28,20 +28,13 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     /// <returns>
     ///    A task that represents the asynchronous operation. The task result contains the created user.
     /// </returns>
-    /// <exception cref="NotFoundIdException">
-    ///     Indicates that a user with the same IdUser already exists
-    /// </exception>
     /// <exception cref="ConflictException">
     ///     Indicates that a user with the same IdUser or Name and LastName already exists
     /// </exception>
-    public async Task<string> Handle(CreateUserCommand command)
+    public async Task<int> Handle(CreateUserCommand command)
     {
-        var idUser = command.IdUser;
         var name = command.Name;
         var lastName = command.LastName;
-        
-        if (await userRepository.ExistsByIdUser(idUser))
-            throw new ConflictException("User with the same id " + idUser  + " already exists");
         
         if (await userRepository.ExistsByNameAndLastName(name, lastName))
             throw new ConflictException("User with the same name " + name + " and last name " + lastName + " already exists");
@@ -49,7 +42,7 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
         var user = new User(command);
         await userRepository.AddAsync(user);
         await unitOfWork.CompleteAsync();
-        return user.IdUser;
+        return user.Id;
     }
 
     /// <summary>
@@ -72,17 +65,17 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     /// </exception>
     public async Task<User?> Handle(UpdateUserCommand command)
     {
-        var idUser = command.IdUser;
+        var userId = command.UserId;
         var name = command.Name;
         var lastName = command.LastName;
         
-        if (!await userRepository.ExistsByIdUser(idUser))
-            throw new NotFoundIdException("User with id" + idUser + " does not exist");
+        if (!await userRepository.ExistsByUserId(userId))
+            throw new NotFoundIdException("User with id" + userId + " does not exist");
         
-        if (await userRepository.ExistsByNameAndLastNameAndIdUserIsNot(name, lastName, idUser))
+        if (await userRepository.ExistsByNameAndLastNameAndUserIdIsNot(name, lastName, userId))
             throw new ConflictException("Another user with the same name " + name + " and last name " + lastName + " already exists");
 
-        var userToUpdate = await userRepository.FindByIdAsync(idUser);
+        var userToUpdate = await userRepository.FindByIdAsync(userId);
         if (userToUpdate == null)
             throw new NotFoundArgumentException("User not found");
         userToUpdate.UpdateUser(command);
@@ -109,9 +102,9 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     /// </exception>
     public async Task<bool> Handle(DeleteUserCommand command)
     {
-        if (!await userRepository.ExistsByIdUser(command.IdUser))
-            throw new NotFoundIdException("User with id " + command.IdUser  + " does not exist");
-        var user = await userRepository.FindByIdAsync(command.IdUser);
+        if (!await userRepository.ExistsByUserId(command.UserId))
+            throw new NotFoundIdException("User with id " + command.UserId  + " does not exist");
+        var user = await userRepository.FindByIdAsync(command.UserId);
         if (user == null)
             throw new NotFoundArgumentException("User not found");
         userRepository.Remove(user);

@@ -1,13 +1,8 @@
-﻿using System.Text.Json.Serialization;
-
-namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
+﻿namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 
 /// <summary>
 ///     Response for membership information
 /// </summary>
-/// <param name="IdMembership">
-///     The unique identifier of the membership
-/// </param>
 /// <param name="Description">
 ///     The description of the membership
 /// </param>
@@ -18,7 +13,7 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 ///     The end date of the membership
 /// </param>
 public record MembershipResponse(
-    [property: JsonPropertyName("id_membership")] string IdMembership,
+    int Id,
     string Description,
     DateOnly Started,
     DateOnly Over);

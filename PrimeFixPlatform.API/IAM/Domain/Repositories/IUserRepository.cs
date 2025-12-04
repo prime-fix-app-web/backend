@@ -11,14 +11,14 @@ public interface IUserRepository : IBaseRepository<User>
     /// <summary>
     ///     Checks if a user exists by their unique identifier.
     /// </summary>
-    /// <param name="idUser">
+    /// <param name="userId">
     ///     The unique identifier of the user.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a user with the specified ID exists.
     /// </returns>
-    Task<bool> ExistsByIdUser(string idUser);
+    Task<bool> ExistsByUserId(int userId);
     
     /// <summary>
     ///     Checks if a user exists by their name and last name.
@@ -44,7 +44,7 @@ public interface IUserRepository : IBaseRepository<User>
     /// <param name="lastName">
     ///     The last name of the user.
     /// </param>
-    /// <param name="idUser">
+    /// <param name="userId">
     ///     The unique identifier of the user to exclude from the check.
     /// </param>
     /// <returns>
@@ -52,5 +52,5 @@ public interface IUserRepository : IBaseRepository<User>
     ///     a boolean indicating whether a user with the specified name and last name exists,
     ///     excluding the user with the specified ID.
     /// </returns>
-    Task<bool> ExistsByNameAndLastNameAndIdUserIsNot(string name, string lastName, string idUser);
+    Task<bool> ExistsByNameAndLastNameAndUserIdIsNot(string name, string lastName, int userId);
 }

@@ -28,19 +28,12 @@ public class RoleCommandService(IRoleRepository roleRepository, IUnitOfWork unit
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains the created role.
     /// </returns>
-    /// <exception cref="NotFoundIdException">
-    ///     Indicates that a role with the same IdRole already exists
-    /// </exception>
     /// <exception cref="ConflictException">
     ///     Indicates that a role with the same RoleInformation already exists
     /// </exception>
-    public async Task<string> Handle(CreateRoleCommand command)
+    public async Task<int> Handle(CreateRoleCommand command)
     {
-        var idRole = command.IdRole;
         var roleInformation = command.RoleInformation;
-        
-        if (await roleRepository.ExitsByIdRole(idRole))
-            throw new NotFoundIdException("Role with the same id " + idRole  + " already exists");
         
         if (await roleRepository.ExistsByRoleInformation(roleInformation))
             throw new ConflictException("Role with the same name or description already exists");
@@ -48,7 +41,7 @@ public class RoleCommandService(IRoleRepository roleRepository, IUnitOfWork unit
         var role = new Role(command);
         await roleRepository.AddAsync(role);
         await unitOfWork.CompleteAsync();
-        return role.IdRole;
+        return role.Id;
     }
 
     /// <summary>
@@ -71,16 +64,16 @@ public class RoleCommandService(IRoleRepository roleRepository, IUnitOfWork unit
     /// </exception>
     public async Task<Role?> Handle(UpdateRoleCommand command)
     {
-        var idRole = command.IdRole;
+        var roleId = command.RoleId;
         var roleInformation = command.RoleInformation;
         
-        if (!await roleRepository.ExitsByIdRole(idRole))
-            throw new NotFoundIdException("Role with id " + idRole  + " does not exist");
+        if (!await roleRepository.ExitsByIdRole(roleId))
+            throw new NotFoundIdException("Role with id " + roleId  + " does not exist");
         
-        if (await roleRepository.ExistsByRoleInformationAndIdRoleIsNot(roleInformation, idRole))
+        if (await roleRepository.ExistsByRoleInformationAndRoleIdIsNot(roleInformation, roleId))
             throw new ConflictException("Another role with the same name or description already exists");
 
-        var roleToUpdate = await roleRepository.FindByIdAsync(idRole);
+        var roleToUpdate = await roleRepository.FindByIdAsync(roleId);
         if (roleToUpdate is null)
             throw new NotFoundArgumentException("Role not found");
         roleToUpdate.UpdateRole(command);
@@ -107,9 +100,9 @@ public class RoleCommandService(IRoleRepository roleRepository, IUnitOfWork unit
     /// </exception>
     public async Task<bool> Handle(DeleteRoleCommand command)
     {
-        if (!await roleRepository.ExitsByIdRole(command.IdRole))
-            throw new NotFoundIdException("Role with id " + command.IdRole  + " does not exist");
-        var role = await roleRepository.FindByIdAsync(command.IdRole);
+        if (!await roleRepository.ExitsByIdRole(command.RoleId))
+            throw new NotFoundIdException("Role with id " + command.RoleId  + " does not exist");
+        var role = await roleRepository.FindByIdAsync(command.RoleId);
         if (role is null)
             throw new NotFoundArgumentException("Role not found");
         roleRepository.Remove(role);

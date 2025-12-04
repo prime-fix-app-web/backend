@@ -18,7 +18,7 @@ public interface IMembershipCommandService
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the created Membership entity, or null if creation failed.
     /// </returns>
-    Task<string> Handle(CreateMembershipCommand command);
+    Task<int> Handle(CreateMembershipCommand command);
 
     /// <summary>
     ///     Handles the update of an existing membership.

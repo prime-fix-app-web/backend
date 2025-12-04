@@ -8,15 +8,8 @@ namespace PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 public partial class User
 {
     /// <summary>
-    ///   Private constructor for ORM and serialization purposes
-    /// </summary>
-    private User() { }
-    /// <summary>
     ///     The constructor for the User aggregate root entity.
     /// </summary>
-    /// <param name="idUser">
-    ///     The unique identifier for the user.
-    /// </param>
     /// <param name="name">
     ///     The first name of the user.
     /// </param>
@@ -29,17 +22,16 @@ public partial class User
     /// <param name="phoneNumber">
     ///     The phone number of the user.
     /// </param>
-    /// <param name="idLocation">
+    /// <param name="locationId">
     ///     The identifier for the user's location.
     /// </param>
-    public User(string idUser, string name, string lastName, string dni, string phoneNumber, string idLocation)
+    public User(string name, string lastName, string dni, string phoneNumber, int locationId)
     {
-        IdUser = idUser;
         Name = name;
         LastName = lastName;
         Dni = dni;
         PhoneNumber = phoneNumber;
-        IdLocation = idLocation;
+        LocationId = locationId;
     }
 
     /// <summary>
@@ -49,12 +41,11 @@ public partial class User
     ///     Command object containing data to create a User
     /// </param>
     public User(CreateUserCommand command) : this(
-        command.IdUser,
         command.Name,
         command.LastName,
         command.Dni,
         command.PhoneNumber,
-        command.IdLocation)
+        command.LocationId)
     {
     }
 
@@ -70,13 +61,13 @@ public partial class User
         LastName = command.LastName;
         Dni = command.Dni;
         PhoneNumber = command.PhoneNumber;
-        IdLocation = command.IdLocation;
+        LocationId = command.LocationId;
     }
     
-    public string IdUser { get; private set; }
+    public int Id { get; }
     public string Name { get; private set; }
     public string LastName { get; private set; }
     public string Dni { get; private set; }
     public string PhoneNumber { get; private set; }
-    public string IdLocation { get; private set; }
+    public int LocationId { get; private set; }
 }

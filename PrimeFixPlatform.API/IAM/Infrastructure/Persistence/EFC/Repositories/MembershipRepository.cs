@@ -17,16 +17,16 @@ public class MembershipRepository(AppDbContext context)
     /// <summary>
     ///     Checks if a Membership exists by its unique identifier.
     /// </summary>
-    /// <param name="idMembership">
+    /// <param name="membershipId">
     ///     The unique identifier of the Membership.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a Membership with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdMembership(string idMembership)
+    public async Task<bool> ExistsByMembershipId(int membershipId)
     {
-        return await Context.Set<Membership>().AnyAsync(membership => membership.IdMembership == idMembership);
+        return await Context.Set<Membership>().AnyAsync(membership => membership.Id == membershipId);
     }
 
     /// <summary>
@@ -51,17 +51,17 @@ public class MembershipRepository(AppDbContext context)
     /// <param name="membershipDescription">
     ///     The description of the Membership.
     /// </param>
-    /// <param name="idMembership"></param>
+    /// <param name="membershipId"></param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a Membership with the specified MembershipDescription exists,
     ///     excluding the Membership with the specified ID.
     /// </returns>
-    public async Task<bool> ExistsByMembershipDescriptionAndIdMembershipIsNot(MembershipDescription membershipDescription,
-        string idMembership)
+    public async Task<bool> ExistsByMembershipDescriptionAndMembershipIdIsNot(MembershipDescription membershipDescription,
+        int membershipId)
     {
         return await Context.Set<Membership>().AnyAsync(membership => 
             membership.MembershipDescription.Description == membershipDescription.Description &&
-            membership.IdMembership != idMembership);
+            membership.Id != membershipId);
     }
 }

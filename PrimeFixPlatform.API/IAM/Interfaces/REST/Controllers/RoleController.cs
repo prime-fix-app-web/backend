@@ -56,8 +56,6 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
         var createRoleCommand = RoleAssembler.ToCommandFromRequest(request);
         var roleId = await roleCommandService.Handle(createRoleCommand);
 
-        if (string.IsNullOrWhiteSpace(roleId)) return BadRequest();
-
         var getRoleByIdQuery = new GetRoleByIdQuery(roleId);
         var role = await roleQueryService.Handle(getRoleByIdQuery);
         
@@ -100,13 +98,13 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
     /// <summary>
     ///     Get a role by its ID
     /// </summary>
-    /// <param name="id_role">
+    /// <param name="role_id">
     ///     The unique ID of the role to retrieve
     /// </param>
     /// <returns>
     ///     The role response
     /// </returns>
-    [HttpGet("{id_role}")]
+    [HttpGet("{role_id}")]
     [SwaggerOperation(
         Summary = "Retrieve a role by its ID",
         Description = "Retrieves a role using its unique ID"
@@ -120,9 +118,9 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetRoleById(string id_role)
+    public async Task<IActionResult> GetRoleById(int role_id)
     {
-        var getRoleByIdQuery = new GetRoleByIdQuery(id_role);
+        var getRoleByIdQuery = new GetRoleByIdQuery(role_id);
         var role = await roleQueryService.Handle(getRoleByIdQuery);
         
         if (role is null) return NotFound();
@@ -135,7 +133,7 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
     /// <summary>
     ///     Update an existing role
     /// </summary>
-    /// <param name="id_role">
+    /// <param name="role_id">
     ///     The unique ID of the role to update
     /// </param>
     /// <param name="request">
@@ -144,7 +142,7 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
     /// <returns>
     ///     The updated role response
     /// </returns>
-    [HttpPut("{id_role}")]
+    [HttpPut("{role_id}")]
     [SwaggerOperation(
         Summary = "Update an existing role",
         Description = "Update an existing role with the provided data"
@@ -164,9 +162,9 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateRole(string id_role, [FromBody] UpdateRoleRequest request)
+    public async Task<IActionResult> UpdateRole(int role_id, [FromBody] UpdateRoleRequest request)
     {
-        var updateRoleCommand = RoleAssembler.ToCommandFromRequest(request, id_role);
+        var updateRoleCommand = RoleAssembler.ToCommandFromRequest(request, role_id);
         var role = await roleCommandService.Handle(updateRoleCommand);
         if (role is null) return BadRequest();
         
@@ -177,13 +175,13 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
     /// <summary>
     ///     Delete a role by its ID
     /// </summary>
-    /// <param name="id_role">
+    /// <param name="role_id">
     ///     The unique ID of the role to delete
     /// </param>
     /// <returns>
     ///     True if the role was deleted successfully, otherwise false
     /// </returns>
-    [HttpDelete("{id_role}")]
+    [HttpDelete("{role_id}")]
     [SwaggerOperation(
         Summary = "Delete a role by its ID",
         Description = "Deletes a role using its unique ID"
@@ -199,9 +197,9 @@ public class RoleController(IRoleQueryService roleQueryService, IRoleCommandServ
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteRole(string id_role)
+    public async Task<IActionResult> DeleteRole(int role_id)
     {
-        var deleteRoleCommand = new DeleteRoleCommand(id_role);
+        var deleteRoleCommand = new DeleteRoleCommand(role_id);
         var result = await roleCommandService.Handle(deleteRoleCommand);
         
         if (!result) return BadRequest();

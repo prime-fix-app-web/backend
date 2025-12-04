@@ -12,10 +12,10 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 /// <param name="Email">
 ///     The email of the user account to be updated
 /// </param>
-/// <param name="IdRole">
+/// <param name="RoleId">
 ///     The role identifier associated with the user account to be updated
 /// </param>
-/// <param name="IdUser">
+/// <param name="UserId">
 ///     The unique identifier of the user account to be updated
 /// </param>
 /// <param name="Password">
@@ -35,15 +35,15 @@ public record UpdateUserAccountRequest(
     [MaxLength(200)]
     string Email,
     
-    [property: JsonPropertyName("id_role")]
+    [property: JsonPropertyName("role_id")]
     [Required]
     [MinLength(1)]
-    string IdRole,
+    int RoleId,
     
-    [property: JsonPropertyName("id_user")]
+    [property: JsonPropertyName("user_id")]
     [Required]
     [MinLength(1)]
-    string IdUser,
+    int UserId,
     
     [Required]
     [MinLength(6)]

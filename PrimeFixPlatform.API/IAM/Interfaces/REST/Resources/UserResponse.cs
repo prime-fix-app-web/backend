@@ -5,7 +5,7 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 /// <summary>
 ///     Represents the user response
 /// </summary>
-/// <param name="IdUser">
+/// <param name="Id">
 ///     The user identifier
 /// </param>
 /// <param name="Name">
@@ -20,14 +20,14 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 /// <param name="PhoneNumber">
 ///     The phone number of the user
 /// </param>
-/// <param name="IdLocation">
+/// <param name="LocationId">
 ///     The location identifier of the user
 /// </param>
 public record UserResponse(
-    [property: JsonPropertyName("id_user")] string IdUser,
+    int Id,
     string Name,
     [property: JsonPropertyName("last_name")] string LastName,
     string Dni,
     [property: JsonPropertyName("phone_number")] string PhoneNumber,
-    [property: JsonPropertyName("id_location")] string IdLocation
+    [property: JsonPropertyName("location_id")] int LocationId
 );

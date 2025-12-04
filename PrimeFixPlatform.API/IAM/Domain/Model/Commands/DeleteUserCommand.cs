@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to delete a user
 /// </summary>
-/// <param name="IdUser">
+/// <param name="UserId">
 ///     The ID of the user to be deleted
 /// </param>
-public record DeleteUserCommand(string IdUser);
+public record DeleteUserCommand(int UserId);

@@ -11,13 +11,13 @@ public interface IUserAccountRepository : IBaseRepository<UserAccount>
     /// <summary>
     ///    Checks if a user account exists by its identifier.
     /// </summary>
-    /// <param name="idUserAccount">
+    /// <param name="userAccountId">
     ///     The identifier of the user account.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains true if the user account exists; otherwise, false.
     /// </returns>
-    Task<bool> ExistsByIdUserAccount(string idUserAccount);
+    Task<bool> ExistsByUserAccountId(int userAccountId);
     
     /// <summary>
     ///     Checks if a user account exists by its username.
@@ -47,13 +47,13 @@ public interface IUserAccountRepository : IBaseRepository<UserAccount>
     /// <param name="username">
     ///     The username of the user account.
     /// </param>
-    /// <param name="idUserAccount">
+    /// <param name="userAccountId">
     ///     The identifier of the user account to exclude.
     /// </param>
     /// <returns>
     ///    A task that represents the asynchronous operation. The task result contains true if the user account exists; otherwise, false.
     /// </returns>
-    Task<bool> ExistsByUsernameAndIdUserAccountIsNot(string username, string idUserAccount);
+    Task<bool> ExistsByUsernameAndUserAccountIdIsNot(string username, int userAccountId);
     
     /// <summary>
     ///     Checks if a user account exists by its email excluding a specific user account ID.
@@ -61,13 +61,13 @@ public interface IUserAccountRepository : IBaseRepository<UserAccount>
     /// <param name="email">
     ///     The email of the user account.
     /// </param>
-    /// <param name="idUserAccount">
+    /// <param name="userAccountId">
     ///     The identifier of the user account to exclude.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains true if the user account exists; otherwise, false.
     /// </returns>
-    Task<bool> ExistsByEmailAndIdUserAccountIsNot(string email, string idUserAccount);
+    Task<bool> ExistsByEmailAndUserAccountIdIsNot(string email, int userAccountId);
     
     /// <summary>
     ///     Finds a user account by its username.

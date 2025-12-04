@@ -1,14 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 
 /// <summary>
 ///     Request to create a membership
 /// </summary>
-/// <param name="IdMembership">
-///     The identifier of the membership to be created
-/// </param>
 /// <param name="Description">
 ///     The description of the membership to be created
 /// </param>
@@ -19,11 +15,6 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 ///     The end date of the membership to be created
 /// </param>
 public record CreateMembershipRequest(
-    [property: JsonPropertyName("id_membership")]
-    [Required]
-    [MinLength(1)]
-    string IdMembership,
-    
     [Required]
     [MinLength(1)]
     [MaxLength(250)]

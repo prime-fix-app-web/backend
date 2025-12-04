@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to delete a membership
 /// </summary>
-/// <param name="IdMembership">
+/// <param name="MembershipId">
 ///     The unique identifier for the membership to be deleted.
 /// </param>
-public record DeleteMembershipCommand(string IdMembership);
+public record DeleteMembershipCommand(int MembershipId);

@@ -56,9 +56,7 @@ public class UserAccountController(IUserAccountQueryService userAccountQueryServ
     {
         var createUserAccountCommand = UserAccountAssembler.ToCommandFromRequest(request);
         var userAccountId = await userAccountCommandService.Handle(createUserAccountCommand);
-
-        if (string.IsNullOrWhiteSpace(userAccountId)) return BadRequest();
-
+        
         var getUserAccountByIdQuery = new GetUserAccountByIdQuery(userAccountId);
         var userAccount = await userAccountQueryService.Handle(getUserAccountByIdQuery);
         
@@ -101,13 +99,13 @@ public class UserAccountController(IUserAccountQueryService userAccountQueryServ
     /// <summary>
     ///     Gets a user account by its ID
     /// </summary>
-    /// <param name="id_user_account">
+    /// <param name="user_account_id">
     ///     The unique ID of the user account to retrieve
     /// </param>
     /// <returns>
     ///     A user account matching the provided ID
     /// </returns>
-    [HttpGet("{id_user_account}")]
+    [HttpGet("{user_account_id}")]
     [SwaggerOperation(
         Summary = "Retrieve a user account by its ID",
         Description = "Retrieves a user account using its unique ID"
@@ -121,9 +119,9 @@ public class UserAccountController(IUserAccountQueryService userAccountQueryServ
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetUserAccountById(string id_user_account)
+    public async Task<IActionResult> GetUserAccountById(int user_account_id)
     {
-        var getUserAccountByIdQuery = new GetUserAccountByIdQuery(id_user_account);
+        var getUserAccountByIdQuery = new GetUserAccountByIdQuery(user_account_id);
         var userAccount = await userAccountQueryService.Handle(getUserAccountByIdQuery);
         
         if (userAccount is null) return NotFound();
@@ -136,7 +134,7 @@ public class UserAccountController(IUserAccountQueryService userAccountQueryServ
     /// <summary>
     ///     Updates an existing user account
     /// </summary>
-    /// <param name="id_user_account">
+    /// <param name="user_account_id">
     ///     The unique ID of the user account to update
     /// </param>
     /// <param name="request">
@@ -145,7 +143,7 @@ public class UserAccountController(IUserAccountQueryService userAccountQueryServ
     /// <returns>
     ///     A response indicating the result of the user account update
     /// </returns>
-    [HttpPut("{id_user_account}")]
+    [HttpPut("{user_account_id}")]
     [SwaggerOperation(
         Summary = "Update an existing user account",
         Description = "Update an existing user account with the provided data"
@@ -165,10 +163,10 @@ public class UserAccountController(IUserAccountQueryService userAccountQueryServ
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateUserAccount(string id_user_account,
+    public async Task<IActionResult> UpdateUserAccount(int user_account_id,
         [FromBody] UpdateUserAccountRequest request)
     {
-        var updateUserAccountCommand = UserAccountAssembler.ToCommandFromRequest(request, id_user_account);
+        var updateUserAccountCommand = UserAccountAssembler.ToCommandFromRequest(request, user_account_id);
         var userAccount = await userAccountCommandService.Handle(updateUserAccountCommand);
         if (userAccount is null)
         {
@@ -181,13 +179,13 @@ public class UserAccountController(IUserAccountQueryService userAccountQueryServ
     /// <summary>
     ///     Deletes a user account by its ID
     /// </summary>
-    /// <param name="id_user_account">
+    /// <param name="user_account_id">
     ///     The unique ID of the user account to delete
     /// </param>
     /// <returns>
     ///     A response indicating the result of the user account deletion
     /// </returns>
-    [HttpDelete("{id_user_account}")]
+    [HttpDelete("{user_account_id}")]
     [SwaggerOperation(
         Summary = "Delete a user account by its ID",
         Description = "Deletes a user account using its unique ID"
@@ -203,9 +201,9 @@ public class UserAccountController(IUserAccountQueryService userAccountQueryServ
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteUserAccount(string id_user_account)
+    public async Task<IActionResult> DeleteUserAccount(int user_account_id)
     {
-        var deleteUserAccountCommand = new DeleteUserAccountCommand(id_user_account);
+        var deleteUserAccountCommand = new DeleteUserAccountCommand(user_account_id);
         var result = await userAccountCommandService.Handle(deleteUserAccountCommand);
         
         if (!result)

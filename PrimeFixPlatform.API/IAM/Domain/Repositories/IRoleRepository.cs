@@ -12,14 +12,14 @@ public interface IRoleRepository : IBaseRepository<Role>
     /// <summary>
     ///     Checks if a role exists by its unique identifier.
     /// </summary>
-    /// <param name="idRole">
+    /// <param name="roleId">
     ///     The unique identifier of the role.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a role with the specified ID exists.
     /// </returns>
-    Task<bool> ExitsByIdRole(string idRole);
+    Task<bool> ExitsByIdRole(int roleId);
     
     /// <summary>
     ///     Checks if a role exists by its role information.
@@ -39,7 +39,7 @@ public interface IRoleRepository : IBaseRepository<Role>
     /// <param name="roleInformation">
     ///     The role information to check.
     /// </param>
-    /// <param name="idRole">
+    /// <param name="roleId">
     ///     The unique identifier of the role to exclude from the check.
     /// </param>
     /// <returns>
@@ -47,5 +47,5 @@ public interface IRoleRepository : IBaseRepository<Role>
     ///     a boolean indicating whether a role with the specified role information exists,
     ///     excluding the role with the specified ID.
     /// </returns>
-    Task<bool> ExistsByRoleInformationAndIdRoleIsNot(RoleInformation roleInformation, string idRole);
+    Task<bool> ExistsByRoleInformationAndRoleIdIsNot(RoleInformation roleInformation, int roleId);
 }

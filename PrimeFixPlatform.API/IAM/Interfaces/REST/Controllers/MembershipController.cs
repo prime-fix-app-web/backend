@@ -56,8 +56,6 @@ public class MembershipController(IMembershipQueryService membershipQueryService
         var createMembershipCommand = MembershipAssembler.ToCommandFromRequest(request);
         var membershipId = await membershipCommandService.Handle(createMembershipCommand);
         
-        if (string.IsNullOrWhiteSpace(membershipId)) return BadRequest();
-
         var getMembershipByIdQuery = new GetMembershipByIdQuery(membershipId);
         var membership = await membershipQueryService.Handle(getMembershipByIdQuery);
         
@@ -100,13 +98,13 @@ public class MembershipController(IMembershipQueryService membershipQueryService
     /// <summary>
     ///     Get a membership by its ID
     /// </summary>
-    /// <param name="id_membership">
+    /// <param name="membership_id">
     ///     The unique identifier of the membership
     /// </param>
     /// <returns>
     ///     A membership response
     /// </returns>
-    [HttpGet("{id_membership}")]
+    [HttpGet("{membership_id}")]
     [SwaggerOperation(
         Summary = "Retrieve a membership by its ID",
         Description = "Retrieves a membership using its unique ID"
@@ -120,9 +118,9 @@ public class MembershipController(IMembershipQueryService membershipQueryService
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetMembershipById([FromRoute] string id_membership)
+    public async Task<IActionResult> GetMembershipById([FromRoute] int membership_id)
     {
-        var getMembershipByIdQuery = new GetMembershipByIdQuery(id_membership);
+        var getMembershipByIdQuery = new GetMembershipByIdQuery(membership_id);
         var membership = await membershipQueryService.Handle(getMembershipByIdQuery);
         
         if (membership is null) return NotFound();
@@ -135,16 +133,16 @@ public class MembershipController(IMembershipQueryService membershipQueryService
     /// <summary>
     ///     Update an existing membership
     /// </summary>
-    /// <param name="id_membership">
+    /// <param name="membership_id">
     ///     The unique identifier of the membership
     /// </param>
     /// <param name="request">
     ///     The update membership request
     /// </param>
     /// <returns>
-    ///     A updated membership response
+    ///     An updated membership response
     /// </returns>
-    [HttpPut("{id_membership}")]
+    [HttpPut("{membership_id}")]
     [SwaggerOperation(
         Summary = "Update an existing membership",
         Description = "Update an existing membership with the provided data"
@@ -164,9 +162,9 @@ public class MembershipController(IMembershipQueryService membershipQueryService
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateMembership([FromRoute] string id_membership, [FromBody] UpdateMembershipRequest request)
+    public async Task<IActionResult> UpdateMembership([FromRoute] int membership_id, [FromBody] UpdateMembershipRequest request)
     {
-        var updateMembershipCommand = MembershipAssembler.ToCommandFromRequest(request, id_membership);
+        var updateMembershipCommand = MembershipAssembler.ToCommandFromRequest(request, membership_id);
         var membership = await membershipCommandService.Handle(updateMembershipCommand);
         if (membership is null) return BadRequest();
         
@@ -177,7 +175,7 @@ public class MembershipController(IMembershipQueryService membershipQueryService
     /// <summary>
     ///     Delete a membership by its ID
     /// </summary>
-    /// <param name="id_membership">
+    /// <param name="membership_id">
     ///     The unique identifier of the membership
     /// </param>
     /// <returns>
@@ -199,9 +197,9 @@ public class MembershipController(IMembershipQueryService membershipQueryService
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteMembership([FromRoute] string id_membership)
+    public async Task<IActionResult> DeleteMembership([FromRoute] int membership_id)
     {
-        var deleteMembershipCommand = new DeleteMembershipCommand(id_membership);
+        var deleteMembershipCommand = new DeleteMembershipCommand(membership_id);
         var result = await membershipCommandService.Handle(deleteMembershipCommand);
         
         if (!result) return BadRequest();

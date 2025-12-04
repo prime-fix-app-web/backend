@@ -8,7 +8,7 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Assemblers;
 /// <summary>
 ///     Assembler for converting between Role-related requests, commands, and responses.
 /// </summary>
-public class RoleAssembler
+public static class RoleAssembler
 {
     /// <summary>
     ///     Converts a CreateRoleRequest to a CreateRoleCommand.
@@ -22,7 +22,7 @@ public class RoleAssembler
     public static CreateRoleCommand ToCommandFromRequest(CreateRoleRequest request)
     {
         return new CreateRoleCommand(
-            request.IdRole, new RoleInformation(request.Name, request.Description)
+            new RoleInformation(request.Name, request.Description)
         );
     }
     
@@ -32,16 +32,16 @@ public class RoleAssembler
     /// <param name="request">
     ///     The UpdateRoleRequest containing updated role details.
     /// </param>
-    /// <param name="idRole">
+    /// <param name="roleId">
     ///     The identifier of the role to be updated.
     /// </param>
     /// <returns>
     ///     The corresponding UpdateRoleCommand.
     /// </returns>
-    public static UpdateRoleCommand ToCommandFromRequest(UpdateRoleRequest request, string idRole)
+    public static UpdateRoleCommand ToCommandFromRequest(UpdateRoleRequest request, int roleId)
     {
         return new UpdateRoleCommand(
-            idRole, new RoleInformation(request.Name, request.Description)
+            roleId, new RoleInformation(request.Name, request.Description)
         );
     }
     
@@ -57,7 +57,7 @@ public class RoleAssembler
     public static RoleResponse ToResponseFromEntity(Role entity)
     {
         return new RoleResponse(
-            entity.IdRole, entity.RoleInformation.Name, entity.RoleInformation.Description
+            entity.Id, entity.RoleInformation.Name, entity.RoleInformation.Description
         );
     }
 }

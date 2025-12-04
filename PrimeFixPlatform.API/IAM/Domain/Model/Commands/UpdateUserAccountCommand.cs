@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to update an existing User Account
 /// </summary>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The unique identifier for the user account to be updated
 /// </param>
 /// <param name="Username">
@@ -12,10 +12,10 @@
 /// <param name="Email">
 ///     The new email for the user account to be updated
 /// </param>
-/// <param name="IdRole">
+/// <param name="RoleId">
 ///     The new role identifier associated with the user account to be updated
 /// </param>
-/// <param name="IdUser">
+/// <param name="UserId">
 ///     The new user identifier associated with the user account to be updated
 /// </param>
 /// <param name="Password">
@@ -24,4 +24,4 @@
 /// <param name="IsNew">
 ///     Flag indicating whether the user account is new or existing
 /// </param>
-public record UpdateUserAccountCommand(string IdUserAccount, string Username, string Email, string IdRole, string IdUser, string Password, bool IsNew);
+public record UpdateUserAccountCommand(int UserAccountId, string Username, string Email, int RoleId, int UserId, string Password, bool IsNew);

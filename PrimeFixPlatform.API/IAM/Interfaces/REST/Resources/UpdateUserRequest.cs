@@ -18,7 +18,7 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 /// <param name="PhoneNumber">
 ///     The phone number of the user to be updated
 /// </param>
-/// <param name="IdLocation">
+/// <param name="LocationId">
 ///     The location identifier associated with the user to be updated
 /// </param>
 public record UpdateUserRequest(
@@ -42,7 +42,7 @@ public record UpdateUserRequest(
     [StringLength(15, MinimumLength = 7)]
     string PhoneNumber,
 
-    [property: JsonPropertyName("id_location")]
+    [property: JsonPropertyName("location_id")]
     [Required]
-    string IdLocation
+    int LocationId
 );

@@ -18,16 +18,16 @@ public class UserRepository(AppDbContext context)
     /// <summary>
     ///     Checks if a User exists by their unique identifier.
     /// </summary>
-    /// <param name="idUser">
+    /// <param name="userId">
     ///     The unique identifier of the User.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a User with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdUser(string idUser)
+    public async Task<bool> ExistsByUserId(int userId)
     {
-        return await Context.Set<User>().AnyAsync(user => user.IdUser == idUser);
+        return await Context.Set<User>().AnyAsync(user => user.Id == userId);
     }
 
     /// <summary>
@@ -57,15 +57,15 @@ public class UserRepository(AppDbContext context)
     /// <param name="lastName">
     ///     The last name of the User.
     /// </param>
-    /// <param name="idUser">
+    /// <param name="userId">
     ///     A unique identifier of the User to exclude from the check.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a User with the specified name and last name exists,
     /// </returns>
-    public async Task<bool> ExistsByNameAndLastNameAndIdUserIsNot(string name, string lastName, string idUser)
+    public async Task<bool> ExistsByNameAndLastNameAndUserIdIsNot(string name, string lastName, int userId)
     {
-        return await Context.Set<User>().AnyAsync(user => user.Name == name && user.LastName == lastName && user.IdUser != idUser);
+        return await Context.Set<User>().AnyAsync(user => user.Name == name && user.LastName == lastName && user.Id != userId);
     }
 }

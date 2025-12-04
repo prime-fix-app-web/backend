@@ -58,8 +58,6 @@ public class UserController(IUserQueryService userQueryService, IUserCommandServ
         var createUserCommand = UserAssembler.ToCommandFromRequest(request);
         var userId = await userCommandService.Handle(createUserCommand);
         
-        if (string.IsNullOrWhiteSpace(userId)) return BadRequest();
-        
         var getUserByIdQuery = new GetUserByIdQuery(userId);
         var user = await userQueryService.Handle(getUserByIdQuery);
         
@@ -103,14 +101,14 @@ public class UserController(IUserQueryService userQueryService, IUserCommandServ
     /// <summary>
     ///     Gets a user by its ID
     /// </summary>
-    /// <param name="id_user">
+    /// <param name="user_id">
     ///     The ID of the user to retrieve
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result
     ///     contains the IActionResult with the user data or an error response.
     /// </returns>
-    [HttpGet("{id_user}")]
+    [HttpGet("{user_id}")]
     [SwaggerOperation(
         Summary = "Retrieve a user by its ID",
         Description = "Retrieves a user using its unique ID"
@@ -124,9 +122,9 @@ public class UserController(IUserQueryService userQueryService, IUserCommandServ
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetUserById(string id_user)
+    public async Task<IActionResult> GetUserById(int user_id)
     {
-        var getUserByIdQuery = new GetUserByIdQuery(id_user);
+        var getUserByIdQuery = new GetUserByIdQuery(user_id);
         var user = await userQueryService.Handle(getUserByIdQuery);
         
         if (user is null) return NotFound();
@@ -140,7 +138,7 @@ public class UserController(IUserQueryService userQueryService, IUserCommandServ
     /// <summary>
     ///     Updates an existing user
     /// </summary>
-    /// <param name="id_user">
+    /// <param name="user_id">
     ///     The ID of the user to update
     /// </param>
     /// <param name="request">
@@ -150,7 +148,7 @@ public class UserController(IUserQueryService userQueryService, IUserCommandServ
     ///     A task that represents the asynchronous operation. The task result
     ///     contains the IActionResult with the updated user data or an error response.
     /// </returns>
-    [HttpPut("{id_user}")]
+    [HttpPut("{user_id}")]
     [SwaggerOperation(
         Summary = "Update an existing user",
         Description = "Update an existing user with the provided data"
@@ -170,9 +168,9 @@ public class UserController(IUserQueryService userQueryService, IUserCommandServ
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateUser(string id_user, [FromBody] UpdateUserRequest request)
+    public async Task<IActionResult> UpdateUser(int user_id, [FromBody] UpdateUserRequest request)
     {
-        var updateUserCommand = UserAssembler.ToCommandFromRequest(request, id_user);
+        var updateUserCommand = UserAssembler.ToCommandFromRequest(request, user_id);
         var user = await userCommandService.Handle(updateUserCommand);
         if (user is null)
         {
@@ -186,14 +184,14 @@ public class UserController(IUserQueryService userQueryService, IUserCommandServ
     /// <summary>
     ///    Deletes an existing user
     /// </summary>
-    /// <param name="id_user">
+    /// <param name="user_id">
     ///     The ID of the user to delete
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result
     ///     contains the IActionResult indicating the result of the delete operation.
     /// </returns>
-    [HttpDelete("{id_user}")]
+    [HttpDelete("{user_id}")]
     [SwaggerOperation(
         Summary = "Delete a user by its ID",
         Description = "Deletes a user using its unique ID"
@@ -209,9 +207,9 @@ public class UserController(IUserQueryService userQueryService, IUserCommandServ
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteUser(string id_user)
+    public async Task<IActionResult> DeleteUser(int user_id)
     {
-        var deleteUserCommand = new DeleteUserCommand(id_user);
+        var deleteUserCommand = new DeleteUserCommand(user_id);
         var result = await userCommandService.Handle(deleteUserCommand);
         if (!result)
         {

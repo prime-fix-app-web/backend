@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to update an existing user
 /// </summary>
-/// <param name="IdUser">
+/// <param name="UserId">
 ///     The ID of the user to be updated
 /// </param>
 /// <param name="Name">
@@ -18,7 +18,7 @@
 /// <param name="PhoneNumber">
 ///     The phone number of the user to be updated
 /// </param>
-/// <param name="IdLocation">
+/// <param name="LocationId">
 ///     The location ID of the user to be updated
 /// </param>
-public record UpdateUserCommand(string IdUser, string Name, string LastName, string Dni, string PhoneNumber, string IdLocation);
+public record UpdateUserCommand(int UserId, string Name, string LastName, string Dni, string PhoneNumber, int LocationId);

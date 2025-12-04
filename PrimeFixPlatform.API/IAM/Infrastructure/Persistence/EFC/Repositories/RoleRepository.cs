@@ -19,16 +19,16 @@ public class RoleRepository(AppDbContext context)
     /// <summary>
     ///     Checks if a Role exists by its unique identifier.
     /// </summary>
-    /// <param name="idRole">
+    /// <param name="roleId">
     ///     The unique identifier of the Role.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a Role with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExitsByIdRole(string idRole)
+    public async Task<bool> ExitsByIdRole(int roleId)
     {
-        return await Context.Set<Role>().AnyAsync(role => role.IdRole == idRole);
+        return await Context.Set<Role>().AnyAsync(role => role.Id == roleId);
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class RoleRepository(AppDbContext context)
     /// <param name="roleInformation">
     ///     The RoleInformation of the Role.
     /// </param>
-    /// <param name="idRole">
+    /// <param name="roleId">
     ///     The unique identifier of the Role to exclude.
     /// </param>
     /// <returns>
@@ -61,10 +61,10 @@ public class RoleRepository(AppDbContext context)
     ///     a boolean indicating whether a Role with the specified RoleInformation exists,
     ///     excluding the Role with the specified ID.
     /// </returns>
-    public async Task<bool> ExistsByRoleInformationAndIdRoleIsNot(RoleInformation roleInformation, string idRole)
+    public async Task<bool> ExistsByRoleInformationAndRoleIdIsNot(RoleInformation roleInformation, int roleId)
     {
         return await Context.Set<Role>().AnyAsync(role => (role.RoleInformation.Name == roleInformation.Name 
                                                            || role.RoleInformation.Description == roleInformation.Description)
-                                                          && role.IdRole != idRole);
+                                                          && role.Id != roleId);
     }
 }

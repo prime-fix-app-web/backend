@@ -12,14 +12,14 @@ public interface IMembershipRepository : IBaseRepository<Membership>
     /// <summary>
     ///     Checks if a membership exists by its unique identifier.
     /// </summary>
-    /// <param name="idMembership">
+    /// <param name="membershipId">
     ///     The unique identifier of the membership.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a membership with the specified ID exists.
     /// </returns>
-    Task<bool> ExistsByIdMembership(string idMembership);
+    Task<bool> ExistsByMembershipId(int membershipId);
     
     /// <summary>
     ///     Checks if a membership exists by its membership description.
@@ -39,7 +39,7 @@ public interface IMembershipRepository : IBaseRepository<Membership>
     /// <param name="membershipDescription">
     ///     The membership description to check.
     /// </param>
-    /// <param name="idMembership">
+    /// <param name="membershipId">
     ///     The unique identifier of the membership to exclude from the check.
     /// </param>
     /// <returns>
@@ -47,5 +47,5 @@ public interface IMembershipRepository : IBaseRepository<Membership>
     ///     a boolean indicating whether a membership with the specified membership description exists,
     ///     excluding the membership with the specified ID.
     /// </returns>
-    Task<bool> ExistsByMembershipDescriptionAndIdMembershipIsNot(MembershipDescription membershipDescription, string idMembership);
+    Task<bool> ExistsByMembershipDescriptionAndMembershipIdIsNot(MembershipDescription membershipDescription, int membershipId);
 }
