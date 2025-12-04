@@ -41,4 +41,9 @@ public class DiagnosticRepository(AppDbContext context): BaseRepository<Diagnost
     {
         return await Context.Set<Diagnostic>().FirstOrDefaultAsync(diagnostic => diagnostic.Id == expectedId); 
     }
+
+    public async Task<Diagnostic?> FindById(int id)
+    {
+        return await Context.Set<Diagnostic>().FindAsync(id);
+    }
 }

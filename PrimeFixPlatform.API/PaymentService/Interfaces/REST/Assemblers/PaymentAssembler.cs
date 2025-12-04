@@ -22,7 +22,7 @@ public class PaymentAssembler
     public static CreatePaymentCommand ToCommandFromRequest(CreatePaymentRequest request)
     {
         return new CreatePaymentCommand(
-                request.IdPayment, request.CardNumber, new CardType(request.CardType), request.Month,
+            request.CardNumber, new CardType(request.CardType), request.Month,
                 request.Year, request.Cvv, request.IdUserAccount
                 );
     }
@@ -39,11 +39,11 @@ public class PaymentAssembler
     /// <returns>
     ///     The corresponding UpdatePaymentCommand.
     /// </returns>
-    public static UpdatePaymentCommand ToCommandFromRequest(UpdatePaymentRequest request, string idPayment)
+    public static UpdatePaymentCommand ToCommandFromRequest(UpdatePaymentRequest request, int idPayment)
     {
         return new UpdatePaymentCommand(
             idPayment, request.CardNumber, new CardType(request.CardType), request.Month,
-            request.Year, request.Cvv, request.IdUserAccount
+            request.Year, request.Cvv, request.UserAccountId
         );
     }
 
@@ -59,8 +59,8 @@ public class PaymentAssembler
     public static PaymentResponse ToResponseFromEntity(Payment entity)
     {
         return new PaymentResponse(
-            entity.IdPayment, entity.CardNumber, entity.CardType.Type, entity.Month,
-            entity.Year, entity.Cvv, entity.IdUserAccount
+            entity.PaymentId, entity.CardNumber, entity.CardType.Type, entity.Month,
+            entity.Year, entity.Cvv, entity.UserAccountId
         );
     }
     

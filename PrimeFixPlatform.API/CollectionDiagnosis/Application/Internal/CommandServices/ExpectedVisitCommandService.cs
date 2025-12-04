@@ -52,7 +52,7 @@ public class ExpectedVisitCommandService(IExpectedVisitRepository expectedVisitR
     public async Task<ExpectedVisit?> Handle(UpdateExpectedVisitCommand command)
     {
         var expectedVisitId = command.Id;
-        var expectedToUpdate = await expectedVisitRepository.FindByIdAsync(expectedVisitId);
+        var expectedToUpdate = await expectedVisitRepository.FindById(expectedVisitId);
 
         if (expectedToUpdate == null)
         {
@@ -81,7 +81,7 @@ public class ExpectedVisitCommandService(IExpectedVisitRepository expectedVisitR
     /// </exception>
     public async Task<ExpectedVisit?> Handle(DeleteExpectedVisitCommand command)
     {
-        var expected = await expectedVisitRepository.FindByIdAsync(command.ExpectedVisitId);
+        var expected = await expectedVisitRepository.FindById(command.ExpectedVisitId);
         if (expected == null)
         {
             throw new NotFoundArgumentException("Expected was not found");
@@ -91,9 +91,21 @@ public class ExpectedVisitCommandService(IExpectedVisitRepository expectedVisitR
         return expected;
     }
     
+    /// <summary>
+    ///     Cancels a visit associated with the given visit ID.
+    /// </summary>
+    /// <param name="command">
+    ///     Command containing the visit ID to cancel.
+    /// </param>
+    /// <returns>
+    ///     A task representing the asynchronous operation.
+    /// </returns>
+    /// <exception cref="NotFoundArgumentException">
+    ///     Thrown when no expected visit is found for the specified visit ID.
+    /// </exception>
     public async Task Handle(CancelVisitCommand command)
     {
-        var expectedVisit = await expectedVisitRepository.FindByVisitId(command.visitId);
+        var expectedVisit = await expectedVisitRepository.FindByVisitId(command.VisitId);
         if (expectedVisit == null)
             throw new NotFoundArgumentException("Expected Visit not found");
         expectedVisit.StateVisit = Status.CANCELADO;
@@ -102,13 +114,26 @@ public class ExpectedVisitCommandService(IExpectedVisitRepository expectedVisitR
         await unitOfWork.CompleteAsync();
     }
 
+    /// <summary>
+    ///     Updates the status of an expected visit.
+    /// </summary>
+    /// <param name="command">
+    ///     Command containing the expected visit ID and the new status value.
+    /// </param>
+    /// <returns>
+    ///     A task representing the asynchronous operation.
+    ///     The task result contains the updated <see cref="ExpectedVisit"/>.
+    /// </returns>
+    /// <exception cref="NotFoundArgumentException">
+    ///     Thrown when the expected visit with the specified ID is not found.
+    /// </exception>
     public async Task<ExpectedVisit?> Handle(UpdateStatusExpectedVisitCommand command)
     {
-        var expectedVisit = await expectedVisitRepository.FindByIdAsync(command.expectedVisitId);
+        var expectedVisit = await expectedVisitRepository.FindById(command.ExpectedVisitId);
         if (expectedVisit == null)
             throw new NotFoundArgumentException("Expected Visit not found");
 
-        expectedVisit.StateVisit = command.newStatus;
+        expectedVisit.StateVisit = command.NewStatus;
         expectedVisit.IsScheduled = true;
 
         await unitOfWork.CompleteAsync();

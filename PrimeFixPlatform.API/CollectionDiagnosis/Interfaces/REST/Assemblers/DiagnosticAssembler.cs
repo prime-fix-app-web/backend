@@ -13,9 +13,9 @@ public class DiagnosticAssembler
     }
 
 
-    public static UpdateDiagnosisCommand ToCommandFromRequest(UpdateDiagnosticRequest request)
+    public static UpdateDiagnosisCommand ToCommandFromRequest(UpdateDiagnosticRequest request, int diagnosisId)
     {
-        return new UpdateDiagnosisCommand(request.DiagnosisId, request.Price, new VehicleId(request.VehicleId.Id), request.Diagnosis, request.ExpectedVisitId);
+        return new UpdateDiagnosisCommand(diagnosisId, request.Price, new VehicleId(request.VehicleId.Id), request.Diagnosis, request.ExpectedVisitId);
     }
 
 

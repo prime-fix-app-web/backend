@@ -20,4 +20,8 @@ public interface IDiagnosticRepository : IBaseRepository<Diagnostic>
     /// </summary>
     Task<Diagnostic?> FindByExpectedId(int expectedId);
     
+    /// <summary>
+    ///     Find diagnostic by ID
+    /// </summary>
+    Task<Diagnostic?> FindById(int id);
 }

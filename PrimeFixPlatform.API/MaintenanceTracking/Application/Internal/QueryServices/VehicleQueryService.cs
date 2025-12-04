@@ -45,8 +45,8 @@ public class VehicleQueryService(IVehicleRepository vehicleRepository)
     /// </exception>
     public async Task<Vehicle?> Handle(GetVehicleByIdQuery query)
     {
-        return await vehicleRepository.FindByIdAsync(query.IdVehicle)
-            ?? throw new NotFoundIdException("Vehicle with the id " + query.IdVehicle + " was not found.");
+        return await vehicleRepository.FindByIdAsync(query.VehicleId)
+            ?? throw new NotFoundIdException("Vehicle with the id " + query.VehicleId + " was not found.");
     }
 
     /// <summary>

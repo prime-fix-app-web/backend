@@ -5,7 +5,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 /// <summary>
 ///     Response model for Location
 /// </summary>
-/// <param name="IdLocation">
+/// <param name="LocationId">
 ///     The unique identifier of the location
 /// </param>
 /// <param name="Address">
@@ -18,7 +18,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 ///     The department of the location
 /// </param>
 public record LocationResponse(
-    [property: JsonPropertyName("id_location")] int IdLocation,
+    [property: JsonPropertyName("location_id")] int LocationId,
     string Address,
     string District,
     string Department);

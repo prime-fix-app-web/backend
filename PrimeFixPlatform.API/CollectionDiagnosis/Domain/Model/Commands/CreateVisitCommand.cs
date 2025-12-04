@@ -5,19 +5,19 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 /// <summary>
 ///     Command to create a new Visit
 /// </summary>
-/// <param name="failure">
+/// <param name="Failure">
 ///     The description of the vehicle fault
 /// </param>
-/// <param name="vehicleId">
+/// <param name="VehicleId">
 ///     The ID of the vehicle designated for the visit 
 /// </param>
-/// <param name="timeVisit">
+/// <param name="TimeVisit">
 ///     The date assigned for the visit
 /// </param>
-/// <param name="autoRepairId">
+/// <param name="AutoRepairId">
 ///     The ID of the auto repair designated for the visit
 /// </param>
-/// <param name="serviceId">
+/// <param name="ServiceId">
 ///     The ID of the service designated for the visit
 /// </param>
 public record CreateVisitCommand(string Failure, int VehicleId, string TimeVisit, int AutoRepairId, int ServiceId);

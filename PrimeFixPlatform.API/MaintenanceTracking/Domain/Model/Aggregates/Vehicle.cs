@@ -16,16 +16,13 @@ public partial class Vehicle
     /// <summary>
     ///     The constructor for the Vehicle aggregate root entity.
     /// </summary>
-    /// <param name="idVehicle">
-    ///     The unique identifier for the vehicle.
-    /// </param>
     /// <param name="color">
     ///     The color of the vehicle.
     /// </param>
     /// <param name="model">
     ///     The model of the vehicle.
     /// </param>
-    /// <param name="idUser">
+    /// <param name="userId">
     ///     The identifier of the user associated with the vehicle.
     /// </param>
     /// <param name="vehicleInformation">
@@ -34,13 +31,12 @@ public partial class Vehicle
     /// <param name="maintenanceStatus">
     ///     The maintenance status of the vehicle.
     /// </param>
-    public Vehicle(string idVehicle, string color, string model, string idUser,
+    public Vehicle( string color, string model, int userId,
         VehicleInformation vehicleInformation, int maintenanceStatus)
     {
-        IdVehicle = idVehicle;
         Color = color;
         Model = model;
-        IdUser = idUser;
+        UserId = userId;
         VehicleInformation = vehicleInformation;
         MaintenanceStatus = maintenanceStatus;
     }
@@ -52,10 +48,9 @@ public partial class Vehicle
     ///     The command object containing data to create a Vehicle
     /// </param>
     public Vehicle(CreateVehicleCommand command): this(
-        command.IdVehicle,
         command.Color,
         command.Model,
-        command.IdUser,
+        command.UserId,
         command.VehicleInformation,
         command.MaintenanceStatus)
     {
@@ -69,20 +64,21 @@ public partial class Vehicle
     /// </param>
     public void UpdateVehicle(UpdateVehicleCommand command)
     {
+        VehicleId = command.VehicleId;
         Color = command.Color;
         Model = command.Model;
-        IdUser = command.IdUser;
+        UserId = command.UserId;
         VehicleInformation = command.VehicleInformation;
         MaintenanceStatus = command.MaintenanceStatus;
     }
     
-    public string IdVehicle { get; private set; }
+    public int VehicleId { get; private set; }
     
     public string Color { get; private set; }
     
     public string Model { get; private set; }
     
-    public string IdUser { get; private set; }
+    public int UserId { get; private set; }
     
     public VehicleInformation VehicleInformation { get; private set; }
     

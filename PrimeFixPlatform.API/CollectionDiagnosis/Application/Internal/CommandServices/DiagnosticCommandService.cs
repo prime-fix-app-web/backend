@@ -51,7 +51,7 @@ public class DiagnosticCommandService(IDiagnosticRepository diagnosticRepository
     public async Task<Diagnostic?> Handle(UpdateDiagnosisCommand command)
     {
         var diagnosisId = command.DiagnosisId;
-        var diagnosticToUpdate = await diagnosticRepository.FindByIdAsync(diagnosisId);
+        var diagnosticToUpdate = await diagnosticRepository.FindById(diagnosisId);
 
         if (diagnosticToUpdate == null)
         {
@@ -80,7 +80,7 @@ public class DiagnosticCommandService(IDiagnosticRepository diagnosticRepository
     /// </exception>
     public async Task<Diagnostic?> Handle(DeleteDiagnosisCommand command)
     {
-        var diagnostic = await diagnosticRepository.FindByIdAsync(command.DiagnosisId);
+        var diagnostic = await diagnosticRepository.FindById(command.DiagnosisId);
         if (diagnostic == null)
             throw new NotFoundArgumentException("Diagnostic not found");
         diagnosticRepository.Remove(diagnostic);

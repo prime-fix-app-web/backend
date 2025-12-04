@@ -3,7 +3,7 @@
 /// <summary>
 ///     Query to get a vehicle by its identifier.
 /// </summary>
-/// <param name="IdVehicle">
+/// <param name="VehicleId">
 ///     The unique identifier of the vehicle to be retrieved.
 /// </param>
-public record GetVehicleByIdQuery(string IdVehicle);
+public record GetVehicleByIdQuery(int VehicleId);

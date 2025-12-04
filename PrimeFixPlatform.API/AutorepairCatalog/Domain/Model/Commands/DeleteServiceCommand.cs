@@ -1,4 +1,4 @@
-namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
+namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
 /// <summary>
 ///     Command to delete a Service
 /// </summary>

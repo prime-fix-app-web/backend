@@ -28,11 +28,11 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 ///     The identifier of the user account of the payment
 /// </param>
 public record PaymentResponse(
-    [property:JsonPropertyName("id_payment")] string IdPayment,
+    [property:JsonPropertyName("id_payment")] int IdPayment,
     [property:JsonPropertyName("card_number")] string CardNumber,
     [property:JsonPropertyName("card_type")] string CardType,
     int Month,
     int Year,
     int Cvv,
-    [property:JsonPropertyName("id_user_account")] string IdUserAccount
+    [property:JsonPropertyName("id_user_account")] int IdUserAccount
     );

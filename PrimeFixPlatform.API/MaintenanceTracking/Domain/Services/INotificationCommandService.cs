@@ -18,7 +18,7 @@ public interface INotificationCommandService
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the created Notification entity, or null if creation failed.
     /// </returns>
-    Task<string> Handle(CreateNotificationCommand command);
+    Task<int> Handle(CreateNotificationCommand command);
     
     /// <summary>
     ///     Handles the update of an existing notification.

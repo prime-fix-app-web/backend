@@ -16,12 +16,12 @@ public class PaymentQueryService(IPaymentRepository paymentRepository)
 
     public async Task<Payment?> Handle(GetPaymentByIdQuery query)
     {
-        return await paymentRepository.FindByIdAsync(query.IdPayment)
-            ?? throw new NotFoundIdException("Payment with the id " + query.IdPayment + " was not found.");
+        return await paymentRepository.FindByIdAsync(query.PaymentId)
+            ?? throw new NotFoundIdException("Payment with the id " + query.PaymentId + " was not found.");
     }
 
     public async Task<IEnumerable<Payment>> Handle(GetPaymentByIdUserAccountQuery query)
     {
-        return await paymentRepository.FindByIdUserAccount(query.IdUserAccount);
+        return await paymentRepository.FindByIdUserAccount(query.UserAccountId);
     }
 }

@@ -1,6 +1,7 @@
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 
-namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
+namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
 
 /// <summary>
 ///     Service aggregate root entity
@@ -34,7 +35,7 @@ public partial class Service
         Description = command.Description;
     }
 
-    public int Id { get; }
+    public int ServiceId { get; }
     public string Name { get; private set; }
     public string Description { get; private set; }
 }

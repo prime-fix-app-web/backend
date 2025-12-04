@@ -16,9 +16,9 @@ public class ExpectedVisitAssembler
     }
 
 
-    public static UpdateExpectedVisitCommand ToCommandFromRequest(UpdateExpectedVisitRequest request)
+    public static UpdateExpectedVisitCommand ToCommandFromRequest(UpdateExpectedVisitRequest request, int expectedId)
     {
-        return new UpdateExpectedVisitCommand( request.Id,request.StateVisit, request.VisitId, request.IsScheduled);
+        return new UpdateExpectedVisitCommand( expectedId,request.StateVisit, request.VisitId, request.IsScheduled);
     }
 
     public static UpdateStatusExpectedVisitCommand ToCommandFromRequestStatus(UpdateStatusExpectedVisitRequest request, int expectedVisitId)

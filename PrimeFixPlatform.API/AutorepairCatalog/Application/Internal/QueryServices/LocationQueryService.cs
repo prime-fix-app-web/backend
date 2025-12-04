@@ -44,7 +44,7 @@ public class LocationQueryService(ILocationRepository locationRepository)
     /// </exception>
     public async Task<Location?> Handle(GetLocationByIdQuery query)
     {
-        return await locationRepository.FindByIdAsync(query.IdLocation)
-            ?? throw new NotFoundIdException("Location with the id " + query.IdLocation + " was not found.");
+        return await locationRepository.FindByIdAsync(query.LocationId)
+            ?? throw new NotFoundIdException("Location with the id " + query.LocationId + " was not found.");
     }
 }

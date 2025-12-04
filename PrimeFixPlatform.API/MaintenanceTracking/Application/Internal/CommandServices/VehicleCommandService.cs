@@ -32,13 +32,13 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOf
     /// <exception cref="ConflictException">
     ///     Indicates that a vehicle with the same plate already exists
     /// </exception>
-    public async Task<string> Handle(CreateVehicleCommand command)
+    public async Task<int> Handle(CreateVehicleCommand command)
     {
-        var idVehicle = command.IdVehicle;
+        /*var idVehicle = command.IdVehicle;*/
         var vehiclePlate = command.VehicleInformation.VehiclePlate;
         
-        if (await vehicleRepository.ExistsByIdVehicle(idVehicle))
-            throw new ConflictException("Vehicle with the same id " + idVehicle  + " already exists");
+        /*if (await vehicleRepository.ExistsByIdVehicle(idVehicle))
+            throw new ConflictException("Vehicle with the same id " + idVehicle  + " already exists");*/
         
         if (await vehicleRepository.ExistsByVehiclePlate(vehiclePlate))
             throw new ConflictException("Vehicle with the same plate " + vehiclePlate  + " already exists");
@@ -46,7 +46,7 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOf
         var vehicle = new Vehicle(command);
         await vehicleRepository.AddAsync(vehicle);
         await unitOfWork.CompleteAsync();
-        return vehicle.IdVehicle;
+        return vehicle.VehicleId;
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOf
     /// </exception>
     public async Task<Vehicle?> Handle(UpdateVehicleCommand command)
     {
-        var idVehicle = command.IdVehicle;
+        var idVehicle = command.VehicleId;
         var vehiclePlate = command.VehicleInformation.VehiclePlate;
         
         if (!await vehicleRepository.ExistsByIdVehicle(idVehicle))
@@ -106,9 +106,9 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOf
     /// </exception>
     public async Task<bool> Handle(DeleteVehicleCommand command)
     {
-        if (!await vehicleRepository.ExistsByIdVehicle(command.IdVehicle))
-            throw new NotFoundIdException("Vehicle with id " + command.IdVehicle  + " does not exist");
-        var vehicle = await vehicleRepository.FindByIdAsync(command.IdVehicle);
+        if (!await vehicleRepository.ExistsByIdVehicle(command.VehicleId))
+            throw new NotFoundIdException("Vehicle with id " + command.VehicleId  + " does not exist");
+        var vehicle = await vehicleRepository.FindByIdAsync(command.VehicleId);
         if (vehicle is null)
             throw new NotFoundArgumentException("Vehicle not found");
         vehicleRepository.Remove(vehicle);

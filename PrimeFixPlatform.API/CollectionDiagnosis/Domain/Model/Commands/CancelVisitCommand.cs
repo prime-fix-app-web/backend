@@ -2,4 +2,4 @@
 
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 
-public record CancelVisitCommand(int visitId);
+public record CancelVisitCommand(int VisitId);

@@ -56,7 +56,7 @@ public class NotificationController(INotificationQueryService notificationQueryS
         var createNotificationCommand = NotificationAssembler.ToCommandFromRequest(request);
         var notificationId = await notificationCommandService.Handle(createNotificationCommand);
         
-        if (string.IsNullOrWhiteSpace(notificationId)) return BadRequest();
+        /*if (string.IsNullOrWhiteSpace(notificationId)) return BadRequest();*/
 
         var getNotificationByIdQuery = new GetNotificationByIdQuery(notificationId);
         var notification = await notificationQueryService.Handle(getNotificationByIdQuery);
@@ -99,13 +99,13 @@ public class NotificationController(INotificationQueryService notificationQueryS
     /// <summary>
     ///     Get a notification by its ID.
     /// </summary>
-    /// <param name="id_notification">
+    /// <param name="notificationId">
     ///     The notification ID.
     /// </param>
     /// <returns>
     ///     The notification response.
     /// </returns>
-    [HttpGet("{id_notification}")]
+    [HttpGet("{notificationId}")]
     [SwaggerOperation(
         Summary = "Retrieve a notification by its ID",
         Description = "Retrieves a notification using its unique ID"
@@ -119,9 +119,9 @@ public class NotificationController(INotificationQueryService notificationQueryS
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetNotificationById(string id_notification)
+    public async Task<IActionResult> GetNotificationById(int notificationId)
     {
-        var getNotificationByIdQuery = new GetNotificationByIdQuery(id_notification);
+        var getNotificationByIdQuery = new GetNotificationByIdQuery(notificationId);
         var notification = await notificationQueryService.Handle(getNotificationByIdQuery);
         
         if (notification is null) return NotFound();
@@ -133,7 +133,7 @@ public class NotificationController(INotificationQueryService notificationQueryS
     /// <summary>
     ///     Update an existing notification.
     /// </summary>
-    /// <param name="id_notification">
+    /// <param name="notificationId">
     ///     The notification ID.
     /// </param>
     /// <param name="request">
@@ -142,7 +142,7 @@ public class NotificationController(INotificationQueryService notificationQueryS
     /// <returns>
     ///     The updated notification response.
     /// </returns>
-    [HttpPut("{id_notification}")]
+    [HttpPut("{notificationId}")]
     [SwaggerOperation(
         Summary = "Update an existing notification",
         Description = "Update an existing notification with the provided data"
@@ -162,9 +162,9 @@ public class NotificationController(INotificationQueryService notificationQueryS
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateNotification(string id_notification, [FromBody] UpdateNotificationRequest request)
+    public async Task<IActionResult> UpdateNotification(int notificationId, [FromBody] UpdateNotificationRequest request)
     {
-        var updateNotificationCommand = NotificationAssembler.ToCommandFromRequest(request, id_notification);
+        var updateNotificationCommand = NotificationAssembler.ToCommandFromRequest(request, notificationId);
         var updatedNotification = await notificationCommandService.Handle(updateNotificationCommand);
         if (updatedNotification is null) return BadRequest();
         
@@ -175,13 +175,13 @@ public class NotificationController(INotificationQueryService notificationQueryS
     /// <summary>
     ///     Delete a notification by its ID.
     /// </summary>
-    /// <param name="id_notification">
+    /// <param name="notificationId">
     ///     The notification ID.
     /// </param>
     /// <returns>
     ///     No content result.
     /// </returns>
-    [HttpDelete("{id_notification}")]
+    [HttpDelete("{notificationId}")]
     [SwaggerOperation(
         Summary = "Delete a notification by its ID",
         Description = "Deletes a notification using its unique ID"
@@ -197,9 +197,9 @@ public class NotificationController(INotificationQueryService notificationQueryS
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteNotification(string id_notification)
+    public async Task<IActionResult> DeleteNotification(int notificationId)
     {
-        var deleteNotificationCommand = new DeleteNotificationCommand(id_notification);
+        var deleteNotificationCommand = new DeleteNotificationCommand(notificationId);
         var result = await notificationCommandService.Handle(deleteNotificationCommand);
         
         if (!result) return NotFound();

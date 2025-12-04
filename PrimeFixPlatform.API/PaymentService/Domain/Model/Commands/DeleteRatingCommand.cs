@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to delete a rating
 /// </summary>
-/// <param name="IdRating">
+/// <param name="RatingId">
 ///     The unique identifier of the rating to be deleted
 /// </param>
-public record DeleteRatingCommand(string IdRating);
+public record DeleteRatingCommand(int RatingId);

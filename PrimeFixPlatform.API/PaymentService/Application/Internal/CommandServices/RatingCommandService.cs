@@ -19,28 +19,28 @@ namespace PrimeFixPlatform.API.PaymentService.Application.Internal.CommandServic
 public class RatingCommandService(IRatingRepository ratingRepository, IUnitOfWork unitOfWork)
     : IRatingCommandService
 {
-    public async Task<string> Handle(CreateRatingCommand command)
+    public async Task<int> Handle(CreateRatingCommand command)
     {
-        var idRating = command.IdRating;
-        var idAutoRepair = command.IdAutoRepair;
+        /*var idRating = command.IdRating;*/
+        var idAutoRepair = command.AutoRepairId;
         
-        if (await ratingRepository.ExistsByIdRating(idRating))
+        /*if (await ratingRepository.ExistsByIdRating(idRating))
             throw new NotFoundIdException("Rating the same id " + idRating  + " already exists");
-        
+        */
         if (await ratingRepository.ExistsByIdAutoRepair(idAutoRepair))
             throw new ConflictException("Rating with the same auto repair id " + idAutoRepair + " already exists");
 
         var rating = new Rating(command);
         await ratingRepository.AddAsync(rating);
         await unitOfWork.CompleteAsync();
-        return rating.IdRating;
+        return rating.RatingId;
         
     }
 
     public async Task<Rating?> Handle(UpdateRatingCommand command)
     {
-        var idRating = command.IdRating;
-        var idAutoRepair = command.IdAutoRepair;
+        var idRating = command.RatingId;
+        var idAutoRepair = command.AutoRepairId;
         
         if (!await ratingRepository.ExistsByIdRating(idRating))
             throw new NotFoundIdException("Rating the same id " + idRating  + " already exists");
@@ -60,9 +60,9 @@ public class RatingCommandService(IRatingRepository ratingRepository, IUnitOfWor
 
     public async Task<bool> Handle(DeleteRatingCommand command)
     {
-        if (!await ratingRepository.ExistsByIdRating(command.IdRating))
-            throw new NotFoundIdException("Rating with id " + command.IdRating  + " does not exist");
-        var rating = await ratingRepository.FindByIdAsync(command.IdRating);
+        if (!await ratingRepository.ExistsByIdRating(command.RatingId))
+            throw new NotFoundIdException("Rating with id " + command.RatingId  + " does not exist");
+        var rating = await ratingRepository.FindByIdAsync(command.RatingId);
         if (rating is null)
             throw new NotFoundArgumentException("Rating not found");
         ratingRepository.Remove(rating);

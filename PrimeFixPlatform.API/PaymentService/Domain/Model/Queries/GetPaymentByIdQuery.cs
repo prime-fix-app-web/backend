@@ -2,7 +2,7 @@
 /// <summary>
 ///     Query to get a payment by its identifier.
 /// </summary>
-/// <param name="IdPayment">
+/// <param name="PaymentId">
 ///     The unique identifier of the payment to be retrieved.
 /// </param>
-public record GetPaymentByIdQuery(string IdPayment);
+public record GetPaymentByIdQuery(int PaymentId);

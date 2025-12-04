@@ -11,12 +11,12 @@ public interface INotificationRepository : IBaseRepository<Notification>
     /// <summary>
     ///     Checks if a notification exists by its unique identifier.
     /// </summary>
-    /// <param name="idNotification">
+    /// <param name="notificationId">
     ///     The unique identifier of the notification.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a notification with the specified ID exists.
     /// </returns>
-    Task<bool> ExistsByIdNotification(string idNotification);
+    Task<bool> ExistsByIdNotification(int notificationId);
 }

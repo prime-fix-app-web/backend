@@ -1,5 +1,9 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Queries;
+using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Assemblers;
+using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
@@ -69,9 +73,9 @@ public class ServiceController(IServiceCommandService serviceCommandService, ISe
         OperationId = "UpdateService")]
     [SwaggerResponse(StatusCodes.Status200OK, "Updates Service")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Bad Request")]
-    public async Task<IActionResult> UpdateService([FromBody] UpdateServiceCommand request)
+    public async Task<IActionResult> UpdateService([FromBody] UpdateServiceCommand request, int serviceId)
     {
-        var updateService = ServiceAssembler.ToCommandFromRequest(request);
+        var updateService = ServiceAssembler.ToCommandFromRequest(request, serviceId);
         var service = await serviceCommandService.Handle(updateService);
         if (service is null) return BadRequest();
         

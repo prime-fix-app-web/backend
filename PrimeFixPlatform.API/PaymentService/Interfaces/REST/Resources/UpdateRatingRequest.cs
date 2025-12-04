@@ -12,10 +12,10 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 /// <param name="Comment">
 ///     The comment of the rating to be updated
 /// </param>
-/// <param name="IdAutoRepair">
+/// <param name="AutoRepairId">
 ///     The identifier of the auto repair associated with the rating to be updated
 /// </param>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The identifier of the user associated with the rating to be updated
 /// </param>
 public record UpdateRatingRequest(
@@ -28,13 +28,11 @@ public record UpdateRatingRequest(
     [MaxLength(255)]
     string Comment,
     
-    [property: JsonPropertyName("id_auto_repair")]
+    [property: JsonPropertyName("auto_repair_id")]
     [Required]
-    [MinLength(1)]
-    string IdAutoRepair,
+    int AutoRepairId,
     
-    [property: JsonPropertyName("id_user_account")]
+    [property: JsonPropertyName("user_account_id")]
     [Required]
-    [MinLength(1)]
-    string IdUserAccount
+    int UserAccountId
     );

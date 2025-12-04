@@ -34,15 +34,15 @@ public class LocationCommandService(ILocationRepository locationRepository, IUni
     /// </exception>
     public async Task<int> Handle(CreateLocationCommand command)
     {
-        var idLocation = command.IdLocation;
+        /*var idLocation = command.IdLocation;
         
         if (await locationRepository.ExistsByIdLocation(idLocation))
             throw new ConflictException("Location with the same id " + idLocation  + " already exists");
-        
+        */
         var location = new Location(command);
         await locationRepository.AddAsync(location);
         await unitOfWork.CompleteAsync();
-        return location.IdLocation;
+        return location.LocationId;
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class LocationCommandService(ILocationRepository locationRepository, IUni
     /// </exception>
     public async Task<Location?> Handle(UpdateLocationCommand command)
     {
-        var idLocation = command.IdLocation;
+        var idLocation = command.LocationId;
         
         if (!await locationRepository.ExistsByIdLocation(idLocation))
             throw new NotFoundIdException("Location with id " + idLocation  + " does not exist");
@@ -93,9 +93,9 @@ public class LocationCommandService(ILocationRepository locationRepository, IUni
     /// </exception>
     public async Task<bool> Handle(DeleteLocationCommand command)
     {
-        if (!await locationRepository.ExistsByIdLocation(command.IdLocation))
-            throw new NotFoundIdException("Location with id " + command.IdLocation  + " does not exist");
-        var location = await locationRepository.FindByIdAsync(command.IdLocation);
+        if (!await locationRepository.ExistsByIdLocation(command.LocationId))
+            throw new NotFoundIdException("Location with id " + command.LocationId  + " does not exist");
+        var location = await locationRepository.FindByIdAsync(command.LocationId);
         if (location is null)
             throw new NotFoundArgumentException("Location not found");
         locationRepository.Remove(location);

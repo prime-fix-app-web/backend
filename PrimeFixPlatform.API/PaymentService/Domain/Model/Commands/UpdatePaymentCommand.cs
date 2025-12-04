@@ -5,7 +5,7 @@ namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
 /// <summary>
 ///     Command to update a payment's information
 /// </summary>
-/// <param name="IdPayment">
+/// <param name="PaymentId">
 ///     The unique identifier for the payment to be updated
 /// </param>
 /// <param name="CardNumber">
@@ -23,8 +23,8 @@ namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
 /// <param name="Cvv">
 ///     The cvv of the payment to be updated
 /// </param>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The unique identifier of the user associated with the payment to be updated 
 /// </param>
-public record UpdatePaymentCommand(string IdPayment, string CardNumber, CardType CardType, int Month,
-    int Year, int Cvv, string IdUserAccount);
+public record UpdatePaymentCommand(int PaymentId, string CardNumber, CardType CardType, int Month,
+    int Year, int Cvv, int UserAccountId);

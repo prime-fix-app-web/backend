@@ -32,18 +32,18 @@ public class PaymentCommandService(IPaymentRepository paymentRepository, IUnitOf
     /// <exception cref="NotFoundIdException">
     ///     Indicates that a payment with the same id already exists
     /// </exception>
-    public async Task<string> Handle(CreatePaymentCommand command)
-    {
-        var idPayment = command.IdPayment;
+    public async Task<int> Handle(CreatePaymentCommand command)
+    { 
+        /*var idPayment = command.;*/
         
-        if(await paymentRepository.ExistsByIdPayment(idPayment))
+        /*if(await paymentRepository.ExistsByIdPayment(idPayment))
             throw new ConflictException("Payment with the same id "
                                         + idPayment + " already exists");
-        
+        */
         var payment = new Payment(command);
         await paymentRepository.AddAsync(payment);
         await unitOfWork.CompleteAsync();
-        return payment.IdPayment;
+        return payment.PaymentId;
     }
 
     /// <summary>
@@ -62,8 +62,8 @@ public class PaymentCommandService(IPaymentRepository paymentRepository, IUnitOf
     /// </exception>
     public async Task<Payment?> Handle(UpdatePaymentCommand command)
     {
-        var idPayment = command.IdPayment;
-        var idUserAccount = command.IdUserAccount;
+        var idPayment = command.PaymentId;
+        var idUserAccount = command.UserAccountId;
         
         if(!await paymentRepository.ExistsByIdPayment(idPayment))
             throw new NotFoundIdException("Payment with the same id "+idPayment+" does not exist");
@@ -95,9 +95,9 @@ public class PaymentCommandService(IPaymentRepository paymentRepository, IUnitOf
     /// </exception>
     public async Task<bool> Handle(DeletePaymentCommand command)
     {
-        if (!await paymentRepository.ExistsByIdPayment(command.IdPayment))
-            throw new NotFoundIdException("Payment with id " + command.IdPayment  + " does not exist");
-        var payment = await paymentRepository.FindByIdAsync(command.IdPayment);
+        if (!await paymentRepository.ExistsByIdPayment(command.PaymentId))
+            throw new NotFoundIdException("Payment with id " + command.PaymentId  + " does not exist");
+        var payment = await paymentRepository.FindByIdAsync(command.PaymentId);
         if (payment is null)
             throw new NotFoundArgumentException("Payment not found");
         paymentRepository.Remove(payment);

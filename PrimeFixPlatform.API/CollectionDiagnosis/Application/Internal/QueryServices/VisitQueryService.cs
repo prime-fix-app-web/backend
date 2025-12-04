@@ -51,14 +51,36 @@ public class VisitQueryService(IVisitRepository visitRepository): IVisitQuerySer
     /// <returns></returns>
     public async Task<Visit?> Handle(GetVisitByIdQuery query)
     {
-        return await visitRepository.FindByIdAsync(query.VisitId);
+        return await visitRepository.FindById(query.VisitId);
     }
-
+    
+    /// <summary>
+    ///     Handles the query to retrieve a diagnostic by its identifier.
+    /// </summary>
+    /// <param name="query">
+    ///     Query containing the diagnostic identifier.
+    /// </param>
+    /// <returns>
+    ///     A task representing the asynchronous operation.
+    ///     The matching <see cref="Diagnostic"/> if found; otherwise <c>null</c>.
+    /// </returns>
     public async Task<Visit?> Handle(GetVisitByVehicleIdQuery query)
     {
         return await visitRepository.FindByVehicleId(query.VehicleId);
     }
 
+    /// <summary>
+    ///     Handles the query to retrieve a diagnostic
+    ///     by the related expected visit identifier.
+    /// </summary>
+    /// <param name="query">
+    ///     Query containing the expected visit identifier.
+    /// </param>
+    /// <returns>
+    ///     A task representing the asynchronous operation.
+    ///     The matching <see cref="Diagnostic"/> if found;
+    ///     otherwise <c>null</c>.
+    /// </returns>
     public async Task<Visit?> Handle(GetVisitByServiceIdQuery query)
     {
         return await visitRepository.FindByServiceId(query.ServiceId); 

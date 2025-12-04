@@ -5,7 +5,7 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 /// <summary>
 ///     Response to get a notification
 /// </summary>
-/// <param name="IdNotification">
+/// <param name="NotificationId">
 ///     The unique identifier of the notification.
 /// </param>
 /// <param name="Message">
@@ -20,14 +20,13 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 /// <param name="Sent">
 ///     The date the notification was sent.
 /// </param>
-/// <param name="IdDiagnostic">
+/// <param name="DiagnosticId">
 ///     The unique identifier of the diagnostic associated with the notification.
 /// </param>
 public record NotificationResponse(
-    [property: JsonPropertyName("id_notification")] string IdNotification,
+    [property: JsonPropertyName("notification_id")] int NotificationId,
     string Message,
     bool Read,
-    [property: JsonPropertyName("id_vehicle")] string IdVehicle,
+    [property: JsonPropertyName("vehicle_id")] int IdVehicle,
     DateOnly Sent,
-    
-    [property: JsonPropertyName("id_diagnostic")] string IdDiagnostic);
+    [property: JsonPropertyName("diagnostic_id")] int DiagnosticId);

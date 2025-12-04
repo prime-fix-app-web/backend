@@ -3,9 +3,6 @@
 /// <summary>
 ///     Command to create a new Auto Repair entity.
 /// </summary>
-/// <param name="IdAutoRepair">
-///     The unique identifier for the Auto Repair.
-/// </param>
 /// <param name="Ruc">
 ///     The Single Taxpayer Registry number of the Auto Repair.
 /// </param>
@@ -15,7 +12,7 @@
 /// <param name="TechniciansCount">
 ///     The number of technicians available at the Auto Repair.
 /// </param>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The identifier of the user account associated with the Auto Repair.
 /// </param>
-public record CreateAutoRepairCommand(int IdAutoRepair, string Ruc, string ContactEmail, int TechniciansCount, int IdUserAccount);
+public record CreateAutoRepairCommand( string Ruc, string ContactEmail, int TechniciansCount, int UserAccountId);

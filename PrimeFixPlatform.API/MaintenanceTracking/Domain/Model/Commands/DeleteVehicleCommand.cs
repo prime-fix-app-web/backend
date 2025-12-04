@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to delete a vehicle.
 /// </summary>
-/// <param name="IdVehicle">
+/// <param name="VehicleId">
 ///     The unique identifier of the vehicle to be deleted.
 /// </param>
-public record DeleteVehicleCommand(string IdVehicle);
+public record DeleteVehicleCommand(int VehicleId);

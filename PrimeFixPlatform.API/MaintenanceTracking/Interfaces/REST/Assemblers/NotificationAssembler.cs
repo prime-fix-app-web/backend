@@ -21,8 +21,8 @@ public class NotificationAssembler
     public static CreateNotificationCommand ToCommandFromRequest(CreateNotificationRequest request)
     {
         return new CreateNotificationCommand(
-            request.IdNotification, request.Message, request.Read, 
-            request.IdVehicle, request.Sent, request.IdDiagnostic
+            request.Message, request.Read, 
+            request.VehicleId, request.Sent, request.DiagnosticId
             );
     }
     
@@ -38,11 +38,11 @@ public class NotificationAssembler
     /// <returns>
     ///     The corresponding UpdateNotificationCommand.
     /// </returns>
-    public static UpdateNotificationCommand ToCommandFromRequest(UpdateNotificationRequest request, string idNotification)
+    public static UpdateNotificationCommand ToCommandFromRequest(UpdateNotificationRequest request, int idNotification)
     {
         return new UpdateNotificationCommand(
             idNotification, request.Message, request.Read, 
-            request.IdVehicle, request.Sent, request.IdDiagnostic
+            request.VehicleId, request.Sent, request.DiagnosticId
             );
     }
     
@@ -58,8 +58,8 @@ public class NotificationAssembler
     public static NotificationResponse ToResponseFromEntity(Notification entity)
     {
         return new NotificationResponse(
-            entity.IdNotification, entity.Message, entity.Read, 
-            entity.IdVehicle, entity.Sent, entity.IdDiagnostic
+            entity.NotificationId, entity.Message, entity.Read, 
+            entity.VehicleId, entity.Sent, entity.DiagnosticId
             );
     }
 }

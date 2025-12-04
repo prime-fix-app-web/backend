@@ -5,12 +5,12 @@ namespace PrimeFixPlatform.API.PaymentService.Domain.Repositories;
 
 public interface IRatingRepository: IBaseRepository<Rating>
 {
-    Task<bool> ExistsByIdRating(string idRating);
+    Task<bool> ExistsByIdRating(int ratingId);
     
-    Task<bool> ExistsByIdAutoRepair(string idAutoRepair);
+    Task<bool> ExistsByIdAutoRepair(int autoRepairId);
     
-    Task<bool> ExistsByIdAutoRepairAndIdRatingIsNot(string  idAutoRepair, string idRating);
+    Task<bool> ExistsByIdAutoRepairAndIdRatingIsNot(int autoRepairId, int ratingId);
     
-    Task<IEnumerable<Rating>> FindByIdAutoRepair(string idAutoRepair);
+    Task<IEnumerable<Rating>> FindByIdAutoRepair(int autoRepairId);
     
 }

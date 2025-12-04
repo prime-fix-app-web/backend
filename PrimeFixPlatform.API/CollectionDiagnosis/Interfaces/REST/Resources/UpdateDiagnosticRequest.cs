@@ -6,10 +6,6 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Resources;
 
 public record UpdateDiagnosticRequest(
     
-    [property:JsonPropertyName("diagnosisId")]
-    [Required]
-    int DiagnosisId,
-    
     [property: JsonPropertyName("price")]
     [Required]
     float Price,

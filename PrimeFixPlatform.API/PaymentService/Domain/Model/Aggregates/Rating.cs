@@ -15,31 +15,27 @@ public partial class Rating
     /// <summary>
     ///     The constructor for the Rating aggregate root entity
     /// </summary>
-    /// <param name="idRating">
-    ///     The unique identifier for the rating.
-    /// </param>
     /// <param name="starRating">
     ///     The star rating of the rating
     /// </param>
     /// <param name="comment">
     ///     The comment of the rating
     /// </param>
-    /// <param name="idAutoRepair">
+    /// <param name="autoRepairId">
     ///     The identifier of the auto repair associated with the payment.
     /// </param>
-    /// <param name="idUserAccount">
+    /// <param name="userAccountId">
     ///     The identifier of the user account associated with the payment.
     /// </param>
-    public Rating(string idRating, int starRating, string comment,
-        string idAutoRepair, string idUserAccount)
+    public Rating( int starRating, string comment,
+        int autoRepairId, int userAccountId)
     {
         if (starRating < 1 || starRating > 5)
             throw new ArgumentException("Star rating must be between 1 and 5.");
-        IdRating = idRating;
         StarRating = starRating;
         Comment = comment;
-        IdAutoRepair = idAutoRepair;
-        IdUserAccount = idUserAccount;
+        AutoRepairId = autoRepairId;
+        UserAccountId = userAccountId;
     }
 
     /// <summary>
@@ -49,11 +45,10 @@ public partial class Rating
     ///     The command object containing data to create a Rating
     /// </param>
     public Rating(CreateRatingCommand command) : this(
-        command.IdRating,
         command.StarRating,
         command.Comment,
-        command.IdAutoRepair,
-        command.IdUserAccount)
+        command.AutoRepairId,
+        command.UserAccountId)
     {
     }
 
@@ -67,17 +62,17 @@ public partial class Rating
     {
         if (command.StarRating < 1 || command.StarRating > 5)
             throw new ArgumentException("Star rating must be between 1 and 5.");
-        IdRating = command.IdRating;
+        RatingId = command.RatingId;
         StarRating = command.StarRating;
         Comment = command.Comment;
-        IdAutoRepair = command.IdAutoRepair;
-        IdUserAccount = command.IdUserAccount;
+        AutoRepairId = command.AutoRepairId;
+        UserAccountId = command.UserAccountId;
     }
     
-    public string IdRating { get; private set; }
+    public int RatingId { get; private set; }
     public int StarRating { get; private set; }
     public string Comment { get; private set; }
-    public string IdAutoRepair { get; private set; }
-    public string IdUserAccount { get; private set; }
+    public int AutoRepairId { get; private set; }
+    public int UserAccountId { get; private set; }
     
 }

@@ -1,10 +1,9 @@
-using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
-using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
-using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
-using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Queries;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
+using Service = PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates.Service;
 
-namespace PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.QueryServices;
+namespace PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.QueryServices;
 
 /// <summary>
 ///     Query service for service aggregate 

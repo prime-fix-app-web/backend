@@ -72,9 +72,9 @@ public class DiagnosticController(IDiagnosticQueryService diagnosticQueryService
         )]
     [SwaggerResponse(StatusCodes.Status200OK, "Updates a Diagnostic Resource")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Updates a Diagnostic Resource")]
-    public async Task<IActionResult> UpdateDiagnostic([FromBody] UpdateDiagnosticRequest request)
+    public async Task<IActionResult> UpdateDiagnostic([FromBody] UpdateDiagnosticRequest request, int diagnosticId)
     {
-        var updateDiagnostic = DiagnosticAssembler.ToCommandFromRequest(request);
+        var updateDiagnostic = DiagnosticAssembler.ToCommandFromRequest(request, diagnosticId);
         var diagnosis = await diagnosticCommandService.Handle(updateDiagnostic);
         if (diagnosis is null) return BadRequest();
         

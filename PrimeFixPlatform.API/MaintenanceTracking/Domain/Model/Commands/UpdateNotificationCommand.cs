@@ -3,7 +3,7 @@
 /// <summary>
 ///     Command to update an existing Notification
 /// </summary>
-/// <param name="IdNotification">
+/// <param name="NotificationId">
 ///     The unique identifier for the notification to be updated
 /// </param>
 /// <param name="Message">
@@ -12,14 +12,14 @@
 /// <param name="Read">
 ///     The read status of the notification to be updated
 /// </param>
-/// <param name="IdVehicle">
+/// <param name="VehicleId">
 ///     The unique identifier of the vehicle associated with the notification to be updated
 /// </param>
 /// <param name="Sent">
 ///     The date the notification was sent
 /// </param>
-/// <param name="IdDiagnostic">
+/// <param name="DiagnosticId">
 ///     The unique identifier of the diagnostic associated with the notification to be updated
 /// </param>
-public record UpdateNotificationCommand(string IdNotification, string Message, bool Read, 
-    string IdVehicle, DateOnly Sent, string IdDiagnostic);
+public record UpdateNotificationCommand(int NotificationId, string Message, bool Read, 
+    int VehicleId, DateOnly Sent, int DiagnosticId);

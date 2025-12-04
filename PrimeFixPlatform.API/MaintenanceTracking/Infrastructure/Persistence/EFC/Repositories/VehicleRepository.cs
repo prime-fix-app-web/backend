@@ -16,16 +16,16 @@ public class VehicleRepository(AppDbContext context)
     /// <summary>
     ///     Checks if a vehicle exists by its unique identifier.
     /// </summary>
-    /// <param name="idVehicle">
+    /// <param name="vehicleId">
     ///     The unique identifier of the vehicle.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a vehicle with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdVehicle(string idVehicle)
+    public async Task<bool> ExistsByIdVehicle(int vehicleId)
     {
-        return await Context.Set<Vehicle>().AnyAsync(vehicle => vehicle.IdVehicle == idVehicle);
+        return await Context.Set<Vehicle>().AnyAsync(vehicle => vehicle.VehicleId == vehicleId);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class VehicleRepository(AppDbContext context)
     /// <param name="vehiclePlate">
     ///     The vehicle plate to check for existence.
     /// </param>
-    /// <param name="idVehicle">
+    /// <param name="vehicleId">
     ///     The unique identifier of the vehicle to exclude from the check.
     /// </param>
     /// <returns>
@@ -57,10 +57,10 @@ public class VehicleRepository(AppDbContext context)
     ///     a boolean indicating whether a vehicle with the specified vehicle plate exists,
     ///     excluding the vehicle with the specified ID.
     /// </returns>
-    public async Task<bool> ExistsByVehiclePlateAndIdVehicleIsNot(string vehiclePlate, string idVehicle)
+    public async Task<bool> ExistsByVehiclePlateAndIdVehicleIsNot(string vehiclePlate, int vehicleId)
     {
         return await Context.Set<Vehicle>().AnyAsync(vehicle => 
-            vehicle.VehicleInformation.VehiclePlate == vehiclePlate && vehicle.IdVehicle != idVehicle);
+            vehicle.VehicleInformation.VehiclePlate == vehiclePlate && vehicle.VehicleId != vehicleId);
     }
 
     /// <summary>
