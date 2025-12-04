@@ -34,5 +34,5 @@ public record PaymentResponse(
     int Month,
     int Year,
     int Cvv,
-    [property:JsonPropertyName("id_user_account")] string IdUserAccount
+    [property:JsonPropertyName("id_user_account")] IdUserAccount IdUserAccount
     );

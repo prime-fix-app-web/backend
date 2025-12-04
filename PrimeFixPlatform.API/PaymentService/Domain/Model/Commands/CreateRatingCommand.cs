@@ -1,4 +1,6 @@
-﻿namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
+﻿using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
+
+namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
 
 /// <summary>
 ///     Command to create a new Rating
@@ -19,4 +21,4 @@
 ///     The unique identifier of the user associated with the rating to be created
 /// </param>
 public record CreateRatingCommand(string IdRating, int StarRating, string Comment, 
-    string IdAutoRepair, string IdUserAccount);
+    IdAutoRepair IdAutoRepair, IdUserAccount IdUserAccount);

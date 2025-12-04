@@ -1,4 +1,5 @@
 ﻿using PrimeFixPlatform.API.PaymentService.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 
 namespace PrimeFixPlatform.API.PaymentService.Domain.Repositories;
@@ -27,7 +28,7 @@ public interface IPaymentRepository : IBaseRepository<Payment>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a payment with the specified user account exists.
     /// </returns>
-    Task<bool> ExistsByIdUserAccount(string idUserAccount);
+    Task<bool> ExistsByIdUserAccount(IdUserAccount idUserAccount);
     
     /// <summary>
     ///     Checks if a payment exists by a user account associated, excluding a specific payment by its ID.
@@ -43,7 +44,7 @@ public interface IPaymentRepository : IBaseRepository<Payment>
     ///     a boolean indicating whether a payment with the specified user account associated exists,
     ///     excluding the payment with the specified ID.
     /// </returns>
-    Task<bool> ExistsByIdUserAccountAndIdPaymentIsNot(string idUserAccount, string idPayment);
+    Task<bool> ExistsByIdUserAccountAndIdPaymentIsNot(IdUserAccount idUserAccount, string idPayment);
     
     /// <summary>
     ///     Finds ratings by the user account associated.
@@ -55,5 +56,5 @@ public interface IPaymentRepository : IBaseRepository<Payment>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     an enumerable of payments with the specified user account associated.
     /// </returns>
-    Task<IEnumerable<Payment>> FindByIdUserAccount(string idUserAccount);
+    Task<IEnumerable<Payment>> FindByIdUserAccount(IdUserAccount idUserAccount);
 }

@@ -1,4 +1,6 @@
-﻿namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Queries;
+﻿using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
+
+namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Queries;
 
 /// <summary>
 ///     Query to get ratings by their auto repair associated.
@@ -6,4 +8,4 @@
 /// <param name="IdAutoRepair">
 ///     The user account to filter ratings by.
 /// </param>
-public record GetRatingByIdAutoRepairQuery(string  IdAutoRepair);
+public record GetRatingByIdAutoRepairQuery(IdAutoRepair  IdAutoRepair);

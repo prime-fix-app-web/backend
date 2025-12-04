@@ -1,4 +1,6 @@
-﻿namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
+﻿using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
+
+namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
 
 /// <summary>
 ///     Command to update a new Rating
@@ -19,4 +21,4 @@
 ///     The unique identifier of the user account performing the update
 /// </param>
 public record UpdateRatingCommand(string IdRating, int StarRating, string Comment, 
-    string IdAutoRepair, string IdUserAccount);
+    IdAutoRepair IdAutoRepair, IdUserAccount IdUserAccount);

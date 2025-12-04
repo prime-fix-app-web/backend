@@ -1,4 +1,5 @@
 ﻿using PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
+using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
 
 namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Aggregates;
 
@@ -31,7 +32,7 @@ public partial class Rating
     ///     The identifier of the user account associated with the payment.
     /// </param>
     public Rating(string idRating, int starRating, string comment,
-        string idAutoRepair, string idUserAccount)
+        IdAutoRepair idAutoRepair, IdUserAccount idUserAccount)
     {
         if (starRating < 1 || starRating > 5)
             throw new ArgumentException("Star rating must be between 1 and 5.");
@@ -77,7 +78,7 @@ public partial class Rating
     public string IdRating { get; private set; }
     public int StarRating { get; private set; }
     public string Comment { get; private set; }
-    public string IdAutoRepair { get; private set; }
-    public string IdUserAccount { get; private set; }
+    public IdAutoRepair IdAutoRepair { get; private set; }
+    public IdUserAccount IdUserAccount { get; private set; }
     
 }

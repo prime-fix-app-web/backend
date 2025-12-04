@@ -19,6 +19,22 @@ namespace PrimeFixPlatform.API.PaymentService.Application.Internal.CommandServic
 public class RatingCommandService(IRatingRepository ratingRepository, IUnitOfWork unitOfWork)
     : IRatingCommandService
 {
+    /// <summary>
+    ///     Handles the command to create a Rating
+    /// </summary>
+    /// <param name="command">
+    ///     The command to create a new rating
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains the created rating.
+    /// </returns>
+    /// <exception cref="NotFoundIdException">
+    ///     Indicates that a rating with the same id already exists
+    /// </exception>
+    /// <exception cref="ConflictException">
+    ///     Indicates that a rating associated to an autorepair with the same id already exists
+    /// </exception>
     public async Task<string> Handle(CreateRatingCommand command)
     {
         var idRating = command.IdRating;
@@ -36,7 +52,24 @@ public class RatingCommandService(IRatingRepository ratingRepository, IUnitOfWor
         return rating.IdRating;
         
     }
-
+    
+    /// <summary>
+    ///     Handles the command to update an existing rating
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains the updated payment.
+    /// </returns>
+    /// <exception cref="NotFoundIdException">
+    ///     Indicates that a rating with the specified id already exists
+    /// </exception>
+    /// <exception cref="ConflictException">
+    ///     Indicates that a rating associated to an autorepair with the same id already exists
+    /// </exception>
+    /// <exception cref="NotFoundArgumentException">
+    ///     Indicates that a rating with the specified id was not found
+    /// </exception>
     public async Task<Rating?> Handle(UpdateRatingCommand command)
     {
         var idRating = command.IdRating;
@@ -57,7 +90,23 @@ public class RatingCommandService(IRatingRepository ratingRepository, IUnitOfWor
         return ratingToUpdate;
         
     }
-
+    
+    /// <summary>
+    ///     Handles the command to delete an existing rating
+    /// </summary>
+    /// <param name="command">
+    ///     The command to delete an existing rating
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains a boolean indicating whether the rating was successfully deleted
+    /// </returns>
+    /// <exception cref="NotFoundIdException">
+    ///     Indicates that a rating with the specified id does not exist
+    /// </exception>
+    /// <exception cref="NotFoundArgumentException">
+    ///     Indicates that the rating to delete was not found
+    /// </exception>
     public async Task<bool> Handle(DeleteRatingCommand command)
     {
         if (!await ratingRepository.ExistsByIdRating(command.IdRating))

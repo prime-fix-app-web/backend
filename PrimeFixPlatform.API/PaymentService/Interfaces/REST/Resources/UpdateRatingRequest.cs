@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
 
 namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 
@@ -30,11 +31,9 @@ public record UpdateRatingRequest(
     
     [property: JsonPropertyName("id_auto_repair")]
     [Required]
-    [MinLength(1)]
-    string IdAutoRepair,
+    IdAutoRepair IdAutoRepair,
     
     [property: JsonPropertyName("id_user_account")]
     [Required]
-    [MinLength(1)]
-    string IdUserAccount
+    IdUserAccount IdUserAccount
     );

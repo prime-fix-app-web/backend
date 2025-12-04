@@ -4,4 +4,4 @@
 ///     Represents the identifier of a User Account
 /// </summary>
 /// <param name="idUserAccount"></param>
-public record IdUserAccount(string idUserAccount);
+public record IdUserAccount(int idUserAccount);

@@ -38,7 +38,7 @@ public partial class Payment
     ///     The identifier of the user associated with the payment.
     /// </param>
     public Payment(string idPayment, string cardNumber, CardType cardType, int month,
-        int year, int cvv, string idUserAccount)
+        int year, int cvv, IdUserAccount idUserAccount)
     {
         if (cvv < 100 || cvv > 999)
             throw new ArgumentException("CVV must be a 3-digit number between 100 and 999.");
@@ -102,7 +102,7 @@ public partial class Payment
     public int Month { get; private set; }
     public int Year { get; private set; }
     public int Cvv { get; private set; }
-    public string IdUserAccount { get; private set; }
+    public IdUserAccount IdUserAccount { get; private set; }
     
     
 }

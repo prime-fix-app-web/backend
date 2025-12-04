@@ -27,4 +27,4 @@ namespace PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
 ///     The unique identifier of the user associated with the payment to be created 
 /// </param>
 public record CreatePaymentCommand(string IdPayment, string CardNumber, CardType CardType, int Month,
-    int Year, int Cvv, string IdUserAccount);
+    int Year, int Cvv, IdUserAccount IdUserAccount);

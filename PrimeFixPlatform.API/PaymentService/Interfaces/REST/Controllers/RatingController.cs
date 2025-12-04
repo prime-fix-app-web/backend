@@ -4,6 +4,7 @@ using PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Queries;
+using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.PaymentService.Domain.Services;
 using PrimeFixPlatform.API.PaymentService.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
@@ -91,7 +92,7 @@ public class RatingController(IRatingQueryService ratingQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetAllRatings([FromQuery] string? idAutoRepair)
+    public async Task<IActionResult> GetAllRatings([FromQuery] IdAutoRepair? idAutoRepair)
     {
         IEnumerable<Rating> ratings;
         

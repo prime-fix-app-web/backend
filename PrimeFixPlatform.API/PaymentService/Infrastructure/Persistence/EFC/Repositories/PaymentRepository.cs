@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.PaymentService.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -38,7 +39,7 @@ public class PaymentRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a payment with the specified user account ID exists.
     /// </returns>
-    public async Task<bool> ExistsByIdUserAccount(string idUserAccount)
+    public async Task<bool> ExistsByIdUserAccount(IdUserAccount idUserAccount)
     {
         return await Context.Set<Payment>().AnyAsync(payment => payment.IdUserAccount == idUserAccount);
     }
@@ -57,7 +58,7 @@ public class PaymentRepository(AppDbContext context)
     ///     a boolean indicating whether a payment with the specified user account ID exists,
     ///     excluding the payment with the specified ID.
     /// </returns>
-    public async Task<bool> ExistsByIdUserAccountAndIdPaymentIsNot(string idUserAccount, string idPayment)
+    public async Task<bool> ExistsByIdUserAccountAndIdPaymentIsNot(IdUserAccount idUserAccount, string idPayment)
     {
         return await Context.Set<Payment>().AnyAsync(payment =>
             payment.IdUserAccount == idUserAccount && payment.IdPayment != idPayment);
@@ -73,7 +74,7 @@ public class PaymentRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     an enumerable of payments with the specified user account ID.
     /// </returns>
-    public async Task<IEnumerable<Payment>> FindByIdUserAccount(string idUserAccount)
+    public async Task<IEnumerable<Payment>> FindByIdUserAccount(IdUserAccount idUserAccount)
     {
         return await Context.Set<Payment>()
             .Where(payment => payment.IdUserAccount == idUserAccount)

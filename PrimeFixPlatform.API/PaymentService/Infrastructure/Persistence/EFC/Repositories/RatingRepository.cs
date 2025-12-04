@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.PaymentService.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -38,9 +39,9 @@ public class RatingRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a rating with the specified auto repair ID exists.
     /// </returns>
-    public async Task<bool> ExistsByIdAutoRepair(string idAutoRepair)
+    public async Task<bool> ExistsByIdAutoRepair(IdAutoRepair idAutoRepair)
     {
-        return await Context.Set<Rating>().AnyAsync(rating => rating.IdUserAccount == idAutoRepair);
+        return await Context.Set<Rating>().AnyAsync(rating => rating.IdAutoRepair == idAutoRepair);
     }
 
     /// <summary>
@@ -57,7 +58,7 @@ public class RatingRepository(AppDbContext context)
     ///     a boolean indicating whether a rating with the specified auto repair ID exists,
     ///     excluding the rating with the specified ID.
     /// </returns>
-    public async Task<bool> ExistsByIdAutoRepairAndIdRatingIsNot(string idAutoRepair, string idRating)
+    public async Task<bool> ExistsByIdAutoRepairAndIdRatingIsNot(IdAutoRepair idAutoRepair, string idRating)
     {
         return await Context.Set<Rating>().AnyAsync(rating => 
             rating.IdAutoRepair == idAutoRepair && rating.IdRating != idRating);
@@ -74,7 +75,7 @@ public class RatingRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     an enumerable of ratings with the specified auto repair ID.
     /// </returns>
-    public async Task<IEnumerable<Rating>> FindByIdAutoRepair(string idAutoRepair)
+    public async Task<IEnumerable<Rating>> FindByIdAutoRepair(IdAutoRepair idAutoRepair)
     {
         return await Context.Set<Rating>()
             .Where(rating => rating.IdAutoRepair == idAutoRepair)

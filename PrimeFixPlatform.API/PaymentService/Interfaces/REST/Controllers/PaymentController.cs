@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Queries;
+using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.PaymentService.Domain.Services;
 using PrimeFixPlatform.API.PaymentService.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
@@ -90,7 +91,7 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetAllPayments([FromQuery] string? idUserAccount)
+    public async Task<IActionResult> GetAllPayments([FromQuery] IdUserAccount? idUserAccount)
     {
         IEnumerable<Payment> payments;
         if (idUserAccount is null)

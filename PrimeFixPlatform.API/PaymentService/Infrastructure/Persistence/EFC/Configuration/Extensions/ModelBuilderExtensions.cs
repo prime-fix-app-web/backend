@@ -26,7 +26,7 @@ public static class ModelBuilderExtensions
             ct.Property(p => p.Type).IsRequired().HasMaxLength(50);
         });
         modelBuilder.Entity<Payment>().Property(p => p.Cvv).IsRequired();
-        modelBuilder.Entity<Payment>().Property(p => p.IdUserAccount).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Payment>().Property(p => p.IdUserAccount).IsRequired();
         modelBuilder.Entity<Payment>().Property(p => p.Month).IsRequired();
         modelBuilder.Entity<Payment>().Property(p => p.Year).IsRequired();
         
@@ -35,8 +35,8 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<Rating>().Property(r => r.IdRating).IsRequired().HasMaxLength(255);
         modelBuilder.Entity<Rating>().Property(r => r.StarRating).IsRequired();
         modelBuilder.Entity<Rating>().Property(r => r.Comment).IsRequired().HasMaxLength(255);
-        modelBuilder.Entity<Rating>().Property(r => r.IdAutoRepair).IsRequired().HasMaxLength(255);
-        modelBuilder.Entity<Rating>().Property(r => r.IdUserAccount).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Rating>().Property(r => r.IdAutoRepair).IsRequired();
+        modelBuilder.Entity<Rating>().Property(r => r.IdUserAccount).IsRequired();
 
     }
 }
