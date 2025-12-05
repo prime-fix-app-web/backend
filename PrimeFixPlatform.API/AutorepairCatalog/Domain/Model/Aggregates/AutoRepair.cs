@@ -25,33 +25,50 @@ public partial class AutoRepair
     /// <summary>
     ///     Private parameterless constructor required by EF Core.
     /// </summary>
-    private AutoRepair() { } 
+    protected AutoRepair() { } 
 
     /// <summary>
     ///     Initializes a new instance of <see cref="AutoRepair"/> with the specified details.
     /// </summary>
     /// <param name="ruc">The RUC (tax ID) of the auto repair.</param>
     /// <param name="contactEmail">The contact email of the auto repair.</param>
-    /// <param name="techniciansCount">The number of technicians in the auto repair.</param>
     /// <param name="userAccountId">The associated user account ID.</param>
-    public AutoRepair(string ruc, string contactEmail, int techniciansCount, int userAccountId)
+    public AutoRepair(string ruc, string contactEmail, int userAccountId)
     {
         Ruc = ruc;
         ContactEmail = contactEmail;
-        TechniciansCount = techniciansCount;
+        TechniciansCount = 0;
         UserAccountId = userAccountId;
     }
 
     public AutoRepair(CreateAutoRepairCommand command)
-        : this(command.Ruc, command.ContactEmail, command.TechniciansCount, command.UserAccountId)
+        : this(command.Ruc, command.ContactEmail, command.UserAccountId)
     { }
 
     public void UpdateAutoRepair(UpdateAutoRepairCommand command)
     {
         Ruc = command.Ruc;
         ContactEmail = command.ContactEmail;
-        TechniciansCount = command.TechniciansCount;
         UserAccountId = command.UserAccountId;
+    }
+    
+    /// <summary>
+    ///     Increments the count of technicians associated with this AutoRepair.
+    /// </summary>
+    public void IncrementTechniciansCount()
+    {
+        TechniciansCount++;
+    }
+    
+    /// <summary>
+    ///     Decrements the count of technicians associated with this AutoRepair.
+    /// </summary>
+    public void DecrementTechniciansCount()
+    {
+        if (TechniciansCount > 0)
+        {
+            TechniciansCount--;
+        }
     }
 
     public int AutoRepairId { get; private set; }

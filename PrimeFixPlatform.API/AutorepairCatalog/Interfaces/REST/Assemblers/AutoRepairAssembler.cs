@@ -22,7 +22,7 @@ public class AutoRepairAssembler
     public static CreateAutoRepairCommand ToCommandFromRequest(CreateAutoRepairRequest request)
     {
         return new CreateAutoRepairCommand(request.Ruc, request.ContactEmail,
-            request.TechniciansCount, request.UserAccountId
+            request.UserAccountId
         );
     }
     
@@ -42,7 +42,7 @@ public class AutoRepairAssembler
     {
         return new UpdateAutoRepairCommand(
             autoRepairId, request.Ruc, request.ContactEmail,
-            request.TechniciansCount, request.IdUserAccount
+             request.UserAccountId
         );
     }
     

@@ -109,5 +109,9 @@ public class AutoRepairQueryService(IAutoRepairRepository autoRepairRepository, 
 
         return autoRepair;
     }
-    
+
+    public async Task<bool> Handle(ExistsAutoRepairByIdQuery query)
+    {
+        return await autoRepairRepository.ExistsByIdAutoRepair(query.AutoRepairId);
+    }
 }
