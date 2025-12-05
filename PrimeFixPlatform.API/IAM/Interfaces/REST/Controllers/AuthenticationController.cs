@@ -1,7 +1,7 @@
 ﻿using System.Net.Mime;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.Iam.Domain.Services;
+using PrimeFixPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using PrimeFixPlatform.API.Iam.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.IAM.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
@@ -10,8 +10,8 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace PrimeFixPlatform.API.IAM.Interfaces.REST.Controllers;
 
-[Authorize]
 [ApiController]
+[Authorize]
 [Route("api/v1/authentication")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Authentication Endpoints")]

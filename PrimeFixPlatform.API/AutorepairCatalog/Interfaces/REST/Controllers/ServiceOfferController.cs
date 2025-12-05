@@ -7,6 +7,7 @@ using PrimeFixPlatform.API.AutorepairCatalog.Domain.Services;
 using PrimeFixPlatform.API.AutorepairCatalog.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
+using PrimeFixPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Controllers;
@@ -16,7 +17,8 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Controllers;
 ///     Provides endpoints to create and delete service offers associated with specific AutoRepair entities.
 /// </summary>
 [ApiController]
-[Route("api/v1/ServiceOffer")]
+[Authorize]
+[Route("api/v1/service_offer")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available ServicesOffer Endpoints")]
 public class ServiceOfferController(IAutoRepairCommandService autoRepairCommandService,

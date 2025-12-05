@@ -1,9 +1,9 @@
 ﻿using System.Net.Mime;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.IAM.Domain.Model.Commands;
 using PrimeFixPlatform.API.IAM.Domain.Model.Queries;
 using PrimeFixPlatform.API.IAM.Domain.Services;
+using PrimeFixPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using PrimeFixPlatform.API.IAM.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.IAM.Interfaces.REST.Resources;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;

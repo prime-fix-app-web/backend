@@ -1,6 +1,6 @@
 ﻿using System.Net.Mime;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PrimeFixPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Commands;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Queries;

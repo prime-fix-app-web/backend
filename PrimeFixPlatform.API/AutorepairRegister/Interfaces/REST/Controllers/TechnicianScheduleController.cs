@@ -1,11 +1,11 @@
 ﻿using System.Net.Mime;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Commands;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Queries;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Services;
 using PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Resources;
+using PrimeFixPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
 using Swashbuckle.AspNetCore.Annotations;
 

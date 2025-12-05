@@ -1,11 +1,11 @@
 using System.Net.Mime;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
 using PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Resources;
+using PrimeFixPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Controllers;

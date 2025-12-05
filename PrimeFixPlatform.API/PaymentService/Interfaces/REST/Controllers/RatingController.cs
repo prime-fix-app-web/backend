@@ -1,6 +1,6 @@
 ﻿using System.Net.Mime;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PrimeFixPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;

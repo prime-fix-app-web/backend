@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PrimeFixPlatform.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f7ddae3a202637c8480600c603b2caa9d4cd767")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bf1debe2f9717edca19640a608caa7e851b2e5b6")]
 [assembly: System.Reflection.AssemblyProductAttribute("PrimeFixPlatform.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PrimeFixPlatform.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
