@@ -25,7 +25,7 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 /// <param name="Cvv">
 ///     The cvv  of the payment to be created
 /// </param>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The identifier of the user account of the payment to be created
 /// </param>
 public record CreatePaymentRequest(
@@ -54,4 +54,4 @@ public record CreatePaymentRequest(
     
     [property: JsonPropertyName("user_account_id")]
     [Required]
-    int IdUserAccount);
+    int UserAccountId);

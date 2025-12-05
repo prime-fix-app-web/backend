@@ -27,7 +27,9 @@ public class UserRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByUserId(int userId)
     {
-        return await Context.Set<User>().AnyAsync(user => user.Id == userId);
+        return await Context.Set<User>()
+            .Include(user => user.Location)
+            .AnyAsync(user => user.Id == userId);
     }
 
     /// <summary>
@@ -45,7 +47,9 @@ public class UserRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByNameAndLastName(string name, string lastName)
     {
-        return await Context.Set<User>().AnyAsync(user => user.Name == name && user.LastName == lastName);
+        return await Context.Set<User>()
+            .Include(user => user.Location)
+            .AnyAsync(user => user.Name == name && user.LastName == lastName);
     }
 
     /// <summary>
@@ -66,6 +70,8 @@ public class UserRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByNameAndLastNameAndUserIdIsNot(string name, string lastName, int userId)
     {
-        return await Context.Set<User>().AnyAsync(user => user.Name == name && user.LastName == lastName && user.Id != userId);
+        return await Context.Set<User>()
+            .Include(user => user.Location)
+            .AnyAsync(user => user.Name == name && user.LastName == lastName && user.Id != userId);
     }
 }

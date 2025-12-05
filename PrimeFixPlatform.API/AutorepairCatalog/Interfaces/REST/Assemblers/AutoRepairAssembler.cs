@@ -5,9 +5,9 @@ using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Assemblers;
 
 /// <summary>
-///     Assembler for converting between AutoRepair-related requests, commands, and responses.
+///     Assembler class for converting between AutoRepair-related requests, commands, and responses.
 /// </summary>
-public class AutoRepairAssembler
+public static class AutoRepairAssembler
 {
     /// <summary>
     ///     Converts a CreateAutoRepairRequest to a CreateAutoRepairCommand.
@@ -41,7 +41,7 @@ public class AutoRepairAssembler
     {
         return new UpdateAutoRepairCommand(
             autoRepairId, request.Ruc, request.ContactEmail,
-            request.TechniciansCount, request.IdUserAccount
+            request.TechniciansCount, request.UserAccountId
         );
     }
     
@@ -58,7 +58,7 @@ public class AutoRepairAssembler
     {
         List<ServiceOfferResource> serviceOffer = entity.ServiceCatalog.ServiceOffers.Select(ServiceOfferAssembler.ToResponseFromEntity).ToList();
         return new AutoRepairResponse(
-            entity.AutoRepairId, entity.Ruc, entity.ContactEmail,
+            entity.Id, entity.Ruc, entity.ContactEmail,
             entity.TechniciansCount, entity.UserAccountId,
             serviceOffer
         );

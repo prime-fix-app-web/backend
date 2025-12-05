@@ -1,6 +1,7 @@
 ﻿using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
+using PrimeFixPlatform.API.IAM.Domain.Repositories;
 using PrimeFixPlatform.API.Iam.Domain.Services;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
@@ -13,10 +14,15 @@ namespace PrimeFixPlatform.API.Iam.Application.Internal.CommandServices;
 /// <param name="userRepository">
 ///     The user repository
 /// </param>
+/// <param name="locationRepository">
+///     The location repository
+/// </param>
 /// <param name="unitOfWork">
 ///     Unit of work
 /// </param>
-public class UserCommandService(IUserRepository userRepository, IUnitOfWork unitOfWork)
+public class UserCommandService(IUserRepository userRepository, 
+    ILocationRepository locationRepository,
+    IUnitOfWork unitOfWork)
 : IUserCommandService
 {
     /// <summary>
@@ -33,6 +39,10 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
     /// </exception>
     public async Task<int> Handle(CreateUserCommand command)
     {
+        var location = await locationRepository.FindByIdAsync(command.LocationId);
+        if (location == null)
+            throw new NotFoundIdException("Location with id " + command.LocationId + " does not exist");
+        
         var name = command.Name;
         var lastName = command.LastName;
         
@@ -42,6 +52,7 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
         var user = new User(command);
         await userRepository.AddAsync(user);
         await unitOfWork.CompleteAsync();
+        user.Location = location;
         return user.Id;
     }
 

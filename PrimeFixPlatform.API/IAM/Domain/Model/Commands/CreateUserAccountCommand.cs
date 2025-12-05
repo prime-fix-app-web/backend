@@ -15,10 +15,13 @@
 /// <param name="UserId">
 ///     The unique identifier for the user associated with the account to be created
 /// </param>
+/// <param name="MembershipId">
+///     The unique identifier for the membership associated with the user account to be created
+/// </param>
 /// <param name="Password">
 ///     The password for the user account to be created
 /// </param>
 /// <param name="IsNew">
 ///     Flag indicating whether the user account is new
 /// </param>
-public record CreateUserAccountCommand(string Username, string Email, int RoleId, int UserId, string Password, bool IsNew);
+public record CreateUserAccountCommand(string Username, string Email, int RoleId, int UserId, int MembershipId, string Password, bool IsNew);

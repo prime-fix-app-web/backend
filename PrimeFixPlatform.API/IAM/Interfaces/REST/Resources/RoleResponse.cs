@@ -9,10 +9,6 @@
 /// <param name="Name">
 ///     The name of the role
 /// </param>
-/// <param name="Description">
-///     The description of the role
-/// </param>
 public record RoleResponse(
     int Id,
-    string Name,
-    string Description);
+    string Name);

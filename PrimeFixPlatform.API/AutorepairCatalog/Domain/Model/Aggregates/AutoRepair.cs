@@ -65,7 +65,7 @@ public partial class AutoRepair
         UserAccountId = command.UserAccountId;
     }
     
-    public int AutoRepairId { get; private set;  }
+    public int Id { get; }
     public string Ruc { get; private set;  }
     public string ContactEmail { get; private set;  }
     public int TechniciansCount { get; private set;  }

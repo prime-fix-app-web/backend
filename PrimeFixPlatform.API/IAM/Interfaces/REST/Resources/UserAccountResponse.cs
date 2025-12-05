@@ -20,6 +20,9 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 /// <param name="UserId">
 ///     The user identifier associated with the user account
 /// </param>
+/// <param name="MembershipId">
+///     The membership identifier associated with the user account
+/// </param>
 /// <param name="Password">
 ///     The password of the user account
 /// </param>
@@ -32,5 +35,6 @@ public record UserAccountResponse(
     string Email,
     [property: JsonPropertyName("role_id")] int RoleId,
     [property: JsonPropertyName("user_id")] int UserId,
+    [property: JsonPropertyName("membership_id")] int MembershipId,
     string Password,
     [property: JsonPropertyName("is_new")] bool IsNew);

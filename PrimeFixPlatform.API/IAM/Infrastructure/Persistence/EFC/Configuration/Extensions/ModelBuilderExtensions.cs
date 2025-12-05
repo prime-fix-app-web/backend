@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.IAM.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.Iam.Domain.Model.Entities;
 
 namespace PrimeFixPlatform.API.Iam.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
@@ -36,23 +38,25 @@ public static class ModelBuilderExtensions
         
         modelBuilder.Entity<Role>().HasKey(r => r.Id);
         modelBuilder.Entity<Role>().Property(r => r.Id).IsRequired().ValueGeneratedOnAdd();
-        modelBuilder.Entity<Role>().OwnsOne(r => r.RoleInformation, ri =>
-        {
-            ri.WithOwner().HasForeignKey("RoleId");
-            ri.Property<string>("RoleId").HasColumnName("role_id");
-            ri.Property(p => p.Name).IsRequired().HasMaxLength(100);
-            ri.Property(p => p.Description).IsRequired().HasMaxLength(250);
-        });
+        modelBuilder.Entity<Role>().Property(r => r.Name).HasConversion<string>().HasMaxLength(20).IsRequired().IsUnicode(false);
         
-        modelBuilder.Entity<Membership>().HasKey(m => m.Id);
-        modelBuilder.Entity<Membership>().Property(m => m.Id).IsRequired().ValueGeneratedOnAdd();
-        modelBuilder.Entity<Membership>().Property(m => m.Started).IsRequired();
-        modelBuilder.Entity<Membership>().Property(m => m.Over).IsRequired();
-        modelBuilder.Entity<Membership>().OwnsOne(m => m.MembershipDescription, md =>
+        modelBuilder.Entity<Location>().HasKey(l => l.Id);
+        modelBuilder.Entity<Location>().Property(l => l.Id).IsRequired().ValueGeneratedOnAdd();
+        modelBuilder.Entity<Location>().Property(l => l.Address).IsRequired().HasMaxLength(100);
+        modelBuilder.Entity<Location>().Property(l => l.District).IsRequired().HasMaxLength(50);
+        modelBuilder.Entity<Location>().Property(l => l.Department).IsRequired().HasMaxLength(50);
+        
+        modelBuilder.Entity<Membership>(entity =>
         {
-            md.WithOwner().HasForeignKey("MembershipId");
-            md.Property<string>("MembershipId").HasColumnName("membership_id");
-            md.Property(p => p.Description).IsRequired().HasMaxLength(250);
+            entity.ToTable("memberships"); 
+            entity.HasKey(m => m.Id);
+            entity.Property(m => m.Id).HasColumnName("membership_id").ValueGeneratedOnAdd();
+            entity.Property(m => m.Started).IsRequired();
+            entity.Property(m => m.Over).IsRequired();
+            entity.OwnsOne(m => m.MembershipDescription, md =>
+            {
+                md.Property(p => p.Description).HasColumnName("description").IsRequired().HasMaxLength(250);
+            });
         });
     }
 }

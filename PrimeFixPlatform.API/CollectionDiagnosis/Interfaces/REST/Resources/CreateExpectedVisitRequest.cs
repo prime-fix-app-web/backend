@@ -4,13 +4,11 @@ using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Resources;
 
 public record CreateExpectedVisitRequest(
-    [property:JsonPropertyName("StateOfVisit")]
+    [property:JsonPropertyName("state_visit")]
     Status StateVisit,
     
-    [property:JsonPropertyName("visitId")]
+    [property:JsonPropertyName("visit_id")]
     int VisitId,
     
-    [property:JsonPropertyName("isSchedule")]
-    bool IsScheduled
-    
-    );
+    [property:JsonPropertyName("is_scheduled")]
+    bool IsScheduled );

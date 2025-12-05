@@ -4,6 +4,9 @@ using Service = PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates.S
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Entities;
 
+/// <summary>
+///     Aggregate root representing a service offer provided by an auto repair shop.
+/// </summary>
 public class ServiceOffer
 {
     /// <summary>

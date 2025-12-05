@@ -1,9 +1,11 @@
+using System.Text;
 using Cortex.Mediator.Commands;
 using Cortex.Mediator.DependencyInjection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.QueryServices;
@@ -21,10 +23,22 @@ using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
 using PrimeFixPlatform.API.CollectionDiagnosis.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.Iam.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.IAM.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.IAM.Application.Internal.EventHandlers;
+using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices;
 using PrimeFixPlatform.API.Iam.Application.Internal.QueryServices;
+using PrimeFixPlatform.API.IAM.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
+using PrimeFixPlatform.API.IAM.Domain.Repositories;
 using PrimeFixPlatform.API.Iam.Domain.Services;
+using PrimeFixPlatform.API.IAM.Domain.Services;
+using PrimeFixPlatform.API.IAM.Infrastructure.Hashing.BCrypt.Services;
 using PrimeFixPlatform.API.Iam.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.IAM.Infrastructure.Tokens.JWT.Configuration;
+using PrimeFixPlatform.API.IAM.Infrastructure.Tokens.JWT.Services;
+using PrimeFixPlatform.API.IAM.Interfaces.ACL;
+using PrimeFixPlatform.API.IAM.Interfaces.ACL.Services;
 using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Repositories;
@@ -135,22 +149,50 @@ builder.Services.AddSwaggerGen(options =>
             Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
         }
     });
-
     options.MapType<TimeOnly>(() => new OpenApiSchema
     {
         Type = "string",
         Format = "time",
         Example = new OpenApiString("00:00:00")
     });
-
     // Set the comments path for the Swagger JSON and UI.
     options.AddServer(new OpenApiServer { Url = "/" });
+    // Define the BearerAuth scheme that's in use
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    // Add a global security requirement for BearerAuth
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+    // Enable Swagger Annotations
+    options.EnableAnnotations();
 });
 
 // Dependency Injection 
 
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// TokenSettings Configuration
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
 
 // Iam Bounded Context
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -162,9 +204,16 @@ builder.Services.AddScoped<IUserAccountQueryService, UserAccountQueryService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleCommandService, RoleCommandService>();
 builder.Services.AddScoped<IRoleQueryService, RoleQueryService>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<ILocationCommandService, LocationCommandService>();
+builder.Services.AddScoped<ILocationQueryService, LocationQueryService>();
 builder.Services.AddScoped<IMembershipRepository, MembershipRepository>();
 builder.Services.AddScoped<IMembershipCommandService, MembershipCommandService>();
 builder.Services.AddScoped<IMembershipQueryService, MembershipQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+
 
 // AutoRepair Register Bounded Context
 builder.Services.AddScoped<ITechnicianRepository, TechnicianRepository>();
@@ -178,9 +227,6 @@ builder.Services.AddScoped<ITechnicianScheduleQueryService, TechnicianScheduleQu
 builder.Services.AddScoped<IAutoRepairRepository, AutoRepairRepository>();
 builder.Services.AddScoped<IAutoRepairCommandService, AutoRepairCommandService>();
 builder.Services.AddScoped<IAutoRepairQueryService, AutoRepairQueryService>();
-builder.Services.AddScoped<ILocationRepository, LocationRepository>();
-builder.Services.AddScoped<ILocationCommandService, LocationCommandService>();
-builder.Services.AddScoped<ILocationQueryService, LocationQueryService>();
 
 // Collection Diagnosis Bounded Context
 builder.Services.AddScoped<IDiagnosticRepository, DiagnosticRepository>();
@@ -192,6 +238,8 @@ builder.Services.AddScoped<IServiceQueryService, ServiceQueryService>();
 builder.Services.AddScoped<IVisitRepository, VisitRepository>();
 builder.Services.AddScoped<IVisitCommandService, VisitCommandService>();
 builder.Services.AddScoped<IVisitQueryService, VisitQueryService>();
+
+builder.Services.AddScoped<IExpectedVisitRepository, ExpectedVisitRepository>();
 
 // Maintenance Tracking Bounded Context
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
@@ -210,6 +258,33 @@ builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 builder.Services.AddScoped<IRatingCommandService, RatingCommandService>();
 builder.Services.AddScoped<IRatingQueryService, RatingQueryService>();
 
+// JWT Authentication Configuration
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = "JwtBearer";
+        options.DefaultChallengeScheme = "JwtBearer";
+    })
+    .AddJwtBearer("JwtBearer", options =>
+    {
+        var tokenSettings = builder.Configuration
+                                .GetSection("TokenSettings")
+                                .Get<TokenSettings>()
+                            ?? throw new InvalidOperationException("TokenSettings section is missing in configuration.");
+        
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = true,
+            ValidIssuer = tokenSettings.Issuer,
+            ValidateAudience = true,
+            ValidAudience = tokenSettings.Audience,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenSettings.Secret))
+        };
+    });
+
+// Application Startup Service
+builder.Services.AddHostedService<ApplicationStartupService>();
 
 // Mediator Configuration
 // Add Logging Behavior to all commands
@@ -275,6 +350,7 @@ if (app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

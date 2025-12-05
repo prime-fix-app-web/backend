@@ -23,7 +23,7 @@ public class PaymentAssembler
     {
         return new CreatePaymentCommand(
             request.CardNumber, new CardType(request.CardType), request.Month,
-                request.Year, request.Cvv, request.IdUserAccount
+                request.Year, request.Cvv, request.UserAccountId
                 );
     }
     
@@ -33,16 +33,16 @@ public class PaymentAssembler
     /// <param name="request">
     ///     The UpdatePaymentRequest containing updated payment details.
     /// </param>
-    /// <param name="idPayment">
+    /// <param name="paymentId">
     ///     The identifier of the payment to be updated.
     /// </param>
     /// <returns>
     ///     The corresponding UpdatePaymentCommand.
     /// </returns>
-    public static UpdatePaymentCommand ToCommandFromRequest(UpdatePaymentRequest request, int idPayment)
+    public static UpdatePaymentCommand ToCommandFromRequest(UpdatePaymentRequest request, int paymentId)
     {
         return new UpdatePaymentCommand(
-            idPayment, request.CardNumber, new CardType(request.CardType), request.Month,
+            paymentId, request.CardNumber, new CardType(request.CardType), request.Month,
             request.Year, request.Cvv, request.UserAccountId
         );
     }

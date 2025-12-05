@@ -29,4 +29,26 @@ public interface IUserAccountQueryService
     ///     A task that represents the asynchronous operation. The task result contains the UserAccount entity if found; otherwise, null.
     /// </returns>
     Task<UserAccount?> Handle(GetUserAccountByIdQuery query);
+
+    /// <summary>
+    ///     Handles the retrieval of a user account by user id.
+    /// </summary>
+    /// <param name="query">
+    ///     The query object containing the user id of the user account to be retrieved.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains the UserAccount entity if found; otherwise, null.
+    /// </returns>
+    Task<UserAccount?> Handle(GetUserAccountByUserIdQuery query);
+    
+    /// <summary>
+    ///     Handles the existence check of a user account by its unique identifier.
+    /// </summary>
+    /// <param name="query">
+    ///     The query object containing the unique identifier of the user account to check for existence.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains true if the user account exists; otherwise, false.
+    /// </returns>
+    Task<bool> Handle(ExistsUserAccountByIdQuery query);
 }

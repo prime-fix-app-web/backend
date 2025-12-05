@@ -41,7 +41,6 @@ public record CreateVehicleRequest(
     
     [property: JsonPropertyName("user_id")]
     [Required]
-    [MinLength(1)]
     int UserId,
     
     [property: JsonPropertyName("vehicle_brand")]

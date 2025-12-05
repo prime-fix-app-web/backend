@@ -18,6 +18,9 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 /// <param name="UserId">
 ///     The unique identifier of the user account to be updated
 /// </param>
+/// <param name="MembershipId">
+///     The membership identifier associated with the user account to be updated
+/// </param>
 /// <param name="Password">
 ///     The new password for the user account to be updated
 /// </param>
@@ -37,13 +40,15 @@ public record UpdateUserAccountRequest(
     
     [property: JsonPropertyName("role_id")]
     [Required]
-    [MinLength(1)]
     int RoleId,
     
     [property: JsonPropertyName("user_id")]
     [Required]
-    [MinLength(1)]
     int UserId,
+    
+    [property: JsonPropertyName("membership_id")]
+    [Required]
+    int MembershipId,
     
     [Required]
     [MinLength(6)]

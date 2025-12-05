@@ -19,8 +19,8 @@ public class ServiceCatalog
     public void AddServiceOffer(AutoRepair autoRepair, Service service, decimal price, bool isActive, int durationHours)
     {
         var serviceOffer = new ServiceOffer(
-            autoRepair.AutoRepairId,
-            service.ServiceId,
+            autoRepair.Id,
+            service.Id,
             price,durationHours,isActive);
 
         _serviceOffers.Add(serviceOffer);

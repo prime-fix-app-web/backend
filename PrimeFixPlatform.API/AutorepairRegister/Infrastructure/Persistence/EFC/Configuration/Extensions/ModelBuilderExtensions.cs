@@ -21,10 +21,10 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<Technician>().Property(t => t.Id).IsRequired().ValueGeneratedOnAdd();
         modelBuilder.Entity<Technician>().Property(t => t.Name).IsRequired().HasMaxLength(100);
         modelBuilder.Entity<Technician>().Property(t => t.LastName).IsRequired().HasMaxLength(100);
-        modelBuilder.Entity<Technician>().Property(t => t.AutoRepairId).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Technician>().Property(t => t.AutoRepairId).IsRequired();
 
         modelBuilder.Entity<TechnicianSchedule>().HasKey(ts => ts.Id);
-        modelBuilder.Entity<TechnicianSchedule>().Property(ts => ts.Id).IsRequired();
+        modelBuilder.Entity<TechnicianSchedule>().Property(ts => ts.Id).IsRequired().ValueGeneratedOnAdd();
         modelBuilder.Entity<TechnicianSchedule>().Property(ts => ts.TechnicianId).IsRequired();
         modelBuilder.Entity<TechnicianSchedule>().Property(ts => ts.DayOfWeek).IsRequired().HasMaxLength(15);
         modelBuilder.Entity<TechnicianSchedule>().Property(ts => ts.StartTime).IsRequired().HasColumnType("time");

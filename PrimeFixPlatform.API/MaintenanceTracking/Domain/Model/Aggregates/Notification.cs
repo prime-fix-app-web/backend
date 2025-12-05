@@ -27,16 +27,12 @@ public partial class Notification
     /// <param name="sent">
     ///     The date the notification was sent
     /// </param>
-    /// <param name="diagnosticId">
-    ///     The unique identifier of the diagnostic associated with the notification
-    /// </param>
-    public Notification( string message, bool read, int vehicleId, DateOnly sent, int diagnosticId)
+    public Notification( string message, bool read, int vehicleId, DateOnly sent)
     {
         Message = message;
         Read = read;
         VehicleId = vehicleId;
         Sent = sent;
-        DiagnosticId = diagnosticId;
     }
     
     /// <summary>
@@ -49,8 +45,7 @@ public partial class Notification
         command.Message,
         command.Read,
         command.VehicleId,
-        command.Sent,
-        command.DiagnosticId)
+        command.Sent)
     {
     }
 
@@ -67,7 +62,6 @@ public partial class Notification
         Read = command.Read;
         VehicleId = command.VehicleId;
         Sent = command.Sent;
-        DiagnosticId = command.DiagnosticId;
     }
     
     public int NotificationId { get; private set;  }
@@ -75,5 +69,4 @@ public partial class Notification
     public bool Read { get; private set;  }
     public int VehicleId { get; private set;  }
     public DateOnly Sent { get; private set;  }
-    public int DiagnosticId { get; private set;  }
 }

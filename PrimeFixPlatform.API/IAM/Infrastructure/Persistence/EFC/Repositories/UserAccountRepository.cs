@@ -27,7 +27,11 @@ public class UserAccountRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByUserAccountId(int userAccountId)
     {
-        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.Id == userAccountId);
+        return await Context.Set<UserAccount>()
+            .Include(userAccount => userAccount.User)
+            .Include(userAccount => userAccount.Role)
+            .Include(userAccount => userAccount.Membership)
+            .AnyAsync(userAccount => userAccount.Id == userAccountId);
     }
 
     /// <summary>
@@ -42,7 +46,11 @@ public class UserAccountRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByUsername(string username)
     {
-        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.Username == username);
+        return await Context.Set<UserAccount>()
+            .Include(userAccount => userAccount.User)
+            .Include(userAccount => userAccount.Role)
+            .Include(userAccount => userAccount.Membership)
+            .AnyAsync(userAccount => userAccount.Username == username);
     }
 
     /// <summary>
@@ -57,7 +65,11 @@ public class UserAccountRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByEmail(string email)
     {
-        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.Email == email);
+        return await Context.Set<UserAccount>()
+            .Include(userAccount => userAccount.User)
+            .Include(userAccount => userAccount.Role)
+            .Include(userAccount => userAccount.Membership)
+            .AnyAsync(userAccount => userAccount.Email == email);
     }
 
     /// <summary>
@@ -76,7 +88,11 @@ public class UserAccountRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByUsernameAndUserAccountIdIsNot(string username, int userAccountId)
     {
-        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.Username == username && userAccount.Id != userAccountId);
+        return await Context.Set<UserAccount>()
+            .Include(userAccount => userAccount.User)
+            .Include(userAccount => userAccount.Role)
+            .Include(userAccount => userAccount.Membership)
+            .AnyAsync(userAccount => userAccount.Username == username && userAccount.Id != userAccountId);
     }
 
     /// <summary>
@@ -95,7 +111,11 @@ public class UserAccountRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByEmailAndUserAccountIdIsNot(string email, int userAccountId)
     {
-        return await Context.Set<UserAccount>().AnyAsync(userAccount => userAccount.Email == email && userAccount.Id != userAccountId);
+        return await Context.Set<UserAccount>()
+            .Include(userAccount => userAccount.User)
+            .Include(userAccount => userAccount.Role)
+            .Include(userAccount => userAccount.Membership)
+            .AnyAsync(userAccount => userAccount.Email == email && userAccount.Id != userAccountId);
     }
 
     /// <summary>
@@ -108,8 +128,31 @@ public class UserAccountRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     the UserAccount with the specified username, or null if not found.
     /// </returns>
-    public async Task<UserAccount?> FindByUsername(string username)
+    public async Task<UserAccount?> FetchByUsername(string username)
     {
-        return await Context.Set<UserAccount>().FirstOrDefaultAsync(userAccount => userAccount.Username == username);
+        return await Context.Set<UserAccount>()
+            .Include(userAccount => userAccount.User)
+            .Include(userAccount => userAccount.Role)
+            .Include(userAccount => userAccount.Membership)
+            .FirstOrDefaultAsync(userAccount => userAccount.Username == username);
+    }
+
+    /// <summary>
+    ///     Finds a UserAccount by its user ID.
+    /// </summary>
+    /// <param name="userId">
+    ///     The user ID of the UserAccount.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains
+    ///     the UserAccount with the specified user ID, or null if not found.
+    /// </returns>
+    public async Task<UserAccount?> FetchByUserId(int userId)
+    {
+        return await Context.Set<UserAccount>()
+            .Include(userAccount => userAccount.User)
+            .Include(userAccount => userAccount.Role)
+            .Include(userAccount => userAccount.Membership)
+            .FirstOrDefaultAsync(userAccount => userAccount.UserId == userId);
     }
 }

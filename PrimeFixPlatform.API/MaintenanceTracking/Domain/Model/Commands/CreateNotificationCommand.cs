@@ -15,8 +15,5 @@
 /// <param name="Sent">
 ///     The date the notification was sent
 /// </param>
-/// <param name="DiagnosticId">
-///     The unique identifier of the diagnostic associated with the notification to be created
-/// </param>
 public record CreateNotificationCommand( string Message, bool Read, 
-    int VehicleId, DateOnly Sent, int DiagnosticId);
+    int VehicleId, DateOnly Sent);

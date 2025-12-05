@@ -9,7 +9,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Assemblers;
 /// Assembler responsible for converting <see cref="ServiceOffer"/> domain entities
 /// into <see cref="ServiceOfferResource"/> response resources.
 /// </summary>
-public class ServiceOfferAssembler
+public static class ServiceOfferAssembler
 {
     
     /// <summary>
@@ -28,7 +28,7 @@ public class ServiceOfferAssembler
 
         return new ServiceOfferResource(
             entity.Id,
-            serviceReference.ServiceId,
+            serviceReference.Id,
             serviceReference.Name,
             entity.Price);
     }

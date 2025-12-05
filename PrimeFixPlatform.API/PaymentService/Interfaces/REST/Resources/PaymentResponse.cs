@@ -6,7 +6,7 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 /// <summary>
 ///     Response representing a payment
 /// </summary>
-/// <param name="IdPayment">
+/// <param name="Id">
 ///     The unique identifier of the payment
 /// </param>
 /// <param name="CardNumber">
@@ -24,15 +24,14 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 /// <param name="Cvv">
 ///     The cvv  of the payment
 /// </param>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The identifier of the user account of the payment
 /// </param>
 public record PaymentResponse(
-    [property:JsonPropertyName("id_payment")] int IdPayment,
+    int Id,
     [property:JsonPropertyName("card_number")] string CardNumber,
     [property:JsonPropertyName("card_type")] string CardType,
     int Month,
     int Year,
     int Cvv,
-    [property:JsonPropertyName("id_user_account")] int IdUserAccount
-    );
+    [property:JsonPropertyName("user_account_id")] int UserAccountId);

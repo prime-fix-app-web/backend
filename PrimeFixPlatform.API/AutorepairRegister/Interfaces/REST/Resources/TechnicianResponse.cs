@@ -14,7 +14,7 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Resources;
 /// <param name="LastName">
 ///     The last name of the technician
 /// </param>
-/// <param name="IdAutoRepair">
+/// <param name="AutoRepairId">
 ///     The unique identifier of the auto repair shop the technician belongs to
 /// </param>
 public record TechnicianResponse(

@@ -18,6 +18,9 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 /// <param name="UserId">
 ///     The user identifier associated with the user account to be created
 /// </param>
+/// <param name="MembershipId">
+///     The membership identifier associated with the user account to be created
+/// </param>
 /// <param name="Password">
 ///     The password of the user account to be created
 /// </param>
@@ -37,13 +40,15 @@ public record CreateUserAccountRequest(
     
     [property: JsonPropertyName("role_id")]
     [Required]
-    [MinLength(1)]
     int RoleId,
     
     [property: JsonPropertyName("user_id")]
     [Required]
-    [MinLength(1)]
     int UserId,
+    
+    [property: JsonPropertyName("membership_id")]
+    [Required]
+    int MembershipId,
     
     [Required]
     [MinLength(6)]

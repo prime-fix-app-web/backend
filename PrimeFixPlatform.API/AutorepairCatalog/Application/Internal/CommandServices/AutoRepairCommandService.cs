@@ -51,7 +51,7 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
         var autoRepair = new AutoRepair(command);
         await autoRepairRepository.AddAsync(autoRepair);
         await unitOfWork.CompleteAsync();
-        return autoRepair.AutoRepairId;
+        return autoRepair.Id;
     }
 
     /// <summary>
@@ -79,13 +79,13 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
         var ruc = command.Ruc;
         var contactEmail = command.ContactEmail;
         
-        if (!await autoRepairRepository.ExistsByIdAutoRepair(idAutoRepair))
+        if (!await autoRepairRepository.ExistsByAutoRepairId(idAutoRepair))
             throw new NotFoundIdException("Auto repair with id " + idAutoRepair  + " does not exist");
         
-        if (await autoRepairRepository.ExistsByRucAndIdAutoRepairIsNot(ruc, idAutoRepair))
+        if (await autoRepairRepository.ExistsByRucAndAutoRepairIdIsNot(ruc, idAutoRepair))
             throw new ConflictException("Auto repair with the same RUC " + ruc  + " already exists");
         
-        if (await autoRepairRepository.ExistsByContactEmailAndIdAutoRepairIsNot(contactEmail, idAutoRepair))
+        if (await autoRepairRepository.ExistsByContactEmailAndAutoRepairIdIsNot(contactEmail, idAutoRepair))
             throw new ConflictException("Auto repair with the same contact email " + contactEmail  + " already exists");
         
         var autoRepairToUpdate = await autoRepairRepository.FindByIdAsync(idAutoRepair);
@@ -115,7 +115,7 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
     /// </exception>
     public async Task<bool> Handle(DeleteAutoRepairCommand command)
     {
-        if (!await autoRepairRepository.ExistsByIdAutoRepair(command.AutoRepairId))
+        if (!await autoRepairRepository.ExistsByAutoRepairId(command.AutoRepairId))
             throw new NotFoundIdException("Auto repair with id " + command.AutoRepairId  + " does not exist");
         var autoRepair = await autoRepairRepository.FindByIdAsync(command.AutoRepairId);
         if (autoRepair is null)

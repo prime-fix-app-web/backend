@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 
@@ -15,12 +14,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 /// This field is required.
 /// </param>
 public record UpdateServiceRequest(
-    
-    [property:JsonPropertyName("Name")]
     [Required]
     string Name,
-    
-    [property:JsonPropertyName("description")]
     [Required]
-    string Description
-    );
+    string Description);

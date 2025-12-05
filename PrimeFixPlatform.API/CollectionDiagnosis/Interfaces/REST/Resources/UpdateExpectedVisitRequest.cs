@@ -6,13 +6,13 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Resources;
 public record UpdateExpectedVisitRequest(
     
     
-    [property:JsonPropertyName("StateOfVisit")]
+    [property:JsonPropertyName("state_visit")]
     Status StateVisit,
     
-    [property:JsonPropertyName("visitId")]
+    [property:JsonPropertyName("visit_id")]
     int VisitId,
     
-    [property:JsonPropertyName("isSchedule")]
+    [property:JsonPropertyName("is_scheduled")]
     bool IsScheduled
     
     );

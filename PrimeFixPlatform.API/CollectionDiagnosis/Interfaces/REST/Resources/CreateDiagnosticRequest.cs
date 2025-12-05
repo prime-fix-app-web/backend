@@ -4,20 +4,17 @@ using System.Text.Json.Serialization;
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Resources;
 
 public record CreateDiagnosticRequest(
-    
-    [property:JsonPropertyName("price")]
     [Required]
     float Price,
     
-    [property:JsonPropertyName("vehicleId")]
+    [property:JsonPropertyName("vehicle_id")]
     [Required]
     int VehicleId,
     
-    [property:JsonPropertyName("diagnosis")]
     [Required]
     [MaxLength(100)]
     string Diagnosis,
     
-    [property:JsonPropertyName("expectedVisitId")]
-    int ExpectedVisitId
-    );
+    [Required]
+    [property:JsonPropertyName("expected_visit_id")]
+    int ExpectedVisitId);

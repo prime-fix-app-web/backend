@@ -18,9 +18,6 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 /// <param name="Sent">
 ///     The date the notification was sent.
 /// </param>
-/// <param name="DiagnosticId">
-///     The unique identifier of the diagnostic associated with the notification to be updated.
-/// </param>
 public record UpdateNotificationRequest(
     [Required]
     [MinLength(1)]
@@ -32,12 +29,7 @@ public record UpdateNotificationRequest(
     
     [property: JsonPropertyName("vehicle_id")]
     [Required]
-    [MinLength(1)]
     int VehicleId,
     
     [Required]
-    DateOnly Sent,
-    
-    [property: JsonPropertyName("diagnostic_id")]
-    [Required]
-    int DiagnosticId);
+    DateOnly Sent);
