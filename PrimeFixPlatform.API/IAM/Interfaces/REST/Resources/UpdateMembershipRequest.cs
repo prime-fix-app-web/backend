@@ -21,7 +21,9 @@ public record UpdateMembershipRequest(
     string Description,
     
     [Required]
+    [DataType(DataType.Date)]
     DateOnly Started,
     
     [Required]
+    [DataType(DataType.Date)]
     DateOnly Over);

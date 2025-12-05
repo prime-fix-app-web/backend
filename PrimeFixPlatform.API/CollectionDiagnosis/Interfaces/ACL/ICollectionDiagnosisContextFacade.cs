@@ -2,7 +2,7 @@
 
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.ACL;
 
-public interface IDiagnosticContextFacade
+public interface ICollectionDiagnosisContextFacade
 {
     
     Task<int> CreateDiagnostic(
@@ -18,4 +18,12 @@ public interface IDiagnosticContextFacade
     Task<int> FetchDiagnosticByVehicleId(int vehicleId);
     
     Task<int> FetchDiagnosticByExpectedVisitId(int expectedVisitId );
+
+    Task<int> FetchVisitById(int visitId);
+
+    Task<int> FetchVisitByVehicleId(int vehicleId);
+
+    Task<int> FetchVisitByAutoRepairId(int autoRepairId);
+
+    Task<int> FetchVisitByServiceId(int serviceId);
 }

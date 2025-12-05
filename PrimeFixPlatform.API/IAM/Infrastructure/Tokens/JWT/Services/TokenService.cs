@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices;
+using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.Tokens;
 using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 

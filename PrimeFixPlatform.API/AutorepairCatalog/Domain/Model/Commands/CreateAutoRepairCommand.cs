@@ -9,10 +9,7 @@
 /// <param name="ContactEmail">
 ///     The contact email address for the Auto Repair.
 /// </param>
-/// <param name="TechniciansCount">
-///     The number of technicians available at the Auto Repair.
-/// </param>
 /// <param name="UserAccountId">
 ///     The identifier of the user account associated with the Auto Repair.
 /// </param>
-public record CreateAutoRepairCommand( string Ruc, string ContactEmail, int TechniciansCount, int UserAccountId);
+public record CreateAutoRepairCommand( string Ruc, string ContactEmail, int UserAccountId);

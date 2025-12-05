@@ -1,4 +1,4 @@
-﻿using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices;
+﻿using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.Tokens;
 using PrimeFixPlatform.API.Iam.Domain.Model.Queries;
 using PrimeFixPlatform.API.Iam.Domain.Services;
 using PrimeFixPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;

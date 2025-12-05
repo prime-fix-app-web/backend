@@ -48,4 +48,19 @@ public class AutoRepairQueryService(IAutoRepairRepository autoRepairRepository)
         return await autoRepairRepository.FindByIdAsync(query.AutoRepairId)
             ?? throw new NotFoundIdException("AutoRepair with the id " + query.AutoRepairId + " was not found.");
     }
+
+    /// <summary>
+    ///     Handles the check for the existence of an auto repair by its unique identifier.
+    /// </summary>
+    /// <param name="query">
+    ///     The query to check if an auto repair exists by its ID.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains
+    ///     true if the AutoRepair exists; otherwise, false.
+    /// </returns>
+    public async Task<bool> Handle(ExistsAutoRepairByIdQuery query)
+    {
+        return await autoRepairRepository.ExistsByAutoRepairId(query.AutoRepairId);
+    }
 }

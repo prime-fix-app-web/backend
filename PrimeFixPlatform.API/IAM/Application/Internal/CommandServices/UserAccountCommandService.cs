@@ -1,31 +1,125 @@
-﻿using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
+﻿using System.Transactions;
+using Microsoft.EntityFrameworkCore;
+using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices;
+using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.ACL;
+using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.Hashing;
+using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.Tokens;
+using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
+using PrimeFixPlatform.API.IAM.Domain.Model.Commands;
+using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
+using PrimeFixPlatform.API.IAM.Domain.Repositories;
 using PrimeFixPlatform.API.Iam.Domain.Services;
+using PrimeFixPlatform.API.IAM.Domain.Services;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
 
 namespace PrimeFixPlatform.API.Iam.Application.Internal.CommandServices;
 
-/// <summary>
-///     Command service for UserAccount aggregate
-/// </summary>
-/// <param name="userAccountRepository">
-///     The user account repository
-/// </param>
-/// <param name="userRepository">
-///     The user repository
-/// </param>
-/// <param name="unitOfWork">
-///     Unit of work
-/// </param>
 public class UserAccountCommandService(IUserAccountRepository userAccountRepository,
-    IUserRepository userRepository,
+    ILocationCommandService locationCommandService,
+    ILocationRepository locationRepository,
+    IMembershipCommandService membershipCommandService,
     IMembershipRepository membershipRepository,
+    IUserCommandService userCommandService,
+    IUserRepository userRepository,
     IRoleRepository roleRepository,
+    IExternalAutoRepairCatalogServiceFromIam externalAutoRepairCatalogServiceFromIam,
+    IExternalPaymentServiceFromIam externalPaymentServiceFromIam,
+    ITokenService tokenService,
+    IHashingService hashingService,
     IUnitOfWork unitOfWork) :  IUserAccountCommandService
 {
     /// <summary>
+    ///     Handles user sign-in and returns the authenticated user account along with a JWT token.
+    /// </summary>
+    /// <param name="command">
+    ///     The command containing sign-in details
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains a tuple with the authenticated UserAccount and a JWT token string.
+    /// </returns>
+    /// <exception cref="ArgumentException">
+    ///     Indicates that the username or password is invalid
+    /// </exception>
+    public async Task<(UserAccount userAccount, string token)> Handle(SignInCommand command)
+    {
+        // Fetch user account by username
+        var userAccount = await userAccountRepository.FetchByUsername(command.Username);
+        
+        // Validate user credentials
+        if (userAccount == null || !hashingService.VerifyPassword(command.Password, userAccount.Password))
+            throw new ArgumentException("Invalid username or password");
+        
+        // Generate JWT token
+        var token = tokenService.GenerateToken(userAccount);
+        return (userAccount, token);
+    }
+
+    public async Task<UserAccount?> Handle(VehicleOwnerSignUpCommand command)
+    {
+        // Start a transaction scope
+        await using var transaction = await unitOfWork.BeginTransactionAsync();
+        
+        // Check for existing username
+        if (await userAccountRepository.ExistsByUsername(command.Username))
+            throw new ArgumentException("Username already exists");
+        
+        // Check for existing email
+        if (await userAccountRepository.ExistsByEmail(command.Email))
+            throw new ArgumentException("Email already exists");
+
+        // Get role
+        var role = await roleRepository.GetByNameAsync(ERole.RoleVehicleOwner)
+            ?? throw new ArgumentException("Role not found");
+        
+        // Create location
+        var locationId = await locationCommandService.Handle(new CreateLocationCommand(command.LocationInformation));
+        
+        // Verify location creation
+        var location = await locationRepository.FindByIdAsync(locationId)
+            ?? throw new ArgumentException("Location not found");
+        
+        // Create membership
+        var membershipId = await membershipCommandService.Handle(new CreateMembershipCommand(
+            command.MembershipDescription, command.Started, command.Over));
+        
+        // Verify membership creation
+        var membership = await membershipRepository.FindByIdAsync(membershipId)
+            ?? throw new ArgumentException("Membership not found");
+        
+        // Create user
+        var userId = await userCommandService.Handle(new CreateUserCommand(command.Name, command.Email, command.Dni, 
+            command.PhoneNumber, location.Id));
+        
+        // Verify user creation
+        var user = await userRepository.FindByIdAsync(userId)
+            ?? throw new ArgumentException("User not found");
+        
+        var userAccount = new UserAccount(command.Username, command.Email, role.Id, user.Id, membership.Id, hashingService.HashPassword(command.Password));
+        await userAccountRepository.AddAsync(userAccount);
+
+        var paymentId = await externalPaymentServiceFromIam.CreatePaymentAsync(
+            command.CardNumber, command.CardType, command.Month, command.Year, command.Cvv, userAccount.Id);
+        
+        if (paymentId == 0)
+            throw new ArgumentException("Failed to create payment");
+        
+        await unitOfWork.CompleteAsync();
+        userAccount.User = user;
+        
+        await transaction.CommitAsync();
+        
+        return await userAccountRepository.FetchByUsername(command.Username);   
+    }
+        
+    public Task<UserAccount?> Handle(AutoRepairSignUpCommand command)
+    {
+        throw new NotImplementedException();
+    }
+
+        /// <summary>
     ///     Handles the command to create a new user account
     /// </summary>
     /// <param name="command">

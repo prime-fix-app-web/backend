@@ -23,17 +23,14 @@ public partial class AutoRepair
     /// <param name="contactEmail">
     ///     The contact email of the auto repair
     /// </param>
-    /// <param name="techniciansCount">
-    ///     The number of technicians in the auto repair
-    /// </param>
     /// <param name="userAccountId">
     ///     The unique identifier of the user account associated with the auto repair
     /// </param>
-    public AutoRepair( string ruc, string contactEmail, int techniciansCount, int userAccountId)
+    public AutoRepair( string ruc, string contactEmail, int userAccountId)
     {
         Ruc = ruc;
         ContactEmail = contactEmail;
-        TechniciansCount = techniciansCount;
+        TechniciansCount = 0;
         UserAccountId = userAccountId;
     }
     
@@ -46,7 +43,6 @@ public partial class AutoRepair
     public AutoRepair(CreateAutoRepairCommand command): this(
         command.Ruc,
         command.ContactEmail,
-        command.TechniciansCount,
         command.UserAccountId)
     {
     }
@@ -61,8 +57,26 @@ public partial class AutoRepair
     {
         Ruc = command.Ruc;
         ContactEmail = command.ContactEmail;
-        TechniciansCount = command.TechniciansCount;
         UserAccountId = command.UserAccountId;
+    }
+    
+    /// <summary>
+    ///     Increments the count of technicians associated with the auto repair
+    /// </summary>
+    public void IncrementTechniciansCount()
+    {
+        TechniciansCount++;
+    }
+    
+    /// <summary>
+    ///     Decrements the count of technicians associated with the auto repair
+    /// </summary>
+    public void DecrementTechniciansCount()
+    {
+        if (TechniciansCount > 0)
+        {
+            TechniciansCount--;
+        }
     }
     
     public int Id { get; }

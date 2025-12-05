@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.IAM.Domain.Model.Commands;
 using PrimeFixPlatform.API.IAM.Domain.Model.Queries;
@@ -20,6 +21,7 @@ namespace PrimeFixPlatform.API.IAM.Interfaces.REST.Controllers;
 ///     The location command service
 /// </param>
 [ApiController]
+[Authorize]
 [Route("api/v1/locations")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Locations Endpoints")]

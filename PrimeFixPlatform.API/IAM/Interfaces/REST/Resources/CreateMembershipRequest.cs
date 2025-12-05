@@ -25,4 +25,5 @@ public record CreateMembershipRequest(
     DateOnly Started,
     
     [Required]
+    [DataType(DataType.Date)]
     DateOnly Over);

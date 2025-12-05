@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Queries;
@@ -21,6 +22,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Controllers;
 /// </param>
 [ApiController]
 [Route("api/v1/auto_repairs")]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Auto Repairs Endpoints")]
 public class AutoRepairController(IAutoRepairQueryService autoRepairQueryService, IAutoRepairCommandService autoRepairCommandService) : ControllerBase

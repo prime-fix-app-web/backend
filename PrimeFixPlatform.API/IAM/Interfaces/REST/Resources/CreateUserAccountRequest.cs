@@ -24,9 +24,6 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Resources;
 /// <param name="Password">
 ///     The password of the user account to be created
 /// </param>
-/// <param name="IsNew">
-///     Flag indicating if the user account is new
-/// </param>
 public record CreateUserAccountRequest(
     [Required]
     [MinLength(1)]
@@ -53,8 +50,4 @@ public record CreateUserAccountRequest(
     [Required]
     [MinLength(6)]
     [MaxLength(100)]
-    string Password,
-    
-    [property: JsonPropertyName("is_new")]
-    [Required]
-    bool IsNew);
+    string Password);

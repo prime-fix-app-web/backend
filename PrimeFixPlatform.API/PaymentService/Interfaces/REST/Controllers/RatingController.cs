@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Aggregates;
@@ -23,6 +24,7 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Controllers;
 /// </param>
 [ApiController]
 [Route("api/v1/ratings")]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Ratings Endpoints")]
 public class RatingController(IRatingQueryService ratingQueryService, 

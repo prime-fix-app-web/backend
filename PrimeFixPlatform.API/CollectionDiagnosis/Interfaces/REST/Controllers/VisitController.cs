@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
@@ -11,6 +12,7 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Controllers;
 
 [ApiController]
 [Route("api/v1/visits")]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Services Endpoints")]
 public class VisitController(IVisitQueryService visitQueryService,

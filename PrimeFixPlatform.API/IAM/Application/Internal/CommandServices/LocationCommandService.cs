@@ -60,14 +60,10 @@ public class LocationCommandService(ILocationRepository locationRepository, IUni
     /// </exception>
     public async Task<Location?> Handle(UpdateLocationCommand command)
     {
-        var idLocation = command.LocationId;
-        
-        if (!await locationRepository.ExistsByLocationId(idLocation))
-            throw new NotFoundIdException("Location with id " + idLocation  + " does not exist");
-        
-        var locationToUpdate = await locationRepository.FindByIdAsync(idLocation);
+        var locationId = command.LocationId;
+        var locationToUpdate = await locationRepository.FindByIdAsync(locationId);
         if (locationToUpdate is null)
-            throw new NotFoundIdException("Location with id " + idLocation  + " does not exist");
+            throw new NotFoundIdException("Location with id " + locationId  + " does not exist");
         
         locationToUpdate.UpdateLocation(command);
         locationRepository.Update(locationToUpdate);

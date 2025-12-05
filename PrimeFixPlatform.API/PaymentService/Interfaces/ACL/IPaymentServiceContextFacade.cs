@@ -32,7 +32,7 @@ public interface IPaymentServiceContextFacade
     /// The ID of the created payment, or 0 if creation failed.
     /// </returns>
     Task<int> CreatePayment(string cardNumber,
-        string cardType,
+        CardType cardType,
         int month,
         int year,
         int cvv,

@@ -31,4 +31,16 @@ public interface IAutoRepairQueryService
     ///     The task result contains the auto repair if found; otherwise, null.
     /// </returns>
     Task<AutoRepair?> Handle(GetAutoRepairByIdQuery query);
+    
+    /// <summary>
+    ///     Handles the ExistsAutoRepairByIdQuery to check if an auto repair exists by its ID.
+    /// </summary>
+    /// <param name="query">
+    ///     The query object containing the ID of the auto repair to check.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains true if the auto repair exists; otherwise, false.
+    /// </returns>
+    Task<bool> Handle(ExistsAutoRepairByIdQuery query);
 }

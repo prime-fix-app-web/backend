@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.Iam.Domain.Model.Queries;
 using PrimeFixPlatform.API.Iam.Domain.Services;
@@ -16,6 +17,7 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Controllers;
 ///     The service responsible for handling role queries
 /// </param>
 [ApiController]
+[Authorize]
 [Route("api/v1/roles")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available ERole Endpoints")]

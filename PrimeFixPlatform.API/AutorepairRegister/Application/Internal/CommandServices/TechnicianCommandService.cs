@@ -1,5 +1,7 @@
-﻿using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Aggregates;
+﻿using Cortex.Mediator;
+using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Commands;
+using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Events;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Repositories;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Services;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
@@ -16,7 +18,9 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Application.Internal.CommandSe
 /// <param name="unitOfWork">
 ///     The unit of work
 /// </param>
-public class TechnicianCommandService(ITechnicianRepository technicianRepository, IUnitOfWork unitOfWork)
+public class TechnicianCommandService(ITechnicianRepository technicianRepository,
+    IUnitOfWork unitOfWork,
+    IMediator domainEventAutoRepairRegister)
 : ITechnicianCommandService
 {
     /// <summary>
@@ -37,6 +41,9 @@ public class TechnicianCommandService(ITechnicianRepository technicianRepository
         var technician = new Technician(command);
         await technicianRepository.AddAsync(technician);
         await unitOfWork.CompleteAsync();
+        
+        // Publish the domain event after the technician is created
+        await domainEventAutoRepairRegister.PublishAsync(new TechnicianRegisteredEvent(technician.AutoRepairId));
         
         return technician.Id;
     }
@@ -98,6 +105,10 @@ public class TechnicianCommandService(ITechnicianRepository technicianRepository
             throw new NotFoundArgumentException("Technician not found");
         technicianRepository.Remove(technician);
         await unitOfWork.CompleteAsync();
+        
+        // Publish the domain event after the technician is deleted
+        await domainEventAutoRepairRegister.PublishAsync(new TechnicianDeletedEvent(technician.AutoRepairId));
+        
         return true;
     }
 }

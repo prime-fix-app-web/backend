@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Commands;
@@ -22,6 +23,7 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Controllers;
 /// </param>
 [ApiController]
 [Route("api/v1/payments")]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Payments Endpoints")]
 public class PaymentController(IPaymentQueryService paymentQueryService, 

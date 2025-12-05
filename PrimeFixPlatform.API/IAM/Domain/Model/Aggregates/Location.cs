@@ -1,4 +1,5 @@
 ﻿using PrimeFixPlatform.API.IAM.Domain.Model.Commands;
+using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
 
 namespace PrimeFixPlatform.API.IAM.Domain.Model.Aggregates;
 
@@ -8,22 +9,18 @@ namespace PrimeFixPlatform.API.IAM.Domain.Model.Aggregates;
 public partial class Location
 {
     /// <summary>
+    ///     Constructor for ORM
+    /// </summary>
+    protected Location() { }
+    /// <summary>
     ///     Constructor with all parameters
     /// </summary>
-    /// <param name="address">
-    ///     The address of the location
+    /// <param name="locationInformation">
+    ///     The location information value object containing address, district, and department.
     /// </param>
-    /// <param name="district">
-    ///     The district of the location
-    /// </param>
-    /// <param name="department">
-    ///     The department of the location
-    /// </param>
-    public Location( string address, string district, string department)
+    public Location( LocationInformation locationInformation)
     {
-        Address = address;
-        District = district;
-        Department = department;
+        LocationInformation = locationInformation;
     }
     
     /// <summary>
@@ -33,9 +30,7 @@ public partial class Location
     ///     The command containing the data to create the location
     /// </param>
     public Location(CreateLocationCommand command): this(
-        command.Address,
-        command.District,
-        command.Department)
+        command.LocationInformation)
     {
     }
 
@@ -47,13 +42,9 @@ public partial class Location
     /// </param>
     public void UpdateLocation(UpdateLocationCommand command)
     {
-        Address = command.Address;
-        District = command.District;
-        Department = command.Department;
+        LocationInformation = command.LocationInformation;
     }
     
     public int Id { get; }
-    public string Address { get; private set; }
-    public string District { get; private set; }
-    public string Department { get; private set; }
+    public LocationInformation LocationInformation { get; private set; }
 }
