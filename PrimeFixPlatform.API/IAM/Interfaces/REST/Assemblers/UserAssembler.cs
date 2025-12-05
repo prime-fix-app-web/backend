@@ -59,7 +59,7 @@ public static class UserAssembler
     {
         return new UserResponse(
             entity.Id, entity.Name, entity.LastName,
-            entity.Dni, entity.PhoneNumber, entity.LocationId
+            entity.Dni, entity.PhoneNumber, entity.Location.Id
         );
     }
 }

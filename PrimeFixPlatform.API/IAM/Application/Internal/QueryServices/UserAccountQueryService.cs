@@ -48,4 +48,34 @@ public class UserAccountQueryService(IUserAccountRepository userAccountRepositor
         return await userAccountRepository.FindByIdAsync(query.UserAccountId)
             ?? throw new NotFoundIdException("UserAccount with the id " + query.UserAccountId + " was not found.");
     }
+
+    /// <summary>
+    ///    Handles the query to check if a user account exists by its unique identifier
+    /// </summary>
+    /// <param name="query">
+    ///     The query to check if a user account exists by its unique identifier
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains
+    ///     true if the user account exists; otherwise, false.
+    /// </returns>
+    public Task<bool> Handle(ExistsUserAccountByIdQuery query)
+    {
+        return userAccountRepository.ExistsByUserAccountId(query.UserAccountId);
+    }
+    
+    /// <summary>
+    ///     Handles the query to get a user account by user id
+    /// </summary>
+    /// <param name="query">
+    ///     The query to get a user account by user id
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains
+    ///     the user account if found; otherwise, null.
+    /// </returns>
+    public async Task<UserAccount?> Handle(GetUserAccountByUserIdQuery query)
+    {
+        return await userAccountRepository.FetchByUserId(query.UserId);
+    }
 }

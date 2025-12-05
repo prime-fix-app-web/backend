@@ -8,6 +8,7 @@ namespace PrimeFixPlatform.API.Iam.Domain.Services;
 /// </summary>
 public interface IUserQueryService
 {
+    
     /// <summary>
     ///     Handles the retrieval of all users.
     /// </summary>
@@ -29,4 +30,15 @@ public interface IUserQueryService
     ///     A task that represents the asynchronous operation. The task result contains the User entity if found; otherwise, null.
     /// </returns>
     Task<User?> Handle(GetUserByIdQuery query);
+
+    /// <summary>
+    ///     Handles the existence check of a user by its unique identifier.
+    /// </summary>
+    /// <param name="query">
+    ///     The query object containing the unique identifier of the user to check for existence.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains a boolean indicating whether the user exists.
+    /// </returns>
+    Task<bool> Handle(ExistsUserByIdQuery query);
 }

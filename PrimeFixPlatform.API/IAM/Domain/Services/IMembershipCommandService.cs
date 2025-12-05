@@ -1,5 +1,5 @@
-﻿using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
-using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
+﻿using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
+using PrimeFixPlatform.API.Iam.Domain.Model.Entities;
 
 namespace PrimeFixPlatform.API.Iam.Domain.Services;
 

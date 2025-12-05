@@ -13,10 +13,16 @@ namespace PrimeFixPlatform.API.Iam.Application.Internal.CommandServices;
 /// <param name="userAccountRepository">
 ///     The user account repository
 /// </param>
+/// <param name="userRepository">
+///     The user repository
+/// </param>
 /// <param name="unitOfWork">
 ///     Unit of work
 /// </param>
 public class UserAccountCommandService(IUserAccountRepository userAccountRepository,
+    IUserRepository userRepository,
+    IMembershipRepository membershipRepository,
+    IRoleRepository roleRepository,
     IUnitOfWork unitOfWork) :  IUserAccountCommandService
 {
     /// <summary>
@@ -28,23 +34,46 @@ public class UserAccountCommandService(IUserAccountRepository userAccountReposit
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains the created user account.
     /// </returns>
+    /// <exception cref="NotFoundArgumentException">
+    ///     Indicates that the user, role, or membership with the specified ID does not exist
+    /// </exception>
     /// <exception cref="ConflictException">
     ///     Indicates that a user account with the same UserAccountId, Username or Email already exists
     /// </exception>
     public async Task<int> Handle(CreateUserAccountCommand command)
     {
+        // Validate user existence
+        var user = await userRepository.FindByIdAsync(command.UserId);
+        if (user == null)
+            throw new NotFoundArgumentException("User not found with the given id " + command.UserId);
+        
+        // Validate role existence
+        var role = await roleRepository.FindByIdAsync(command.RoleId);
+        if (role == null)
+            throw new NotFoundArgumentException("Role not found with the given id " + command.RoleId);
+        
+        // Validate membership existence
+        var membership = await membershipRepository.FindByIdAsync(command.MembershipId);
+        if (membership == null)
+            throw new NotFoundArgumentException("Membership not found with the given id " + command.MembershipId);
+        
         var username = command.Username;
         var email = command.Email;
         
+        // Check for existing username
         if (await userAccountRepository.ExistsByUsername(username))
             throw new ConflictException("UserAccount with the same username " + username + " already exists");
         
+        // Check for existing email
         if (await userAccountRepository.ExistsByEmail(email))
             throw new ConflictException("UserAccount with the same email " + email + " already exists");
         
         var userAccount = new UserAccount(command);
         await userAccountRepository.AddAsync(userAccount);
         await unitOfWork.CompleteAsync();
+        userAccount.User = user;
+        userAccount.Role = role;
+        userAccount.Membership = membership;
         return userAccount.Id;
     }
 

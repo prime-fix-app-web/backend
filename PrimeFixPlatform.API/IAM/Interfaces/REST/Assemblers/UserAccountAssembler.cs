@@ -22,7 +22,7 @@ public static class UserAccountAssembler
     {
         return new CreateUserAccountCommand(
             request.Username, request.Email, request.RoleId,
-            request.UserId, request.Password, request.IsNew
+            request.UserId, request.MembershipId,request.Password, request.IsNew
         );
     }
     
@@ -42,7 +42,7 @@ public static class UserAccountAssembler
     {
         return new UpdateUserAccountCommand(
             userAccountId, request.Username, request.Email, request.RoleId,
-            request.UserId, request.Password, request.IsNew
+            request.UserId, request.MembershipId,request.Password, request.IsNew
         );
     }
     
@@ -58,8 +58,8 @@ public static class UserAccountAssembler
     public static UserAccountResponse ToResponseFromEntity(UserAccount entity)
     {
         return new UserAccountResponse(
-            entity.Id, entity.Username, entity.Email, entity.RoleId,
-            entity.UserId, entity.Password, entity.IsNew
+            entity.Id, entity.Username, entity.Email, entity.Role.Id,
+            entity.User.Id, entity.Membership.Id,entity.Password, entity.IsNew
         );
     }
 }

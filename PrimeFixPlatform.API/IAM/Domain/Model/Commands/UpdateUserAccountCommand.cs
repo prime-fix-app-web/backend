@@ -18,10 +18,13 @@
 /// <param name="UserId">
 ///     The new user identifier associated with the user account to be updated
 /// </param>
+/// <param name="MembershipId">
+///     The new membership identifier associated with the user account to be updated
+/// </param>
 /// <param name="Password">
 ///     The new password for the user account to be updated
 /// </param>
 /// <param name="IsNew">
 ///     Flag indicating whether the user account is new or existing
 /// </param>
-public record UpdateUserAccountCommand(int UserAccountId, string Username, string Email, int RoleId, int UserId, string Password, bool IsNew);
+public record UpdateUserAccountCommand(int UserAccountId, string Username, string Email, int RoleId, int UserId, int MembershipId, string Password, bool IsNew);

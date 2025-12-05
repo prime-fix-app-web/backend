@@ -48,4 +48,19 @@ public class UserQueryService(IUserRepository userRepository)
         return await userRepository.FindByIdAsync(query.UserId) 
                ?? throw new NotFoundIdException("User with the id " + query.UserId + " was not found.");
     }
+
+    /// <summary>
+    ///     Handles the query to check if a user exists by its unique identifier
+    /// </summary>
+    /// <param name="query">
+    ///     The query to check if a user exists by its unique identifier
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains
+    ///     a boolean indicating whether the user exists.
+    /// </returns>
+    public Task<bool> Handle(ExistsUserByIdQuery query)
+    {
+        return userRepository.ExistsByUserId(query.UserId);
+    }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.Iam.Domain.Model.Entities;
 using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -16,55 +16,13 @@ namespace PrimeFixPlatform.API.Iam.Infrastructure.Persistence.EFC.Repositories;
 public class RoleRepository(AppDbContext context)
 : BaseRepository<Role>(context), IRoleRepository
 {
-    /// <summary>
-    ///     Checks if a Role exists by its unique identifier.
-    /// </summary>
-    /// <param name="roleId">
-    ///     The unique identifier of the Role.
-    /// </param>
-    /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains
-    ///     a boolean indicating whether a Role with the specified identifier exists.
-    /// </returns>
-    public async Task<bool> ExitsByIdRole(int roleId)
+    public async Task<Role?> GetByNameAsync(ERole name)
     {
-        return await Context.Set<Role>().AnyAsync(role => role.Id == roleId);
+        return await Context.Set<Role>().FirstOrDefaultAsync(r => r.Name == name);
     }
 
-    /// <summary>
-    ///     Checks if a Role exists by its RoleInformation.
-    /// </summary>
-    /// <param name="roleInformation">
-    ///     The RoleInformation of the Role.
-    /// </param>
-    /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains
-    ///     a boolean indicating whether a Role with the specified RoleInformation exists.
-    /// </returns>
-    public async Task<bool> ExistsByRoleInformation(RoleInformation roleInformation)
+    public async Task<bool> ExistsByNameAsync(ERole name)
     {
-        return await Context.Set<Role>().AnyAsync(role => role.RoleInformation.Name == roleInformation.Name 
-                                                          || role.RoleInformation.Description == roleInformation.Description);
-    }
-
-    /// <summary>
-    ///     Checks if a Role exists by its RoleInformation, excluding a specific role by ID.
-    /// </summary>
-    /// <param name="roleInformation">
-    ///     The RoleInformation of the Role.
-    /// </param>
-    /// <param name="roleId">
-    ///     The unique identifier of the Role to exclude.
-    /// </param>
-    /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains
-    ///     a boolean indicating whether a Role with the specified RoleInformation exists,
-    ///     excluding the Role with the specified ID.
-    /// </returns>
-    public async Task<bool> ExistsByRoleInformationAndRoleIdIsNot(RoleInformation roleInformation, int roleId)
-    {
-        return await Context.Set<Role>().AnyAsync(role => (role.RoleInformation.Name == roleInformation.Name 
-                                                           || role.RoleInformation.Description == roleInformation.Description)
-                                                          && role.Id != roleId);
+        return await Context.Set<Role>().AnyAsync(r => r.Name == name);
     }
 }

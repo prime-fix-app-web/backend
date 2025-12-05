@@ -1,4 +1,4 @@
-﻿using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
+﻿using PrimeFixPlatform.API.Iam.Domain.Model.Entities;
 using PrimeFixPlatform.API.Iam.Domain.Model.Queries;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
 using PrimeFixPlatform.API.Iam.Domain.Services;

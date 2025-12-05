@@ -1,5 +1,4 @@
-﻿using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
-using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
+﻿using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
 
 namespace PrimeFixPlatform.API.Iam.Domain.Services;
 
@@ -9,38 +8,13 @@ namespace PrimeFixPlatform.API.Iam.Domain.Services;
 public interface IRoleCommandService
 {
     /// <summary>
-    ///     Handles the creation of a new role.
+    ///     Handle the seeding of roles in the system.
     /// </summary>
     /// <param name="command">
-    ///     The command containing role creation details.
+    ///     The command containing information for seeding roles.
     /// </param>
     /// <returns>
-    ///     A task that represents the asynchronous operation.
-    ///     The task result contains the created Role entity, or null if creation failed.
+    ///     A task representing the asynchronous operation.
     /// </returns>
-    Task<int> Handle(CreateRoleCommand command);
-    
-    /// <summary>
-    ///     Handles the update of an existing role.
-    /// </summary>
-    /// <param name="command">
-    ///     The command containing role update details.
-    /// </param>
-    /// <returns>
-    ///     A task that represents the asynchronous operation.
-    ///     The task result contains the updated Role entity, or null if the role was not found.
-    /// </returns>
-    Task<Role?> Handle(UpdateRoleCommand command);
-    
-    /// <summary>
-    ///     Handles the deletion of a role.
-    /// </summary>
-    /// <param name="command">
-    ///     The command containing role deletion details.
-    /// </param>
-    /// <returns>
-    ///     A task that represents the asynchronous operation.
-    ///     The task result contains a boolean indicating whether the deletion was successful.
-    /// </returns>
-    Task<bool> Handle(DeleteRoleCommand command);
+    Task Handle(SeedRolesCommand command);
 }

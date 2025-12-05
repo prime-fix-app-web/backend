@@ -4,14 +4,10 @@ using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Queries;
 using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
-using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
-using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Queries;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
-using PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Assemblers;
-using PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Resources;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Controllers;
+namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Controllers;
 
 [ApiController]
 [Route("api/v1/Services")]
@@ -73,7 +69,7 @@ public class ServiceController(IServiceCommandService serviceCommandService, ISe
         OperationId = "UpdateService")]
     [SwaggerResponse(StatusCodes.Status200OK, "Updates Service")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Bad Request")]
-    public async Task<IActionResult> UpdateService([FromBody] UpdateServiceCommand request, int serviceId)
+    public async Task<IActionResult> UpdateService([FromBody] UpdateServiceRequest request, int serviceId)
     {
         var updateService = ServiceAssembler.ToCommandFromRequest(request, serviceId);
         var service = await serviceCommandService.Handle(updateService);

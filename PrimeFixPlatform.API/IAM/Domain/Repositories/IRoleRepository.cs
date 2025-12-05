@@ -1,4 +1,4 @@
-﻿using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
+﻿using PrimeFixPlatform.API.Iam.Domain.Model.Entities;
 using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 
@@ -10,42 +10,25 @@ namespace PrimeFixPlatform.API.Iam.Domain.Repositories;
 public interface IRoleRepository : IBaseRepository<Role>
 {
     /// <summary>
-    ///     Checks if a role exists by its unique identifier.
+    ///     Gets a role by its name.
     /// </summary>
-    /// <param name="roleId">
-    ///     The unique identifier of the role.
+    /// <param name="name">
+    ///     The name of the role to retrieve.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
-    ///     a boolean indicating whether a role with the specified ID exists.
     /// </returns>
-    Task<bool> ExitsByIdRole(int roleId);
+    Task<Role?> GetByNameAsync(ERole name);
     
     /// <summary>
-    ///     Checks if a role exists by its role information.
+    ///     Checks if a role with the specified name exists.
     /// </summary>
-    /// <param name="roleInformation">
-    ///     The role information to check.
+    /// <param name="name">
+    ///     The name of the role to check for existence.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
-    ///     a boolean indicating whether a role with the specified role information exists.
+    ///     true if a role with the specified name exists; otherwise, false.
     /// </returns>
-    Task<bool> ExistsByRoleInformation(RoleInformation roleInformation);
-    
-    /// <summary>
-    ///     Checks if a role exists by its role information, excluding a specific role by its ID.
-    /// </summary>
-    /// <param name="roleInformation">
-    ///     The role information to check.
-    /// </param>
-    /// <param name="roleId">
-    ///     The unique identifier of the role to exclude from the check.
-    /// </param>
-    /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains
-    ///     a boolean indicating whether a role with the specified role information exists,
-    ///     excluding the role with the specified ID.
-    /// </returns>
-    Task<bool> ExistsByRoleInformationAndRoleIdIsNot(RoleInformation roleInformation, int roleId);
+    Task<bool> ExistsByNameAsync(ERole name);
 }

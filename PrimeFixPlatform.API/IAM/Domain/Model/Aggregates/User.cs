@@ -1,4 +1,5 @@
-﻿using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
+﻿using PrimeFixPlatform.API.IAM.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
 
 namespace PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 
@@ -70,4 +71,6 @@ public partial class User
     public string Dni { get; private set; }
     public string PhoneNumber { get; private set; }
     public int LocationId { get; private set; }
+    
+    public Location Location { get; internal set; }
 }

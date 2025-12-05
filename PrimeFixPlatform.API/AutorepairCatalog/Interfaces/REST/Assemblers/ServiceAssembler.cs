@@ -11,7 +11,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Assemblers;
 /// Assembler responsible for mapping Service REST requests into domain commands and converting Service domain entities
 /// into response resources.
 /// </summary>
-public class ServiceAssembler
+public static class ServiceAssembler
 {
     /// <summary>
     /// Creates a <see cref="CreateServiceCommand"/> from a <see cref="CreateServiceRequest"/>.
@@ -40,7 +40,7 @@ public class ServiceAssembler
     /// <returns>
     /// A <see cref="UpdateServiceCommand"/> ready to be dispatched to the domain layer.
     /// </returns>
-    public static UpdateServiceCommand ToCommandFromRequest(UpdateServiceCommand request, int serviceId)
+    public static UpdateServiceCommand ToCommandFromRequest(UpdateServiceRequest request, int serviceId)
     {
         return new UpdateServiceCommand(serviceId,request.Name, request.Description);
     }
@@ -57,6 +57,6 @@ public class ServiceAssembler
     /// </returns>
     public static ServiceResponse ToResponseFromEntity(Service entity)
     {
-        return new ServiceResponse(entity.ServiceId, entity.Name, entity.Description);
+        return new ServiceResponse(entity.Id, entity.Name, entity.Description);
     }
 }

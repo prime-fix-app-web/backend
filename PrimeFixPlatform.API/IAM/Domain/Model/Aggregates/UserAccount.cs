@@ -1,4 +1,5 @@
 ﻿using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
+using PrimeFixPlatform.API.Iam.Domain.Model.Entities;
 
 namespace PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 
@@ -22,18 +23,22 @@ public partial class UserAccount
     /// <param name="userId">
     ///     The user identifier associated with the UserAccount
     /// </param>
+    /// <param name="membershipId">
+    ///     The membership identifier associated with the UserAccount
+    /// </param>
     /// <param name="password">
     ///     The password of the UserAccount
     /// </param>
     /// <param name="isNew">
     ///     Flag indicating if the UserAccount is new
     /// </param>
-    public UserAccount(string username, string email, int roleId, int userId, string password, bool isNew)
+    public UserAccount(string username, string email, int roleId, int userId, int membershipId ,string password, bool isNew)
     {
         Username = username;
         Email = email;
         RoleId = roleId;
         UserId = userId;
+        MembershipId = membershipId;
         Password = password;
         IsNew = isNew;
     }
@@ -49,6 +54,7 @@ public partial class UserAccount
         command.Email,
         command.RoleId,
         command.UserId,
+        command.MembershipId,
         command.Password,
         command.IsNew)
     {
@@ -66,6 +72,7 @@ public partial class UserAccount
         Email = command.Email;
         RoleId = command.RoleId;
         UserId = command.UserId;
+        MembershipId = command.MembershipId;
         Password = command.Password;
         IsNew = command.IsNew;
     }
@@ -79,7 +86,14 @@ public partial class UserAccount
     
     public int RoleId { get; private set;  }
     
+    public Role Role { get; internal set; }
+    
     public int UserId { get; private set;  }
+    
+    public User User { get; internal set; }
+    public int MembershipId { get; private set; }
+    
+    public Membership Membership { get; internal set; }
     
     public string Password { get; private set; }
     

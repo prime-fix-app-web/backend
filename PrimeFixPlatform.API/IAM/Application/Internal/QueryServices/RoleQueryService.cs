@@ -1,8 +1,9 @@
-﻿using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
+﻿using PrimeFixPlatform.API.Iam.Domain.Model.Entities;
 using PrimeFixPlatform.API.Iam.Domain.Model.Queries;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
 using PrimeFixPlatform.API.Iam.Domain.Services;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
+
 
 namespace PrimeFixPlatform.API.Iam.Application.Internal.QueryServices;
 
@@ -30,22 +31,9 @@ public class RoleQueryService(IRoleRepository roleRepository)
         return await roleRepository.ListAsync();
     }
 
-    /// <summary>
-    ///     Handles the query to get a role by its unique identifier
-    /// </summary>
-    /// <param name="query">
-    ///     The query to get a role by its unique identifier
-    /// </param>
-    /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains
-    ///     the role if found; otherwise, null.
-    /// </returns>
-    /// <exception cref="NotFoundIdException">
-    ///     Indicates that a role with the specified identifier was not found.
-    /// </exception>
-    public async Task<Role?> Handle(GetRoleByIdQuery query)
+    public async Task<Role?> Handle(GetRoleByNameQuery query)
     {
-        return await roleRepository.FindByIdAsync(query.RoleId)
-            ?? throw new NotFoundIdException("Role with the id " + query.RoleId + " was not found.");
+        return await roleRepository.GetByNameAsync(query.Name)
+            ?? throw new NotFoundArgumentException("Role with the name " + query.Name + " was not found.");
     }
 }

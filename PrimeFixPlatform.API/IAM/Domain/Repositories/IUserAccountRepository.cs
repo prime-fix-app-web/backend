@@ -78,5 +78,16 @@ public interface IUserAccountRepository : IBaseRepository<UserAccount>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains the UserAccount entity if found; otherwise, null.
     /// </returns>
-    Task<UserAccount?> FindByUsername(string username);
+    Task<UserAccount?> FetchByUsername(string username);
+
+    /// <summary>
+    ///     Finds a user account by its user ID related to the aggregate user.
+    /// </summary>
+    /// <param name="userId">
+    ///     The user ID of the aggregate user.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains the UserAccount entity if found; otherwise, null.
+    /// </returns>
+    Task<UserAccount?> FetchByUserId(int userId);
 }

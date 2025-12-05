@@ -11,14 +11,14 @@ public interface IAutoRepairRepository : IBaseRepository<AutoRepair>
     /// <summary>
     ///     Checks if an AutoRepair entity exists by its unique identifier.
     /// </summary>
-    /// <param name="idAutoRepair">
+    /// <param name="autoRepairId">
     ///     The unique identifier of the AutoRepair entity.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether the AutoRepair entity exists.
     /// </returns>
-    Task<bool> ExistsByIdAutoRepair(int idAutoRepair);
+    Task<bool> ExistsByAutoRepairId(int autoRepairId);
     
     /// <summary>
     ///     Checks if an AutoRepair entity exists by its RUC.
@@ -38,14 +38,14 @@ public interface IAutoRepairRepository : IBaseRepository<AutoRepair>
     /// <param name="ruc">
     ///     The RUC of the AutoRepair entity.
     /// </param>
-    /// <param name="idAutoRepair">
+    /// <param name="autoRepairId">
     ///     The unique identifier of the AutoRepair entity to exclude.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether the AutoRepair entity exists.
     /// </returns>
-    Task<bool> ExistsByRucAndIdAutoRepairIsNot(string ruc, int idAutoRepair);
+    Task<bool> ExistsByRucAndAutoRepairIdIsNot(string ruc, int autoRepairId);
     
     /// <summary>
     ///     Checks if an AutoRepair entity exists by its contact email.
@@ -65,12 +65,12 @@ public interface IAutoRepairRepository : IBaseRepository<AutoRepair>
     /// <param name="contactEmail">
     ///     The contact email of the AutoRepair entity.
     /// </param>
-    /// <param name="idAutoRepair">
+    /// <param name="autoRepairId">
     ///     The unique identifier of the AutoRepair entity to exclude.
     /// </param>
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether the AutoRepair entity exists.
     /// </returns>
-    Task<bool> ExistsByContactEmailAndIdAutoRepairIsNot(string contactEmail, int idAutoRepair);
+    Task<bool> ExistsByContactEmailAndAutoRepairIdIsNot(string contactEmail, int autoRepairId);
 }

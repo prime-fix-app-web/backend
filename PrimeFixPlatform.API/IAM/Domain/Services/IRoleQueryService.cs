@@ -1,4 +1,4 @@
-﻿using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
+﻿using PrimeFixPlatform.API.Iam.Domain.Model.Entities;
 using PrimeFixPlatform.API.Iam.Domain.Model.Queries;
 
 namespace PrimeFixPlatform.API.Iam.Domain.Services;
@@ -30,5 +30,5 @@ public interface IRoleQueryService
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the Role entity if found; otherwise, null.
     /// </returns>
-    Task<Role?> Handle(GetRoleByIdQuery query);
+    Task<Role?> Handle(GetRoleByNameQuery query);
 }
