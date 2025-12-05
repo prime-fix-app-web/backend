@@ -46,6 +46,7 @@ using PrimeFixPlatform.API.IAM.Domain.Services;
 using PrimeFixPlatform.API.IAM.Infrastructure.Hashing.BCrypt.Services;
 using PrimeFixPlatform.API.Iam.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
 using PrimeFixPlatform.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 using PrimeFixPlatform.API.IAM.Infrastructure.Tokens.JWT.Services;
 using PrimeFixPlatform.API.IAM.Interfaces.ACL;
@@ -385,6 +386,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRequestAuthorization();
 
 app.MapControllers();
 
