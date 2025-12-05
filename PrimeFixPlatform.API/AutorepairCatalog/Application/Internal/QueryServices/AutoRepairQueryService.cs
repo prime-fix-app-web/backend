@@ -1,4 +1,5 @@
 ﻿using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Entities;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Queries;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Repositories;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Services;
@@ -12,22 +13,38 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.QueryServi
 /// <param name="autoRepairRepository">
 ///     The auto repair repository.
 /// </param>
-public class AutoRepairQueryService(IAutoRepairRepository autoRepairRepository)
+public class AutoRepairQueryService(IAutoRepairRepository autoRepairRepository, ILogger<AutoRepairQueryService> logger)
 : IAutoRepairQueryService
 {
     /// <summary>
-    ///     Handles the retrieval of all auto repairs.
+    ///     Retrieves all <see cref="AutoRepair"/> entities along with their associated <see cref="ServiceOffer"/>s
+    ///     and registers these offers in each AutoRepair's <see cref="ServiceCatalog"/>.
     /// </summary>
     /// <param name="query">
-    ///     The query to get all auto repairs.
+    ///     The query object to retrieve all auto repairs.
     /// </param>
     /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains
-    ///     an enumerable of all AutoRepair entities.
+    ///     A collection of <see cref="AutoRepair"/> entities with fully populated <see cref="ServiceCatalog"/>s.
     /// </returns>
     public async Task<IEnumerable<AutoRepair>> Handle(GetAllAutoRepairsQuery query)
     {
-        return await autoRepairRepository.ListAsync();
+        var autoRepairs = await autoRepairRepository.LisWithServiceOffersAsync();
+
+        foreach (var ar in autoRepairs)
+        {
+            foreach (var offer in ar.ServiceOffers)
+            {
+                ar.ServiceCatalog.AddServiceOffer(
+                    offer.AutoRepair,
+                    offer.Service,
+                    offer.Price,
+                    offer.IsActive,
+                    offer.DurationHours
+                );
+            }
+        }
+
+        return autoRepairs;
     }
 
     /// <summary>
@@ -49,18 +66,48 @@ public class AutoRepairQueryService(IAutoRepairRepository autoRepairRepository)
             ?? throw new NotFoundIdException("AutoRepair with the id " + query.AutoRepairId + " was not found.");
     }
 
+    public async Task<ServiceOffer?> Handle(GetServiceOfferByServiceIdAndAutoRepairIdQuery query)
+    {
+        return await autoRepairRepository
+            .FindServiceOfferByServiceIdAndAutoRepairIdAsync(
+                query.ServiceId,
+                query.AutoRepairId
+            );
+    }
+    
     /// <summary>
-    ///     Handles the check for the existence of an auto repair by its unique identifier.
+    ///     Retrieves an <see cref="AutoRepair"/> along with its associated <see cref="ServiceOffer"/>s
+    ///     and registers these offers in the AutoRepair's <see cref="ServiceCatalog"/>.
     /// </summary>
-    /// <param name="query">
-    ///     The query to check if an auto repair exists by its ID.
+    /// <param name="autoRepairId">
+    ///     The unique identifier of the AutoRepair to retrieve.
     /// </param>
     /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains
-    ///     true if the AutoRepair exists; otherwise, false.
+    ///     The <see cref="AutoRepair"/> with its <see cref="ServiceCatalog"/> fully populated with ServiceOffers.
     /// </returns>
-    public async Task<bool> Handle(ExistsAutoRepairByIdQuery query)
+    /// <exception cref="KeyNotFoundException">
+    ///     Thrown if no AutoRepair with the specified ID is found.
+    /// </exception>
+    public async Task<AutoRepair> GetByIdAsync(int autoRepairId)
     {
-        return await autoRepairRepository.ExistsByAutoRepairId(query.AutoRepairId);
+        var autoRepair = await autoRepairRepository.FindByIdWithServiceOffersAsync(autoRepairId);
+        if (autoRepair == null)
+        {
+            throw new KeyNotFoundException($"AutoRepair with id {autoRepairId} was not found");
+        }
+
+        foreach (var offer in autoRepair.ServiceOffers)
+        {
+            autoRepair.ServiceCatalog.AddServiceOffer(
+                offer.AutoRepair,
+                offer.Service,
+                offer.Price,
+                offer.IsActive,
+                offer.DurationHours
+            );
+        }
+
+        return autoRepair;
     }
+    
 }

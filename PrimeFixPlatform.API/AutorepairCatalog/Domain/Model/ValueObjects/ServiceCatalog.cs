@@ -15,12 +15,16 @@ public class ServiceCatalog
     {
         _serviceOffers = new List<ServiceOffer>();
     }
+    public ServiceCatalog(List<ServiceOffer> serviceOffers)
+    {
+        _serviceOffers = serviceOffers;
+    }
     
     public void AddServiceOffer(AutoRepair autoRepair, Service service, decimal price, bool isActive, int durationHours)
     {
         var serviceOffer = new ServiceOffer(
-            autoRepair.Id,
-            service.Id,
+            autoRepair.AutoRepairId,
+            service,
             price,durationHours,isActive);
 
         _serviceOffers.Add(serviceOffer);
@@ -54,5 +58,10 @@ public class ServiceCatalog
     public bool IsEmpty()
     {
         return !_serviceOffers.Any();
+    }
+
+    public void AddExistingServiceOffer(ServiceOffer offer)
+    {
+        _serviceOffers.Add(offer);    
     }
 }

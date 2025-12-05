@@ -1,4 +1,5 @@
 ﻿using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Entities;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
 
@@ -7,92 +8,87 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
 /// <summary>
 ///     AutoRepair Aggregate Root
 /// </summary>
-public partial class AutoRepair 
+public partial class AutoRepair
 {
     /// <summary>
-    ///     Private constructor for ORM
+    ///     Gets the collection of service offers associated with this AutoRepair.
     /// </summary>
-    private AutoRepair() { }
+
+    public virtual ICollection<ServiceOffer> ServiceOffers { get; private set; } = new List<ServiceOffer>();
     
     /// <summary>
-    ///     Constructor with all parameters
+    ///     Provides a value object representation of the service catalog
+    ///     containing the current ServiceOffers.
     /// </summary>
-    /// <param name="ruc">
-    ///     The Single Taxpayer Registry number of the auto repair
-    /// </param>
-    /// <param name="contactEmail">
-    ///     The contact email of the auto repair
-    /// </param>
-    /// <param name="userAccountId">
-    ///     The unique identifier of the user account associated with the auto repair
-    /// </param>
-    public AutoRepair( string ruc, string contactEmail, int userAccountId)
+    public ServiceCatalog ServiceCatalog => new(ServiceOffers.ToList());
+
+    /// <summary>
+    ///     Private parameterless constructor required by EF Core.
+    /// </summary>
+    private AutoRepair() { } 
+
+    /// <summary>
+    ///     Initializes a new instance of <see cref="AutoRepair"/> with the specified details.
+    /// </summary>
+    /// <param name="ruc">The RUC (tax ID) of the auto repair.</param>
+    /// <param name="contactEmail">The contact email of the auto repair.</param>
+    /// <param name="techniciansCount">The number of technicians in the auto repair.</param>
+    /// <param name="userAccountId">The associated user account ID.</param>
+    public AutoRepair(string ruc, string contactEmail, int techniciansCount, int userAccountId)
     {
         Ruc = ruc;
         ContactEmail = contactEmail;
-        TechniciansCount = 0;
+        TechniciansCount = techniciansCount;
         UserAccountId = userAccountId;
     }
-    
-    /// <summary>
-    ///     Constructor from CreateAutoRepairCommand
-    /// </summary>
-    /// <param name="command">
-    ///     The command containing the data to create the auto repair
-    /// </param>
-    public AutoRepair(CreateAutoRepairCommand command): this(
-        command.Ruc,
-        command.ContactEmail,
-        command.UserAccountId)
-    {
-    }
-    
-    /// <summary>
-    ///     Updates the AutoRepair entity with data from the UpdateAutoRepairCommand
-    /// </summary>
-    /// <param name="command">
-    ///     The command containing the data to update the auto repair
-    /// </param>
+
+    public AutoRepair(CreateAutoRepairCommand command)
+        : this(command.Ruc, command.ContactEmail, command.TechniciansCount, command.UserAccountId)
+    { }
+
     public void UpdateAutoRepair(UpdateAutoRepairCommand command)
     {
         Ruc = command.Ruc;
         ContactEmail = command.ContactEmail;
+        TechniciansCount = command.TechniciansCount;
         UserAccountId = command.UserAccountId;
     }
-    
-    /// <summary>
-    ///     Increments the count of technicians associated with the auto repair
-    /// </summary>
-    public void IncrementTechniciansCount()
-    {
-        TechniciansCount++;
-    }
-    
-    /// <summary>
-    ///     Decrements the count of technicians associated with the auto repair
-    /// </summary>
-    public void DecrementTechniciansCount()
-    {
-        if (TechniciansCount > 0)
-        {
-            TechniciansCount--;
-        }
-    }
-    
-    public int Id { get; }
-    public string Ruc { get; private set;  }
-    public string ContactEmail { get; private set;  }
-    public int TechniciansCount { get; private set;  }
-    public int UserAccountId { get; private set;  }
-    public ServiceCatalog ServiceCatalog { get; private set; }
 
+    public int AutoRepairId { get; private set; }
+    public string Ruc { get; private set; }
+    public string ContactEmail { get; private set; }
+    public int TechniciansCount { get; private set; }
+    public int UserAccountId { get; private set; }
+    
+    /// <summary>
+    ///     Registers a new service offer for this AutoRepair.
+    /// </summary>
+    /// <param name="service">The service to register.</param>
+    /// <param name="price">The price of the service.</param>
+    /// <param name="durationHours">The duration of the service in hours.</param>
+    /// <param name="isActive">Indicates whether the service offer is active.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="service"/> is null.</exception>
     public void RegisterNewOffer(Service service, decimal price, int durationHours, bool isActive)
     {
-        ServiceCatalog.AddServiceOffer(this, service, price, isActive, durationHours);
-    }
+        if (service == null) throw new ArgumentNullException(nameof(service));
 
+        var serviceOffer = new ServiceOffer(this.AutoRepairId, service, price, durationHours, isActive);
+        ServiceOffers.Add(serviceOffer);
+    }
+    
+    /// <summary>
+    ///     Deletes a service offer associated with the specified service.
+    /// </summary>
+    /// <param name="service">The service whose offer should be removed.</param>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if the service offer for the specified service does not exist.
+    /// </exception>
     public void DeleteOffer(Service service)
     {
-        ServiceCatalog.RemoveServiceOffer(this, service);
+        var offer = ServiceOffers.FirstOrDefault(so => so.ServiceId == service.Id);
+        if (offer == null)
+            throw new InvalidOperationException("Service offer not found");
+
+        ServiceOffers.Remove(offer);
     }
 }
