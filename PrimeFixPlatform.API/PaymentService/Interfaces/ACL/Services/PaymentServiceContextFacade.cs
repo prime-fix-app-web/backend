@@ -2,9 +2,8 @@
 using PrimeFixPlatform.API.PaymentService.Domain.Model.Queries;
 using PrimeFixPlatform.API.PaymentService.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.PaymentService.Domain.Services;
-using PrimeFixPlatform.API.PaymentService.Interfaces.ACL;
 
-namespace PrimeFixPlatform.API.PaymentService.Application.ACL;
+namespace PrimeFixPlatform.API.PaymentService.Interfaces.ACL.Services;
 
 /// <summary>
 ///     Facade for PaymentService context
@@ -33,10 +32,10 @@ public class PaymentServiceContextFacade(
     /// <returns>
     ///     The payment ID if created.
     /// </returns>
-    public async Task<int> CreatePayment(string cardNumber, string cardType, int month, int year, int cvv, int userAccountId)
+    public async Task<int> CreatePayment(string cardNumber, CardType cardType, int month, int year, int cvv, int userAccountId)
     {
         var createPaymentCommand = 
-            new CreatePaymentCommand(cardNumber, new CardType(cardType), month, year, cvv, userAccountId);
+            new CreatePaymentCommand(cardNumber, cardType, month, year, cvv, userAccountId);
         var paymentId = await paymentCommandService.Handle(createPaymentCommand);
         
         return paymentId;

@@ -1,5 +1,6 @@
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Repositories;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Services;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
@@ -29,12 +30,12 @@ public class ServiceCommandService(IServiceRepository serviceRepository,IUnitOfW
     /// <returns>
     ///     A task that represents the asynchronous operation. The task result contain the created service
     /// </returns>
-    public async Task<Service?> Handle(CreateServiceCommand command)
+    public async Task<int> Handle(CreateServiceCommand command)
     {
         var service = new Service(command);
         await serviceRepository.AddAsync(service);
         await unitOfWork.CompleteAsync();
-        return service;
+        return service.Id;
     }
 
     /// <summary>

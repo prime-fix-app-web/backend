@@ -41,16 +41,19 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<Role>().Property(r => r.Name).HasConversion<string>().HasMaxLength(20).IsRequired().IsUnicode(false);
         
         modelBuilder.Entity<Location>().HasKey(l => l.Id);
-        modelBuilder.Entity<Location>().Property(l => l.Id).IsRequired().ValueGeneratedOnAdd();
-        modelBuilder.Entity<Location>().Property(l => l.Address).IsRequired().HasMaxLength(100);
-        modelBuilder.Entity<Location>().Property(l => l.District).IsRequired().HasMaxLength(50);
-        modelBuilder.Entity<Location>().Property(l => l.Department).IsRequired().HasMaxLength(50);
+        modelBuilder.Entity<Location>().Property(l => l.Id).IsRequired().HasColumnName("location_id").ValueGeneratedOnAdd();
+        modelBuilder.Entity<Location>().OwnsOne(l => l.LocationInformation, li =>
+        {
+            li.Property(p => p.Address).HasColumnName("address").IsRequired().HasMaxLength(100);
+            li.Property(p => p.District).HasColumnName("district").IsRequired().HasMaxLength(50);
+            li.Property(p => p.Department).HasColumnName("department").IsRequired().HasMaxLength(50);
+        });
         
         modelBuilder.Entity<Membership>(entity =>
         {
             entity.ToTable("memberships"); 
             entity.HasKey(m => m.Id);
-            entity.Property(m => m.Id).HasColumnName("membership_id").ValueGeneratedOnAdd();
+            entity.Property(m => m.Id).IsRequired().HasColumnName("membership_id").ValueGeneratedOnAdd();
             entity.Property(m => m.Started).IsRequired();
             entity.Property(m => m.Over).IsRequired();
             entity.OwnsOne(m => m.MembershipDescription, md =>

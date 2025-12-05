@@ -1,13 +1,14 @@
 ﻿using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Assemblers;
 
 /// <summary>
-///     Assembler class for converting between AutoRepair-related requests, commands, and responses.
+///     Assembler for converting between AutoRepair-related requests, commands, and responses.
 /// </summary>
-public static class AutoRepairAssembler
+public class AutoRepairAssembler
 {
     /// <summary>
     ///     Converts a CreateAutoRepairRequest to a CreateAutoRepairCommand.
@@ -21,7 +22,7 @@ public static class AutoRepairAssembler
     public static CreateAutoRepairCommand ToCommandFromRequest(CreateAutoRepairRequest request)
     {
         return new CreateAutoRepairCommand(request.Ruc, request.ContactEmail,
-            request.TechniciansCount, request.UserAccountId
+            request.UserAccountId
         );
     }
     
@@ -41,7 +42,7 @@ public static class AutoRepairAssembler
     {
         return new UpdateAutoRepairCommand(
             autoRepairId, request.Ruc, request.ContactEmail,
-            request.TechniciansCount, request.UserAccountId
+             request.UserAccountId
         );
     }
     
@@ -56,11 +57,19 @@ public static class AutoRepairAssembler
     /// </returns>
     public static AutoRepairResponse ToResponseFromEntity(AutoRepair entity)
     {
-        List<ServiceOfferResource> serviceOffer = entity.ServiceCatalog.ServiceOffers.Select(ServiceOfferAssembler.ToResponseFromEntity).ToList();
+        var serviceOffers = entity.ServiceCatalog?.ServiceOffers
+            .Select(so => new ServiceOfferResource(
+                so.ServiceId,
+                so.Price,
+                so.DurationHours,
+                so.IsActive
+            ))
+            .ToList() ?? new List<ServiceOfferResource>();
+        
         return new AutoRepairResponse(
-            entity.Id, entity.Ruc, entity.ContactEmail,
+            entity.AutoRepairId, entity.Ruc, entity.ContactEmail,
             entity.TechniciansCount, entity.UserAccountId,
-            serviceOffer
+            serviceOffers
         );
     }
 }

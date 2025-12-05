@@ -1,5 +1,6 @@
 ﻿using PrimeFixPlatform.API.IAM.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.IAM.Domain.Model.Commands;
+using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.IAM.Interfaces.REST.Resources;
 
 namespace PrimeFixPlatform.API.IAM.Interfaces.REST.Assemblers;
@@ -20,7 +21,7 @@ public static class LocationAssembler
     /// </returns>
     public static CreateLocationCommand ToCommandFromRequest(CreateLocationRequest request)
     {
-        return new CreateLocationCommand(request.Address, request.District, request.Department);
+        return new CreateLocationCommand(new LocationInformation(request.Address, request.District, request.Department));
     }
     
     /// <summary>
@@ -38,7 +39,7 @@ public static class LocationAssembler
     public static UpdateLocationCommand ToCommandFromRequest(UpdateLocationRequest request, int locationId)
     {
         return new UpdateLocationCommand(
-            locationId, request.Address, request.District, request.Department
+           locationId,  new LocationInformation(request.Address, request.District, request.Department)
         );
     }
     
@@ -54,7 +55,7 @@ public static class LocationAssembler
     public static LocationResponse ToResponseFromEntity(Location entity)
     {
         return new LocationResponse(
-            entity.Id, entity.Address, entity.District, entity.Department
+            entity.Id, entity.LocationInformation.Address, entity.LocationInformation.District, entity.LocationInformation.Department
         );
     }
 }

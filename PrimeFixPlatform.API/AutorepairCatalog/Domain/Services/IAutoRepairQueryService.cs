@@ -1,4 +1,5 @@
 ﻿using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Entities;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Queries;
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Services;
@@ -31,4 +32,19 @@ public interface IAutoRepairQueryService
     ///     The task result contains the auto repair if found; otherwise, null.
     /// </returns>
     Task<AutoRepair?> Handle(GetAutoRepairByIdQuery query);
+    
+    Task<ServiceOffer?> Handle(GetServiceOfferByServiceIdAndAutoRepairIdQuery query);
+    
+    Task<AutoRepair> GetByIdAsync(int autoRepairId);
+
+    /// <summary>
+    ///     Checks if an Auto Repair exists by its identifier.
+    /// </summary>
+    /// <param name="query">
+    ///     The query object containing the identifier of the Auto Repair to check.
+    /// </param>
+    /// <returns>
+    ///     A task representing the asynchronous operation, containing true if the Auto Repair exists; otherwise, false.
+    /// </returns>
+    Task<bool> Handle(ExistsAutoRepairByIdQuery query);
 }

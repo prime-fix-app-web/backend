@@ -18,7 +18,15 @@ public interface IIamContextFacade
     /// </returns>
     Task<bool> ExistsUserAccountById(int userAccountId);
     
-    
+    /// <summary>
+    ///     Check if a user exists by user ID
+    /// </summary>
+    /// <param name="userId">
+    ///     The user ID to check
+    /// </param>
+    /// <returns>
+    ///     A task representing the asynchronous operation, with a boolean indicating existence as result
+    /// </returns>
     Task<bool> ExistsUserById(int userId);
     
     /// <summary>

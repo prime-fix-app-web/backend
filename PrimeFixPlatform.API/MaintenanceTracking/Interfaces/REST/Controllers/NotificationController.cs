@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Commands;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Queries;
@@ -21,6 +22,7 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Controllers;
 /// </param>
 [ApiController]
 [Route("api/v1/notifications")]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Notifications Endpoints")]
 public class NotificationController(INotificationQueryService notificationQueryService, INotificationCommandService notificationCommandService) :  ControllerBase

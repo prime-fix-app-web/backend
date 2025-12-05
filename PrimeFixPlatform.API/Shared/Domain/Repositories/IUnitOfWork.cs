@@ -1,4 +1,6 @@
-﻿namespace PrimeFixPlatform.API.Shared.Domain.Repositories;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+
+namespace PrimeFixPlatform.API.Shared.Domain.Repositories;
 
 /// <summary>
 ///     Unit of work interface
@@ -11,6 +13,16 @@ public interface IUnitOfWork
     /// <summary>
     ///     Commit all changes to the database.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>
+    ///     The task representing the asynchronous operation.
+    /// </returns>
     Task CompleteAsync();
+    
+    /// <summary>
+    ///     Begin a new transaction.
+    /// </summary>
+    /// <returns>
+    ///     The task representing the asynchronous operation.
+    /// </returns>
+    Task<IDbContextTransaction> BeginTransactionAsync();
 }

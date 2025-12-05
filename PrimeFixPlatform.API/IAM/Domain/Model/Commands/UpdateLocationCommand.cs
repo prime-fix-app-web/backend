@@ -1,18 +1,14 @@
-﻿namespace PrimeFixPlatform.API.IAM.Domain.Model.Commands;
+﻿using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
+
+namespace PrimeFixPlatform.API.IAM.Domain.Model.Commands;
 
 /// <summary>
 ///     Command to update an existing Location entity.
 /// </summary>
 /// <param name="LocationId">
-///     The unique identifier for the Location to be updated.
+///     The unique identifier of the location to be updated.
 /// </param>
-/// <param name="Address">
-///     The new address of the Location to be updated.
+/// <param name="LocationInformation">
+///     The location information value object containing address, district, and department.
 /// </param>
-/// <param name="District">
-///     The new district where the Location is situated.
-/// </param>
-/// <param name="Department">
-///     The new department where the Location is situated.
-/// </param>
-public record UpdateLocationCommand(int LocationId, string Address, string District, string Department);
+public record UpdateLocationCommand(int LocationId,LocationInformation LocationInformation);

@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
 using PrimeFixPlatform.API.Iam.Domain.Model.Queries;
@@ -20,6 +21,7 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Controllers;
 ///     The membership command service
 /// </param>
 [ApiController]
+[Authorize]
 [Route("api/v1/memberships")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Memberships Endpoints")]

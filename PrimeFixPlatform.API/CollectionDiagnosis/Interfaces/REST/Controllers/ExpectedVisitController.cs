@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
@@ -12,7 +13,8 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Controllers;
 
 
 [ApiController]
-[Route("api/v1/expectedVisits")]
+[Route("api/v1/expected_visits")]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Expected Visit")]
 public class ExpectedVisitController(IExpectedVisitCommandService expectedVisitCommandService, IExpectedVisitQueryService expectedVisitQueryService) : ControllerBase

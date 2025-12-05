@@ -4,9 +4,6 @@ using Service = PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates.S
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Entities;
 
-/// <summary>
-///     Aggregate root representing a service offer provided by an auto repair shop.
-/// </summary>
 public class ServiceOffer
 {
     /// <summary>
@@ -22,13 +19,14 @@ public class ServiceOffer
     /// <param name="price">The price of service </param>
     /// <param name="durationHours">The duration of the service</param>
     /// <param name="isActive">The state of the service </param>
-    public ServiceOffer(int autoRepairId, int serviceId, decimal price, int durationHours, bool isActive)
+    public ServiceOffer(int autoRepairId, Service service, decimal price, int durationHours, bool isActive)
     {
         AutoRepairId = autoRepairId;
-        ServiceId = serviceId;
+        ServiceId = service.Id;
         Price = price;
         DurationHours = durationHours;
         IsActive = isActive;
+        Service = service;
     }
 
     /// <summary>
@@ -40,12 +38,12 @@ public class ServiceOffer
     }
     
 
-    public int Id { get; private set; }
+    public int ServiceOfferId { get; private set; }
 
     public int AutoRepairId { get; private set; }
-    public AutoRepair AutoRepair { get; private set; } = null!;
+    public AutoRepair AutoRepair { get; private set; }
     public int ServiceId { get; private set; }
-    public Service Service { get; private set; } = null!;
+    public Service Service { get; private set; } 
     public decimal Price { get; private set; }
     
     public int DurationHours { get; set; }

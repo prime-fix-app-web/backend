@@ -12,9 +12,6 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 /// <param name="ContactEmail">
 ///     The contact email of the auto repair to be updated
 /// </param>
-/// <param name="TechniciansCount">
-///     The number of technicians in the auto repair to be updated
-/// </param>
 /// <param name="UserAccountId">
 ///     The unique identifier of the user account associated with the auto repair to updated
 /// </param>
@@ -28,10 +25,6 @@ public record UpdateAutoRepairRequest(
     [EmailAddress]
     [MaxLength(100)]
     string ContactEmail,
-    
-    [property: JsonPropertyName("technicians_count")]
-    [Required]
-    int TechniciansCount,
     
     [property: JsonPropertyName("user_account_id")]
     [Required]

@@ -22,7 +22,7 @@ public static class UserAccountAssembler
     {
         return new CreateUserAccountCommand(
             request.Username, request.Email, request.RoleId,
-            request.UserId, request.MembershipId,request.Password, request.IsNew
+            request.UserId, request.MembershipId,request.Password
         );
     }
     

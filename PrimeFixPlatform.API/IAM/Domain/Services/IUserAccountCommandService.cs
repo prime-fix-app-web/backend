@@ -9,6 +9,39 @@ namespace PrimeFixPlatform.API.Iam.Domain.Services;
 public interface IUserAccountCommandService
 {
     /// <summary>
+    ///     Handles user sign-in and returns the authenticated user account along with a JWT token.
+    /// </summary>
+    /// <param name="command">
+    ///     The command containing sign-in details.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains a tuple with the authenticated UserAccount and a JWT token string.
+    /// </returns>
+    Task<(UserAccount userAccount, string token)> Handle(SignInCommand command);
+    
+    
+    /// <summary>
+    ///     Handles vehicle owner sign-up and returns the created user account.
+    /// </summary>
+    /// <param name="command">
+    ///     The command containing vehicle owner sign-up details.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains the created UserAccount entity, or null if creation failed.
+    /// </returns>
+    Task<UserAccount?> Handle(VehicleOwnerSignUpCommand command);
+    
+    /// <summary>
+    ///     Handles auto repair sign-up and returns the created user account.
+    /// </summary>
+    /// <param name="command">
+    ///     The command containing auto repair sign-up details.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains the created UserAccount entity, or null if creation failed.
+    /// </returns>
+    Task<UserAccount?> Handle(AutoRepairSignUpCommand command);
+    /// <summary>
     ///     Handles the creation of a new user account.
     /// </summary>
     /// <param name="command">

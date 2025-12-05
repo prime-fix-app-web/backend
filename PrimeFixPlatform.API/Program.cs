@@ -8,11 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.OutboundServices.ACL;
+using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.OutboundServices.ACL.Services;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Repositories;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Services;
 using PrimeFixPlatform.API.AutorepairCatalog.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.ACL;
+using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.ACL.Services;
 using PrimeFixPlatform.API.AutorepairRegister.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.AutorepairRegister.Application.Internal.OutboundServices;
+using PrimeFixPlatform.API.AutorepairRegister.Application.Internal.OutboundServices.Services;
 using PrimeFixPlatform.API.AutorepairRegister.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Repositories;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Services;
@@ -22,10 +28,15 @@ using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.QueryService
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
 using PrimeFixPlatform.API.CollectionDiagnosis.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.ACL;
+using PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.ACL.Services;
 using PrimeFixPlatform.API.Iam.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.IAM.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.IAM.Application.Internal.EventHandlers;
-using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices;
+using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.ACL;
+using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.ACL.Services;
+using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.Hashing;
+using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.Tokens;
 using PrimeFixPlatform.API.Iam.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.IAM.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.Iam.Domain.Repositories;
@@ -49,6 +60,8 @@ using PrimeFixPlatform.API.PaymentService.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.PaymentService.Domain.Repositories;
 using PrimeFixPlatform.API.PaymentService.Domain.Services;
 using PrimeFixPlatform.API.PaymentService.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.PaymentService.Interfaces.ACL;
+using PrimeFixPlatform.API.PaymentService.Interfaces.ACL.Services;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
@@ -212,8 +225,13 @@ builder.Services.AddScoped<IMembershipCommandService, MembershipCommandService>(
 builder.Services.AddScoped<IMembershipQueryService, MembershipQueryService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
+
+// IAM Facade Services
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
+// IAM Outbound Services
+builder.Services.AddScoped<IExternalPaymentServiceFromIam, ExternalPaymentServiceFromIam>();
+builder.Services.AddScoped<IExternalAutoRepairCatalogServiceFromIam, ExternalAutoRepairCatalogServiceFromIam>();
 
 // AutoRepair Register Bounded Context
 builder.Services.AddScoped<ITechnicianRepository, TechnicianRepository>();
@@ -223,10 +241,19 @@ builder.Services.AddScoped<ITechnicianScheduleRepository, TechnicianScheduleRepo
 builder.Services.AddScoped<ITechnicianScheduleCommandService, TechnicianScheduleCommandService>();
 builder.Services.AddScoped<ITechnicianScheduleQueryService, TechnicianScheduleQueryService>();
 
+// AutoRepair Register Outbound Services
+builder.Services.AddScoped<IExternalAutoRepairCatalogServiceFromAutoRepairRegister, ExternalAutoRepairCatalogServiceFromAutoRepairRegister>();
+
 // AutoRepair Catalog Bounded Context
 builder.Services.AddScoped<IAutoRepairRepository, AutoRepairRepository>();
 builder.Services.AddScoped<IAutoRepairCommandService, AutoRepairCommandService>();
 builder.Services.AddScoped<IAutoRepairQueryService, AutoRepairQueryService>();
+
+// AutoRepair Catalog Facade Services
+builder.Services.AddScoped<IAutoRepairCatalogContextFacade, AutoRepairCatalogContextFacade>();
+
+// AutoRepair Catalog Outbound Services
+builder.Services.AddScoped<IExternalIamServiceFromAutoRepairCatalog, ExternalIamServiceFromAutoRepairCatalog>();
 
 // Collection Diagnosis Bounded Context
 builder.Services.AddScoped<IDiagnosticRepository, DiagnosticRepository>();
@@ -238,8 +265,10 @@ builder.Services.AddScoped<IServiceQueryService, ServiceQueryService>();
 builder.Services.AddScoped<IVisitRepository, VisitRepository>();
 builder.Services.AddScoped<IVisitCommandService, VisitCommandService>();
 builder.Services.AddScoped<IVisitQueryService, VisitQueryService>();
-
 builder.Services.AddScoped<IExpectedVisitRepository, ExpectedVisitRepository>();
+
+// Collection Diagnosis Facade Services
+builder.Services.AddScoped<ICollectionDiagnosisContextFacade, CollectionDiagnosisContextFacade>();
 
 // Maintenance Tracking Bounded Context
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
@@ -257,6 +286,10 @@ builder.Services.AddScoped<IPaymentQueryService, PaymentQueryService>();
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 builder.Services.AddScoped<IRatingCommandService, RatingCommandService>();
 builder.Services.AddScoped<IRatingQueryService, RatingQueryService>();
+
+
+// Payment Service Facade Services
+builder.Services.AddScoped<IPaymentServiceContextFacade, PaymentServiceContextFacade>();
 
 // JWT Authentication Configuration
 builder.Services.AddAuthentication(options =>

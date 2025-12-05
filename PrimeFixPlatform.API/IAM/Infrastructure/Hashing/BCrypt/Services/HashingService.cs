@@ -1,4 +1,4 @@
-﻿using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices;
+﻿using PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.Hashing;
 using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace PrimeFixPlatform.API.IAM.Infrastructure.Hashing.BCrypt.Services;

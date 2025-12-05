@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.Iam.Domain.Model.Commands;
 using PrimeFixPlatform.API.Iam.Domain.Model.Queries;
@@ -21,6 +22,7 @@ namespace PrimeFixPlatform.API.Iam.Interfaces.REST.Controllers;
 /// </param>
 [ApiController]
 [Route("api/v1/users")]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Users Endpoints")]
 public class UserController(IUserQueryService userQueryService, IUserCommandService userCommandService): ControllerBase

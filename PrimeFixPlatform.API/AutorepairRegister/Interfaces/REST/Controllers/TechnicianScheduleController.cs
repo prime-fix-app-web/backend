@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Commands;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Queries;
@@ -21,6 +22,7 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Controllers;
 /// </param>
 [ApiController]
 [Route("api/v1/technician_schedules")]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Technician Schedules Endpoints")]
 public class TechnicianScheduleController(ITechnicianScheduleQueryService technicianScheduleQueryService, ITechnicianScheduleCommandService technicianScheduleCommandService)

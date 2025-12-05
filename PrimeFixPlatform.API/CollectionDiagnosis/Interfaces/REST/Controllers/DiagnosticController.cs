@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
@@ -12,6 +13,7 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Interfaces.REST.Controllers;
 
 [ApiController]
 [Route("api/v1/diagnostics")]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Diagnostic Endpoints")]
 public class DiagnosticController(IDiagnosticQueryService diagnosticQueryService, IDiagnosticCommandService diagnosticCommandService): ControllerBase

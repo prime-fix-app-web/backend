@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Commands;
@@ -22,6 +23,7 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Controllers;
 /// </param>
 [ApiController]
 [Route("api/v1/vehicles")]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Vehicles Endpoints")]
 public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicleCommandService vehicleCommandService) : ControllerBase

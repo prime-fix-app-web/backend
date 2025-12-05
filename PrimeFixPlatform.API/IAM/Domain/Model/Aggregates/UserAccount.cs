@@ -29,10 +29,7 @@ public partial class UserAccount
     /// <param name="password">
     ///     The password of the UserAccount
     /// </param>
-    /// <param name="isNew">
-    ///     Flag indicating if the UserAccount is new
-    /// </param>
-    public UserAccount(string username, string email, int roleId, int userId, int membershipId ,string password, bool isNew)
+    public UserAccount(string username, string email, int roleId, int userId, int membershipId ,string password)
     {
         Username = username;
         Email = email;
@@ -40,7 +37,7 @@ public partial class UserAccount
         UserId = userId;
         MembershipId = membershipId;
         Password = password;
-        IsNew = isNew;
+        IsNew = true;
     }
     
     /// <summary>
@@ -55,8 +52,7 @@ public partial class UserAccount
         command.RoleId,
         command.UserId,
         command.MembershipId,
-        command.Password,
-        command.IsNew)
+        command.Password)
     {
     }
     

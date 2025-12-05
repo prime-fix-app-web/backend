@@ -1,4 +1,4 @@
-﻿namespace PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices;
+﻿namespace PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.Hashing;
 
 /**
  * <summary>

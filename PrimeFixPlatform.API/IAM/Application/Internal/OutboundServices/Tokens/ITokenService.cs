@@ -1,6 +1,6 @@
 ﻿using PrimeFixPlatform.API.Iam.Domain.Model.Aggregates;
 
-namespace PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices;
+namespace PrimeFixPlatform.API.IAM.Application.Internal.OutboundServices.Tokens;
 
 /**
  * <summary>
