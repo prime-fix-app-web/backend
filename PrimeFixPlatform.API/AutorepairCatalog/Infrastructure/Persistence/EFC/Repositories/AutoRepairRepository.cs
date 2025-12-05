@@ -97,4 +97,53 @@ public class AutoRepairRepository(AppDbContext context)
     {
         return await Context.Set<AutoRepair>().AnyAsync(autoRepair => autoRepair.ContactEmail == contactEmail && autoRepair.Id != autoRepairId);
     }
+    
+    /// <summary>
+    ///     Retrieves a specific <see cref="ServiceOffer"/> associated with an
+    ///     <see cref="AutoRepair"/> and a <see cref="Service"/> by their identifiers.
+    /// </summary>
+    /// <remarks>
+    ///     This query loads the <see cref="ServiceCatalog"/> navigation property and its
+    ///     related <see cref="ServiceOffer"/> collection in order to traverse the
+    ///     aggregate and locate the requested offer.
+    ///     
+    ///     Internally, it performs a <c>SelectMany</c> over the
+    ///     <see cref="ServiceCatalog.ServiceOffers"/> collection after filtering by
+    ///     <see cref="AutoRepair.AutoRepairId"/>.
+    ///     
+    ///     Returns <c>null</c> when no matching service offer exists.
+    /// </remarks>
+    /// <param name="queryServiceId">
+    ///     The identifier of the <see cref="Service"/> whose offer is being searched.
+    /// </param>
+    /// <param name="queryAutoRepairId">
+    ///     The identifier of the <see cref="AutoRepair"/> that provides the service.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains
+    ///     the matching <see cref="ServiceOffer"/> if found; otherwise, <c>null</c>.
+    /// </returns>
+    public async Task<ServiceOffer?> FindServiceOfferByServiceIdAndAutoRepairIdAsync(int queryServiceId, int queryAutoRepairId)
+    {
+        return await Context.Set<AutoRepair>()
+            .Where(ar => ar.AutoRepairId == queryAutoRepairId)
+            .SelectMany(ar => ar.ServiceOffers)
+            .FirstOrDefaultAsync(so => so.ServiceId == queryServiceId);
+    }
+
+    public async Task<AutoRepair?> FindByIdWithServiceOffersAsync(int autoRepairId)
+    {
+        return await Context.Set<AutoRepair>()
+            .Include(ar => ar.ServiceOffers)
+            .ThenInclude(so => so.Service)
+            .FirstOrDefaultAsync(ar => ar.AutoRepairId == autoRepairId);
+    }
+
+    public async Task<List<AutoRepair>> LisWithServiceOffersAsync()
+    {
+        return await Context.Set<AutoRepair>()
+            .Include(ar => ar.ServiceOffers)
+            .ThenInclude(so => so.Service) 
+            .ToListAsync();
+    }
 }

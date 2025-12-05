@@ -56,11 +56,19 @@ public static class AutoRepairAssembler
     /// </returns>
     public static AutoRepairResponse ToResponseFromEntity(AutoRepair entity)
     {
-        List<ServiceOfferResource> serviceOffer = entity.ServiceCatalog.ServiceOffers.Select(ServiceOfferAssembler.ToResponseFromEntity).ToList();
+        var serviceOffers = entity.ServiceCatalog?.ServiceOffers
+            .Select(so => new ServiceOfferResource(
+                so.ServiceId,
+                so.Price,
+                so.DurationHours,
+                so.IsActive
+            ))
+            .ToList() ?? new List<ServiceOfferResource>();
+        
         return new AutoRepairResponse(
-            entity.Id, entity.Ruc, entity.ContactEmail,
+            entity.AutoRepairId, entity.Ruc, entity.ContactEmail,
             entity.TechniciansCount, entity.UserAccountId,
-            serviceOffer
+            serviceOffers
         );
     }
 }

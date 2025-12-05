@@ -31,4 +31,8 @@ public interface IAutoRepairQueryService
     ///     The task result contains the auto repair if found; otherwise, null.
     /// </returns>
     Task<AutoRepair?> Handle(GetAutoRepairByIdQuery query);
+    
+    Task<ServiceOffer?> Handle(GetServiceOfferByServiceIdAndAutoRepairIdQuery query);
+    
+    Task<AutoRepair> GetByIdAsync(int autoRepairId);
 }

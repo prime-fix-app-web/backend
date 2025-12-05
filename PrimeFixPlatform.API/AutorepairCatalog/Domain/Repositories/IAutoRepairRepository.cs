@@ -73,4 +73,9 @@ public interface IAutoRepairRepository : IBaseRepository<AutoRepair>
     ///     a boolean indicating whether the AutoRepair entity exists.
     /// </returns>
     Task<bool> ExistsByContactEmailAndAutoRepairIdIsNot(string contactEmail, int autoRepairId);
+    
+    
+    Task<ServiceOffer?> FindServiceOfferByServiceIdAndAutoRepairIdAsync(int queryServiceId, int queryAutoRepairId);
+    Task<AutoRepair?> FindByIdWithServiceOffersAsync(int autoRepairId);
+    Task<List<AutoRepair>> LisWithServiceOffersAsync();
 }

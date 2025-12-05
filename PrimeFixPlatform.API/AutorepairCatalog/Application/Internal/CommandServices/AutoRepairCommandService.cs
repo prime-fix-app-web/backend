@@ -143,19 +143,23 @@ public class AutoRepairCommandService(IAutoRepairRepository autoRepairRepository
     /// </exception>
     public async Task<bool> Handle(AddServiceToAutoRepairServiceCatalogCommand command)
     {
-        var service = await serviceRepository.FindByIdAsync(command.ServiceId) ?? throw new KeyNotFoundException($"Service with id {command.ServiceId} was not found");
-        var autoRepair = await autoRepairRepository.FindByIdAsync(command.AutoRepairId) ?? throw new KeyNotFoundException($"AutoRepair with id {command.AutoRepairId} was not found");
-        try
-        {
-            autoRepair.RegisterNewOffer(service, command.Price, command.DurationHours, command.IsActive);
-            autoRepairRepository.Update(autoRepair);
-            await unitOfWork.CompleteAsync();
-            return true;
-        }
-        catch (Exception ex)
-        {
-            throw new ArgumentException("Error while saving the auto repair service offer: " + ex.Message, ex);
-        }
+        var autoRepair = await autoRepairRepository.FindByIdAsync(command.AutoRepairId)
+                         ?? throw new KeyNotFoundException($"AutoRepair with id {command.AutoRepairId} was not found");
+        var service = await serviceRepository.FindByIdAsync(command.ServiceId)
+                      ?? throw new KeyNotFoundException($"Service with id {command.ServiceId} was not found");
+        
+        autoRepair.RegisterNewOffer(service, command.Price, command.DurationHours, command.IsActive);
+        
+        autoRepairRepository.Update(autoRepair);
+        await unitOfWork.CompleteAsync();
+        
+        var createdOffer = autoRepair.ServiceOffers
+            .FirstOrDefault(o => o.ServiceId == service.Id);
+
+        if (createdOffer == null)
+            throw new InvalidOperationException("ServiceOffer could not be created");
+
+        return createdOffer;
     }
 
     
