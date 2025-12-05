@@ -8,6 +8,8 @@ namespace PrimeFixPlatform.API.Iam.Domain.Model.Entities;
 /// </summary>
 public partial class Membership : IMembership
 {
+    // EF Core requires a parameterless constructor for entity materialization
+    protected Membership() {}
     /// <summary>
     ///     Constructor for the Membership aggregate root entity.
     /// </summary>

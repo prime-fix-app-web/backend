@@ -22,7 +22,7 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<Payment>().OwnsOne(p => p.CardType, ct =>
         {
             ct.WithOwner().HasForeignKey("PaymentIdPayment");
-            ct.Property<int>("PaymentIdPayment").HasColumnName("id_payment");
+            ct.Property<int>("PaymentIdPayment").HasColumnName("payment_id");
             ct.Property(p => p.Type).IsRequired().HasMaxLength(50);
         });
         modelBuilder.Entity<Payment>().Property(p => p.Cvv).IsRequired();

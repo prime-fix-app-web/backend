@@ -25,11 +25,10 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<Vehicle>().Property(v => v.MaintenanceStatus).IsRequired();
         modelBuilder.Entity<Vehicle>().OwnsOne(v => v.VehicleInformation, vi =>
         {
-            vi.WithOwner().HasForeignKey("VehicleIdVehicle");
-            vi.Property<string>("VehicleIdVehicle").HasColumnName("id_vehicle");
             vi.Property(p => p.VehiclePlate).IsRequired().HasMaxLength(10);
             vi.Property(p => p.VehicleBrand).IsRequired().HasMaxLength(50);
             vi.Property(p => p.VehicleType).IsRequired().HasMaxLength(50);
+            vi.ToTable("vehicles");
         });
         
         modelBuilder.Entity<Notification>().HasKey(n => n.NotificationId);

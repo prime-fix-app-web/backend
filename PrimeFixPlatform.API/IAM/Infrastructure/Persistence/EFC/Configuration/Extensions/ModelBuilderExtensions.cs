@@ -46,15 +46,17 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<Location>().Property(l => l.District).IsRequired().HasMaxLength(50);
         modelBuilder.Entity<Location>().Property(l => l.Department).IsRequired().HasMaxLength(50);
         
-        modelBuilder.Entity<Membership>().HasKey(m => m.Id);
-        modelBuilder.Entity<Membership>().Property(m => m.Id).IsRequired().ValueGeneratedOnAdd();
-        modelBuilder.Entity<Membership>().Property(m => m.Started).IsRequired();
-        modelBuilder.Entity<Membership>().Property(m => m.Over).IsRequired();
-        modelBuilder.Entity<Membership>().OwnsOne(m => m.MembershipDescription, md =>
+        modelBuilder.Entity<Membership>(entity =>
         {
-            md.WithOwner().HasForeignKey("MembershipId");
-            md.Property<string>("MembershipId").HasColumnName("membership_id");
-            md.Property(p => p.Description).IsRequired().HasMaxLength(250);
+            entity.ToTable("memberships"); 
+            entity.HasKey(m => m.Id);
+            entity.Property(m => m.Id).HasColumnName("membership_id").ValueGeneratedOnAdd();
+            entity.Property(m => m.Started).IsRequired();
+            entity.Property(m => m.Over).IsRequired();
+            entity.OwnsOne(m => m.MembershipDescription, md =>
+            {
+                md.Property(p => p.Description).HasColumnName("description").IsRequired().HasMaxLength(250);
+            });
         });
     }
 }

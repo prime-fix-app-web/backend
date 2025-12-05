@@ -204,6 +204,9 @@ builder.Services.AddScoped<IUserAccountQueryService, UserAccountQueryService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleCommandService, RoleCommandService>();
 builder.Services.AddScoped<IRoleQueryService, RoleQueryService>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<ILocationCommandService, LocationCommandService>();
+builder.Services.AddScoped<ILocationQueryService, LocationQueryService>();
 builder.Services.AddScoped<IMembershipRepository, MembershipRepository>();
 builder.Services.AddScoped<IMembershipCommandService, MembershipCommandService>();
 builder.Services.AddScoped<IMembershipQueryService, MembershipQueryService>();
@@ -224,9 +227,6 @@ builder.Services.AddScoped<ITechnicianScheduleQueryService, TechnicianScheduleQu
 builder.Services.AddScoped<IAutoRepairRepository, AutoRepairRepository>();
 builder.Services.AddScoped<IAutoRepairCommandService, AutoRepairCommandService>();
 builder.Services.AddScoped<IAutoRepairQueryService, AutoRepairQueryService>();
-builder.Services.AddScoped<ILocationRepository, LocationRepository>();
-builder.Services.AddScoped<ILocationCommandService, LocationCommandService>();
-builder.Services.AddScoped<ILocationQueryService, LocationQueryService>();
 
 // Collection Diagnosis Bounded Context
 builder.Services.AddScoped<IDiagnosticRepository, DiagnosticRepository>();
@@ -238,6 +238,8 @@ builder.Services.AddScoped<IServiceQueryService, ServiceQueryService>();
 builder.Services.AddScoped<IVisitRepository, VisitRepository>();
 builder.Services.AddScoped<IVisitCommandService, VisitCommandService>();
 builder.Services.AddScoped<IVisitQueryService, VisitQueryService>();
+
+builder.Services.AddScoped<IExpectedVisitRepository, ExpectedVisitRepository>();
 
 // Maintenance Tracking Bounded Context
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
