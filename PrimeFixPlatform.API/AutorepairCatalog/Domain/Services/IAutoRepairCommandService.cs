@@ -1,5 +1,6 @@
 ﻿using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Entities;
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Services;
 
@@ -55,7 +56,7 @@ public interface IAutoRepairCommandService
     ///     A task representing the asynchronous operation.
     ///     The task result indicates whether the service was successfully added.
     /// </returns>
-    Task<bool> Handle(AddServiceToAutoRepairServiceCatalogCommand command);
+    Task<ServiceOffer> Handle(AddServiceToAutoRepairServiceCatalogCommand command);
     
     /// <summary>
     ///     Handles deleting a service to the AutoRepair service catalog

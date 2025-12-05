@@ -1,4 +1,5 @@
 ﻿using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Entities;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Queries;
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Domain.Services;

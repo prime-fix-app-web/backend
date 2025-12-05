@@ -15,7 +15,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 /// <param name="TechniciansCount">
 ///     The number of technicians in the auto repair to be updated
 /// </param>
-/// <param name="UserAccountId">
+/// <param name="IdUserAccount">
 ///     The unique identifier of the user account associated with the auto repair to updated
 /// </param>
 public record UpdateAutoRepairRequest(
@@ -35,4 +35,4 @@ public record UpdateAutoRepairRequest(
     
     [property: JsonPropertyName("user_account_id")]
     [Required]
-    int UserAccountId);
+    int IdUserAccount);

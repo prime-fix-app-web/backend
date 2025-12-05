@@ -1,13 +1,14 @@
 ﻿using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.Commands;
+using PrimeFixPlatform.API.AutorepairCatalog.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 
 namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Assemblers;
 
 /// <summary>
-///     Assembler class for converting between AutoRepair-related requests, commands, and responses.
+///     Assembler for converting between AutoRepair-related requests, commands, and responses.
 /// </summary>
-public static class AutoRepairAssembler
+public class AutoRepairAssembler
 {
     /// <summary>
     ///     Converts a CreateAutoRepairRequest to a CreateAutoRepairCommand.
@@ -41,7 +42,7 @@ public static class AutoRepairAssembler
     {
         return new UpdateAutoRepairCommand(
             autoRepairId, request.Ruc, request.ContactEmail,
-            request.TechniciansCount, request.UserAccountId
+            request.TechniciansCount, request.IdUserAccount
         );
     }
     

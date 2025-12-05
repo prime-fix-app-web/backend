@@ -1,4 +1,6 @@
-﻿namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
+﻿using System.Text.Json.Serialization;
+
+namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 
 /// <summary>
 /// Resource that represents a service offer exposed through the REST API.

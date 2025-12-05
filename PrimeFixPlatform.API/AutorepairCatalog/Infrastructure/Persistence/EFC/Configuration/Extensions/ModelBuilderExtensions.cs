@@ -19,8 +19,8 @@ public static class ModelBuilderExtensions
     public static void ApplyAutorepairCatalogConfiguration(this ModelBuilder modelBuilder)
        {
         // Autorepair Catalog Bounded Context
-        modelBuilder.Entity<AutoRepair>().HasKey(ar => ar.Id);
-        modelBuilder.Entity<AutoRepair>().Property(ar => ar.Id).IsRequired();
+        modelBuilder.Entity<AutoRepair>().HasKey(ar => ar.AutoRepairId);
+        modelBuilder.Entity<AutoRepair>().Property(ar => ar.AutoRepairId).IsRequired();
         modelBuilder.Entity<AutoRepair>().Property(ar => ar.Ruc).IsRequired().HasMaxLength(11);
         modelBuilder.Entity<AutoRepair>().Property(ar => ar.ContactEmail).IsRequired().HasMaxLength(100);
         modelBuilder.Entity<AutoRepair>().Property(ar => ar.TechniciansCount).IsRequired();
@@ -47,11 +47,7 @@ public static class ModelBuilderExtensions
                 .WithMany()
                 .HasForeignKey(x => x.ServiceId);
         });
-
-        modelBuilder.Entity<Location>().HasKey(l => l.Id);
-        modelBuilder.Entity<Location>().Property(l => l.Address).IsRequired().HasMaxLength(100);
-        modelBuilder.Entity<Location>().Property(l => l.District).IsRequired().HasMaxLength(50);
-        modelBuilder.Entity<Location>().Property(l => l.Department).IsRequired().HasMaxLength(50);
+        
 
         modelBuilder.Entity<Service>().HasKey(s => s.Id);
         modelBuilder.Entity<Service>().Property(s => s.Name).IsRequired().HasMaxLength(255);

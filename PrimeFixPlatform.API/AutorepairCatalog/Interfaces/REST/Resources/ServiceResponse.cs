@@ -15,6 +15,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Interfaces.REST.Resources;
 /// Description of the service.
 /// </param>
 public record ServiceResponse(
-    int Id,
-    string Name,
-    string Description);
+    [property: JsonPropertyName("service_id")] int Id,
+    [property: JsonPropertyName("name")] string Name,
+    [property: JsonPropertyName("description")] string Description
+    );
