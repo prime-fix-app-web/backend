@@ -58,8 +58,8 @@ public static class UserAccountAssembler
     public static UserAccountResponse ToResponseFromEntity(UserAccount entity)
     {
         return new UserAccountResponse(
-            entity.Id, entity.Username, entity.Email, entity.Role.Id,
-            entity.User.Id, entity.Membership.Id,entity.Password, entity.IsNew
+            entity.Id, entity.Username, entity.Email, entity.RoleId,
+            entity.UserId, entity.MembershipId,entity.Password, entity.IsNew
         );
     }
 }

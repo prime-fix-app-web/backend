@@ -7,7 +7,7 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Assemblers;
 /// <summary>
 ///     Assembler for converting between Notification-related requests, commands, and responses.
 /// </summary>
-public class NotificationAssembler
+public static class NotificationAssembler
 {
     /// <summary>
     ///     Converts a CreateNotificationRequest to a CreateNotificationCommand.
@@ -22,7 +22,7 @@ public class NotificationAssembler
     {
         return new CreateNotificationCommand(
             request.Message, request.Read, 
-            request.VehicleId, request.Sent, request.DiagnosticId
+            request.VehicleId, request.Sent
             );
     }
     
@@ -32,17 +32,17 @@ public class NotificationAssembler
     /// <param name="request">
     ///     The UpdateNotificationRequest containing updated notification details.
     /// </param>
-    /// <param name="idNotification">
+    /// <param name="notificationId">
     ///     The identifier of the notification to be updated.
     /// </param>
     /// <returns>
     ///     The corresponding UpdateNotificationCommand.
     /// </returns>
-    public static UpdateNotificationCommand ToCommandFromRequest(UpdateNotificationRequest request, int idNotification)
+    public static UpdateNotificationCommand ToCommandFromRequest(UpdateNotificationRequest request, int  notificationId)
     {
         return new UpdateNotificationCommand(
-            idNotification, request.Message, request.Read, 
-            request.VehicleId, request.Sent, request.DiagnosticId
+            notificationId, request.Message, request.Read, 
+            request.VehicleId, request.Sent
             );
     }
     
@@ -59,7 +59,6 @@ public class NotificationAssembler
     {
         return new NotificationResponse(
             entity.NotificationId, entity.Message, entity.Read, 
-            entity.VehicleId, entity.Sent, entity.DiagnosticId
-            );
+            entity.VehicleId, entity.Sent);
     }
 }

@@ -23,7 +23,7 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<AutoRepair>().Property(ar => ar.Ruc).IsRequired().HasMaxLength(11);
         modelBuilder.Entity<AutoRepair>().Property(ar => ar.ContactEmail).IsRequired().HasMaxLength(100);
         modelBuilder.Entity<AutoRepair>().Property(ar => ar.TechniciansCount).IsRequired();
-        modelBuilder.Entity<AutoRepair>().Property(ar => ar.UserAccountId).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<AutoRepair>().Property(ar => ar.UserAccountId).IsRequired();
         
         modelBuilder.Ignore<ServiceCatalog>();
     }

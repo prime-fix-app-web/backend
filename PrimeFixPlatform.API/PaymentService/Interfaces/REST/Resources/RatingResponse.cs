@@ -15,16 +15,16 @@ namespace PrimeFixPlatform.API.PaymentService.Interfaces.REST.Resources;
 /// <param name="Comment">
 ///     The comment of the rating 
 /// </param>
-/// <param name="IdAutoRepair">
+/// <param name="AutoRepairId">
 ///     The identifier of the auto repair associated with the rating 
 /// </param>
-/// <param name="IdUserAccount">
+/// <param name="UserAccountId">
 ///     The identifier of the user associated with the rating 
 /// </param>
 public record RatingResponse(
-    [property: JsonPropertyName("id_rating")] int IdRating,
+    int Id,
     [property: JsonPropertyName("star_rating")] int StarRating,
     string Comment,
-    [property: JsonPropertyName("id_auto_repair")] int IdAutoRepair,
-    [property: JsonPropertyName("id_user_account")] int IdUserAccount
+    [property: JsonPropertyName("auto_repair_id")] int AutoRepairId,
+    [property: JsonPropertyName("user_account_id")] int UserAccountId
     );

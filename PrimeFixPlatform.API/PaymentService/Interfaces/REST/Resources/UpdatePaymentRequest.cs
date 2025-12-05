@@ -49,5 +49,4 @@ public record UpdatePaymentRequest(
     
     [property: JsonPropertyName("user_account_id")]
     [Required]
-    [MinLength(1)]
     int UserAccountId);

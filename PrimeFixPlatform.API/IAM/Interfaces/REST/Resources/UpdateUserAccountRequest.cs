@@ -40,12 +40,10 @@ public record UpdateUserAccountRequest(
     
     [property: JsonPropertyName("role_id")]
     [Required]
-    [MinLength(1)]
     int RoleId,
     
     [property: JsonPropertyName("user_id")]
     [Required]
-    [MinLength(1)]
     int UserId,
     
     [property: JsonPropertyName("membership_id")]

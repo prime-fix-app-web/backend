@@ -5,7 +5,7 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 /// <summary>
 ///    Response representing a vehicle
 /// </summary>
-/// <param name="VehicleId">
+/// <param name="Id">
 ///     The unique identifier of the vehicle
 /// </param>
 /// <param name="Color">
@@ -30,10 +30,10 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 ///     The maintenance status of the vehicle
 /// </param>
 public record VehicleResponse(
-    [property: JsonPropertyName("id_vehicle")] int VehicleId,
+    int Id,
     string Color,
     string Model,
-    [property: JsonPropertyName("id_user")] int UserId,
+    [property: JsonPropertyName("user_id")] int UserId,
     [property: JsonPropertyName("vehicle_brand")] string VehicleBrand,
     [property: JsonPropertyName("vehicle_plate")] string VehiclePlate,
     [property: JsonPropertyName("vehicle_type")] string VehicleType,

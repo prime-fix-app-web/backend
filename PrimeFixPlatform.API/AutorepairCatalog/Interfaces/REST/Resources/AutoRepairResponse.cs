@@ -27,6 +27,4 @@ public record AutoRepairResponse(
     [property: JsonPropertyName("contact_email")] string ContactEmail,
     [property: JsonPropertyName("technicians_count")] int TechniciansCount,
     [property: JsonPropertyName("user_account_id")] int UserAccountId,
-    [property: JsonPropertyName("service_catalog")] IReadOnlyList<ServiceOfferResource> ServiceCatalog
-    
-    );
+    [property: JsonPropertyName("service_catalog")] IReadOnlyList<ServiceOfferResource> ServiceCatalog);

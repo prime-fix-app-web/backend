@@ -8,7 +8,7 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Assemblers;
 /// <summary>
 ///     Assembler for converting between Vehicle-related requests, commands, and responses.
 /// </summary>
-public class VehicleAssembler
+public static class VehicleAssembler
 {
     /// <summary>
     ///     Converts a CreateVehicleRequest to a CreateVehicleCommand.

@@ -18,10 +18,10 @@ public static class ModelBuilderExtensions
     {
         // Maintenance Tracking Bounded Context
         modelBuilder.Entity<Vehicle>().HasKey(v => v.VehicleId);
-        modelBuilder.Entity<Vehicle>().Property(v => v.VehicleId).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Vehicle>().Property(v => v.VehicleId).IsRequired().ValueGeneratedOnAdd();
         modelBuilder.Entity<Vehicle>().Property(v => v.Color).IsRequired().HasMaxLength(50);
         modelBuilder.Entity<Vehicle>().Property(v => v.Model).IsRequired().HasMaxLength(100);
-        modelBuilder.Entity<Vehicle>().Property(v => v.UserId).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Vehicle>().Property(v => v.UserId).IsRequired();
         modelBuilder.Entity<Vehicle>().Property(v => v.MaintenanceStatus).IsRequired();
         modelBuilder.Entity<Vehicle>().OwnsOne(v => v.VehicleInformation, vi =>
         {
@@ -32,11 +32,10 @@ public static class ModelBuilderExtensions
         });
         
         modelBuilder.Entity<Notification>().HasKey(n => n.NotificationId);
-        modelBuilder.Entity<Notification>().Property(n => n.NotificationId).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Notification>().Property(n => n.NotificationId).IsRequired().ValueGeneratedOnAdd();
         modelBuilder.Entity<Notification>().Property(n => n.Message).IsRequired().HasMaxLength(255);
         modelBuilder.Entity<Notification>().Property(n => n.Read).IsRequired();
-        modelBuilder.Entity<Notification>().Property(n => n.VehicleId).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Notification>().Property(n => n.VehicleId).IsRequired();
         modelBuilder.Entity<Notification>().Property(n => n.Sent).IsRequired();
-        modelBuilder.Entity<Notification>().Property(n => n.DiagnosticId).IsRequired().HasMaxLength(255);
     }
 }
