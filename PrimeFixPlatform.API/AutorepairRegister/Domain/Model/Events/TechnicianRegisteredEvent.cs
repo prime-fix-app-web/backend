@@ -5,10 +5,7 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Events;
 /// <summary>
 ///     Event triggered when a technician is registered.
 /// </summary>
-/// <param name="autoRepairId">
+/// <param name="AutoRepairId">
 ///     The identifier of the auto repair associated with the registered technician.
 /// </param>
-public class TechnicianRegisteredEvent(int autoRepairId) : IEvent
-{
-    public int AutoRepairId { get; } = autoRepairId;
-}
+public sealed record TechnicianRegisteredEvent(int AutoRepairId) : IEvent;

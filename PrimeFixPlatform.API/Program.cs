@@ -333,10 +333,15 @@ builder.Services.AddHostedService<ApplicationStartupService>();
 
 // Mediator Configuration
 // Add Logging Behavior to all commands
-builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
 builder.Services.AddCortexMediator(
     configuration: builder.Configuration,
-    handlerAssemblyMarkerTypes: [typeof(Program)], configure: options =>
+    handlerAssemblyMarkerTypes:
+    [
+        typeof(Program),
+        typeof(TechnicianRegisteredEventHandler),
+        typeof(TechnicianDeletedEventHandler),
+    ],
+    configure: options =>
     {
         options.AddOpenCommandPipelineBehavior(typeof(LoggingCommandBehavior<>));
     });
