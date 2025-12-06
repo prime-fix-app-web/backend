@@ -16,4 +16,14 @@ public interface IExpectedVisitQueryService
     /// </param>
     Task<IEnumerable<ExpectedVisit>> Handle(GetAllExpectedVisitsQuery query);
     
+    /// <summary>
+    ///     Handle the retrieval of an expected visit by its identifier
+    /// </summary>
+    /// <param name="query">
+    ///     The query object containing parameters for retrieving an expected visit by its identifier
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains the expected visit if found; otherwise, null
+    /// </returns>
+    Task<ExpectedVisit?> Handle(GetExpectedVisitByIdQuery query);
 }

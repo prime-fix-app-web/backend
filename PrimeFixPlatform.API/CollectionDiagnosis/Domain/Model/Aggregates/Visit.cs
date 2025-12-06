@@ -28,7 +28,7 @@ public partial class Visit
     /// <param name="serviceId">
     ///     The ID of the service designated for the visit
     /// </param>
-    public Visit(string failure, int vehicleId, string timeVisit, int autoRepairId, int serviceId)
+    public Visit(string failure, int vehicleId, DateTime timeVisit, int autoRepairId, int serviceId)
     {
         Failure = failure;
         VehicleId = new VehicleId(vehicleId);
@@ -52,7 +52,7 @@ public partial class Visit
     
     public VehicleId VehicleId { get; private set; }
     
-    public string TimeVisit { get; private set; }
+    public DateTime TimeVisit { get; private set; }
     
     public AutoRepairId AutoRepairId { get; private set; }
     

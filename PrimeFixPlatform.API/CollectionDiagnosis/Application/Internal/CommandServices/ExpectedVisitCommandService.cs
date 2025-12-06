@@ -1,5 +1,8 @@
-﻿using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
+﻿using Cortex.Mediator;
+using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.OutboundServices.ACL;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Events;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
@@ -18,7 +21,12 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.CommandS
 /// <param name="unitOfWork">
 ///     Unit of Work
 /// </param>
-public class ExpectedVisitCommandService(IExpectedVisitRepository expectedVisitRepository, IUnitOfWork unitOfWork): IExpectedVisitCommandService
+public class ExpectedVisitCommandService(
+    IExpectedVisitRepository expectedVisitRepository, 
+    IVisitRepository visitRepository,
+    IExternalMaintenanceTrackingServiceFromCollectionDiagnosis externalMaintenanceTrackingServiceFromCollectionDiagnosis,
+    IUnitOfWork unitOfWork,
+    IMediator mediator): IExpectedVisitCommandService
 {
     /// <summary>
     ///     Handles the command to create a new Expected Visit
@@ -29,12 +37,35 @@ public class ExpectedVisitCommandService(IExpectedVisitRepository expectedVisitR
     /// <returns>
     ///     A task that represents the asynchronous operation, The task result contains the created expected visit
     /// </returns>
-    public async Task<ExpectedVisit?> Handle(CreateExpectedVisitCommand command)
+    public async Task<int> Handle(CreateExpectedVisitCommand command)
     {
-        var expected = new ExpectedVisit(command);
-        await expectedVisitRepository.AddAsync(expected);
+        var visitId = command.VisitId;
+        var vehicleId = command.VehicleId;
+        
+        // Validate that the associated visit exists
+        var visit = await visitRepository.FindById(visitId);
+        if (visit == null)
+        {
+            throw new NotFoundArgumentException("Visit not found");
+        }
+        
+        // Validate that the vehicle exists in the external maintenance tracking system
+        if (!await externalMaintenanceTrackingServiceFromCollectionDiagnosis.ExitsVehicleByIdAsync(vehicleId))
+        {
+            throw new NotFoundArgumentException("Vehicle not found in Maintenance Tracking Service");
+        }
+        
+        // Check for existing expected visit for the same visit
+        if (await expectedVisitRepository.ExistByVisitId(visitId))
+        {
+            throw new ConflictException("An expected visit for this visit already exists");
+        }
+        
+        // Create and persist the expected visit
+        var expectedVisit = new ExpectedVisit(command);
+        await expectedVisitRepository.AddAsync(expectedVisit);
         await unitOfWork.CompleteAsync();
-        return expected;
+        return expectedVisit.Id;
     }
     
     /// <summary>
@@ -51,18 +82,30 @@ public class ExpectedVisitCommandService(IExpectedVisitRepository expectedVisitR
     /// </exception>
     public async Task<ExpectedVisit?> Handle(UpdateExpectedVisitCommand command)
     {
-        var expectedVisitId = command.Id;
+        var expectedVisitId = command.ExpectedVisitId;
         var expectedToUpdate = await expectedVisitRepository.FindById(expectedVisitId);
+        var vehicleId = command.VehicleId;
 
+        // Validate that the associated visit exists
         if (expectedToUpdate == null)
         {
             throw new NotFoundArgumentException("Expected visit not found");
+        }
+        
+        // Validate that the vehicle exists in the external maintenance tracking system
+        if (!await externalMaintenanceTrackingServiceFromCollectionDiagnosis
+                .ExitsVehicleByIdAsync(vehicleId))
+        {
+            throw new NotFoundArgumentException("Visit not found in Maintenance Tracking Service");
         }
         
         expectedToUpdate.UpdateExpectedVisit(command);
         
         expectedVisitRepository.Update(expectedToUpdate);
         await unitOfWork.CompleteAsync();
+
+        // Publish the domain event after the expected visit is updated
+        await mediator.PublishAsync(new ChangeStateVisitEvent(command.VehicleId, command.StateVisit));
         
         return expectedToUpdate;
     }
@@ -105,10 +148,10 @@ public class ExpectedVisitCommandService(IExpectedVisitRepository expectedVisitR
     /// </exception>
     public async Task Handle(CancelVisitCommand command)
     {
-        var expectedVisit = await expectedVisitRepository.FindByVisitId(command.VisitId);
+        var expectedVisit = await expectedVisitRepository.FindById(command.VisitId);
         if (expectedVisit == null)
             throw new NotFoundArgumentException("Expected Visit not found");
-        expectedVisit.StateVisit = Status.CANCELADO;
+        expectedVisit.StateVisit = EStateVisit.CANCELLED_VISIT;
         expectedVisit.IsScheduled = false;
 
         await unitOfWork.CompleteAsync();

@@ -11,7 +11,7 @@ public interface IExpectedVisitCommandService
     /// <summary>
     ///     Handle the creation of a new expected visit
     /// </summary>
-    Task<ExpectedVisit?> Handle(CreateExpectedVisitCommand command);
+    Task<int> Handle(CreateExpectedVisitCommand command);
     
     /// <summary>
     ///     Handle the update od an existing expected

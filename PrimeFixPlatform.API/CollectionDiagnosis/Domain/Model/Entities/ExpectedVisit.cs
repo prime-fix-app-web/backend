@@ -13,20 +13,18 @@ public partial class ExpectedVisit
     /// <summary>
     ///     Constructor for Expected Visit entity
     /// </summary>
-    /// <param name="stateVisit">
-    ///     State of the visit
-    /// </param>
     /// <param name="visitId">
     ///     The visit ID of the Expected Visit
     /// </param>
-    /// <param name="isScheduled">
-    ///     The confirmation od the visit
+    /// <param name="vehicleId">
+    ///     The vehicle ID associated with the Expected Visit
     /// </param>
-    public ExpectedVisit(Status stateVisit, int visitId, bool isScheduled)
+    public ExpectedVisit(int visitId, int vehicleId)
     {
-        StateVisit = stateVisit;
+        StateVisit = EStateVisit.SCHEDULED_VISIT;
         VisitId = visitId;
-        IsScheduled = isScheduled;
+        IsScheduled = false;
+        VehicleId = vehicleId;
     }
     
     /// <summary>
@@ -35,7 +33,7 @@ public partial class ExpectedVisit
     /// <param name="command">
     ///     Command object containing data to create ExpectedVisit
     /// </param>
-    public ExpectedVisit(CreateExpectedVisitCommand command):this(command.StateVisit, command.VisitId, command.IsScheduled){}
+    public ExpectedVisit(CreateExpectedVisitCommand command):this(command.VisitId, command.VehicleId){}
 
     /// <summary>
     /// Updates the expected visit entity with data form UpdateExpectedVisitCommand
@@ -50,14 +48,21 @@ public partial class ExpectedVisit
     
     
     public int Id { get; }
-    public Status StateVisit { get;  set; }
-    public int VisitId { get; private set; }
+    public EStateVisit StateVisit { get;  set; }
+    public int VisitId { get; internal set; }
     public bool IsScheduled { get; set; }
     
-
+    public int VehicleId { get; private set; }
     
-    public void ChangeStatus(Status status)
+    
+    /// <summary>
+    ///     Changes the status of the expected visit
+    /// </summary>
+    /// <param name="stateVisit">
+    ///     The new state visit to be set
+    /// </param>
+    public void ChangeStatus(EStateVisit stateVisit)
     {
-        StateVisit = status;
+        StateVisit = stateVisit;
     }
 }

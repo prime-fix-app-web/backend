@@ -23,4 +23,16 @@ public interface IExpectedVisitRepository : IBaseRepository<ExpectedVisit>
     /// Identifier of the expected visit.
     /// </param>
     Task<ExpectedVisit?> FindById(int expectedVisitId);
+    
+    /// <summary>
+    ///     Checks if an Expected Visit exists for the given Visit ID.
+    /// </summary>
+    /// <param name="visitId">
+    ///     The Visit ID to check for existence.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation,
+    ///     The task result contains true if an Expected Visit exists for the given Visit ID; otherwise, false.
+    /// </returns>
+    Task<bool> ExistByVisitId(int visitId);
 }

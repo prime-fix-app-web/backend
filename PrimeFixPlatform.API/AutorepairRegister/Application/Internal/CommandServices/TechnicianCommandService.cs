@@ -22,7 +22,7 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Application.Internal.CommandSe
 public class TechnicianCommandService(ITechnicianRepository technicianRepository,
     IUnitOfWork unitOfWork,
     IExternalAutoRepairCatalogServiceFromAutoRepairRegister externalAutoRepairCatalogServiceFromAutoRepairRegister,
-    IMediator domainEventAutoRepairRegister)
+    IMediator mediator)
 : ITechnicianCommandService
 {
     /// <summary>
@@ -51,7 +51,7 @@ public class TechnicianCommandService(ITechnicianRepository technicianRepository
         await unitOfWork.CompleteAsync();
         
         // Publish the domain event after the technician is created
-        await domainEventAutoRepairRegister.PublishAsync(new TechnicianRegisteredEvent(technician.AutoRepairId));
+        await mediator.PublishAsync(new TechnicianRegisteredEvent(technician.AutoRepairId));
         
         return technician.Id;
     }
@@ -122,7 +122,7 @@ public class TechnicianCommandService(ITechnicianRepository technicianRepository
         await unitOfWork.CompleteAsync();
         
         // Publish the domain event after the technician is deleted
-        await domainEventAutoRepairRegister.PublishAsync(new TechnicianDeletedEvent(technician.AutoRepairId));
+        await mediator.PublishAsync(new TechnicianDeletedEvent(technician.AutoRepairId));
         
         return true;
     }

@@ -9,9 +9,9 @@ public class CollectionDiagnosisContextFacade(
     IDiagnosticQueryService diagnosticQueryService,
     IVisitQueryService visitQueryService) : ICollectionDiagnosisContextFacade
 {
-    public async Task<int> CreateDiagnostic(float price, int vehicleId, string diagnosis, int expectedVisitId)
+    public async Task<int> CreateDiagnostic(float price, int vehicleId, string diagnosis)
     {
-        var createDiagnosticCommand = new CreateDiagnosisCommand(price, vehicleId, diagnosis, expectedVisitId);
+        var createDiagnosticCommand = new CreateDiagnosisCommand(price, vehicleId, diagnosis);
         var diagnostic = await diagnosticCommandService.Handle(createDiagnosticCommand);
         return diagnostic?.Id ?? 0;
     }

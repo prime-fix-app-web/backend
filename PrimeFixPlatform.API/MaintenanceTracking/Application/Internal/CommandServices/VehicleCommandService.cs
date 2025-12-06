@@ -1,7 +1,9 @@
-﻿using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
+﻿using Cortex.Mediator;
+using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.OutboundServices.ACL;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Commands;
+using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Events;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Repositories;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Services;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
@@ -20,7 +22,8 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.CommandS
 /// </param>
 public class VehicleCommandService(IVehicleRepository vehicleRepository,
     IExternalIamServiceFromMaintenanceTracking externalIamServiceFromMaintenanceTracking,
-    IUnitOfWork unitOfWork)
+    IUnitOfWork unitOfWork,
+    IMediator mediator)
 : IVehicleCommandService
 {
     /// <summary>
@@ -106,6 +109,10 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository,
         vehicleToUpdate.UpdateVehicle(command);
         vehicleRepository.Update(vehicleToUpdate);
         await unitOfWork.CompleteAsync();
+
+        // Publish event for maintenance status change
+        await mediator.PublishAsync(new ChangeMaintenanceStatusEvent(vehicleId, command.MaintenanceStatus));
+        
         return vehicleToUpdate;
     }
 

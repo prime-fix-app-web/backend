@@ -48,7 +48,7 @@ public class DiagnosticController(IDiagnosticQueryService diagnosticQueryService
         return Ok(diagnosticResource);
     }
     
-    [HttpDelete]
+    [HttpDelete("{diagnostic_id}")]
     [SwaggerOperation(
         Summary = "Deletes a Diagnostic Resource",
         Description = "Deletes a Diagnostic Resource",
@@ -56,9 +56,9 @@ public class DiagnosticController(IDiagnosticQueryService diagnosticQueryService
         )]
     [SwaggerResponse(StatusCodes.Status200OK, "Deletes a Diagnostic Resource")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Deletes a Diagnostic Resource")]
-    public async Task<IActionResult> DeleteDiagnostic(int diagnosticId)
+    public async Task<IActionResult> DeleteDiagnostic(int diagnostic_id)
     {
-        var deleteDiagnostic = new DeleteDiagnosisCommand(diagnosticId);
+        var deleteDiagnostic = new DeleteDiagnosisCommand(diagnostic_id);
         var result = await diagnosticCommandService.Handle(deleteDiagnostic);
 
         if (result == null) return BadRequest();
@@ -66,7 +66,7 @@ public class DiagnosticController(IDiagnosticQueryService diagnosticQueryService
         return Ok(result);
     }
     
-    [HttpPut("{diagnosticId}")]
+    [HttpPut("{diagnostic_id}")]
     [SwaggerOperation(
         Summary = "Updates a Diagnostic Resource",
         Description = "Updates a Diagnostic Resource",
@@ -74,9 +74,9 @@ public class DiagnosticController(IDiagnosticQueryService diagnosticQueryService
         )]
     [SwaggerResponse(StatusCodes.Status200OK, "Updates a Diagnostic Resource")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Updates a Diagnostic Resource")]
-    public async Task<IActionResult> UpdateDiagnostic([FromBody] UpdateDiagnosticRequest request, int diagnosticId)
+    public async Task<IActionResult> UpdateDiagnostic([FromBody] UpdateDiagnosticRequest request, int diagnostic_id)
     {
-        var updateDiagnostic = DiagnosticAssembler.ToCommandFromRequest(request, diagnosticId);
+        var updateDiagnostic = DiagnosticAssembler.ToCommandFromRequest(request, diagnostic_id);
         var diagnosis = await diagnosticCommandService.Handle(updateDiagnostic);
         if (diagnosis is null) return BadRequest();
         

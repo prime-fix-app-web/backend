@@ -1,6 +1,9 @@
+using Cortex.Mediator;
 using Cortex.Mediator.Infrastructure;
+using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.OutboundServices.ACL;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
+using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Events;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
@@ -14,10 +17,21 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.CommandS
 /// <param name="diagnosticRepository">
 ///     The diagnostic repository
 /// </param>
-/// <param name="unitOfWork">
-///     Unit of work
+/// <param name="externalMaintenanceTrackingServiceFromCollectionDiagnosis">
+///     The external maintenance tracking service from collection diagnosis
 /// </param>
-public class DiagnosticCommandService(IDiagnosticRepository diagnosticRepository, IUnitOfWork unitOfWork): IDiagnosticCommandService
+/// <param name="unitOfWork">
+///     Unit of Work
+/// </param>
+/// <param name="mediator">
+///     The mediator
+/// </param>
+public class DiagnosticCommandService(
+    IDiagnosticRepository diagnosticRepository, 
+    IExternalMaintenanceTrackingServiceFromCollectionDiagnosis externalMaintenanceTrackingServiceFromCollectionDiagnosis,
+    IUnitOfWork unitOfWork,
+    IMediator mediator):
+    IDiagnosticCommandService
 {
     /// <summary>
     ///     Handles the command to create a new Diagnostic 
@@ -33,6 +47,16 @@ public class DiagnosticCommandService(IDiagnosticRepository diagnosticRepository
         var diagnosis = new Diagnostic(command);
         await diagnosticRepository.AddAsync(diagnosis);
         await unitOfWork.CompleteAsync();
+        
+        // Validate that the vehicle exists in the external maintenance tracking system
+        if (!await externalMaintenanceTrackingServiceFromCollectionDiagnosis.ExitsVehicleByIdAsync(command.VehicleId))
+        {
+            throw new NotFoundArgumentException("Vehicle not found in Maintenance Tracking Service");
+        }
+        
+        // Publish the domain event after the diagnostic is created
+        await mediator.PublishAsync(new DiagnosticRegisteredEvent(command.VehicleId, command.Diagnosis));
+        
         return diagnosis;
     }
     
@@ -57,11 +81,20 @@ public class DiagnosticCommandService(IDiagnosticRepository diagnosticRepository
         {
             throw new NotFoundArgumentException("Diagnosis not found");
         }
+        
+        // Validate that the vehicle exists in the external maintenance tracking system
+        if (!await externalMaintenanceTrackingServiceFromCollectionDiagnosis.ExitsVehicleByIdAsync(command.VehicleId.Id))
+        {
+            throw new NotFoundArgumentException("Vehicle not found in Maintenance Tracking Service");
+        }
 
         diagnosticToUpdate.UpdateDiagnosis(command);
     
         diagnosticRepository.Update(diagnosticToUpdate);
         await unitOfWork.CompleteAsync();
+        
+        // Publish the domain event after the diagnostic is created
+        await mediator.PublishAsync(new DiagnosticRegisteredEvent(command.VehicleId.Id, command.Diagnosis));
 
         return diagnosticToUpdate;
     }

@@ -1,12 +1,7 @@
-using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.EventHandler;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
-using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Entities;
-using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Events;
-using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
-using PrimeFixPlatform.API.CollectionDiagnosis.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Interfaces.REST.Resources;
 
@@ -18,10 +13,20 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.CommandS
 /// <param name="visitRepository">
 ///     The visit repository
 /// </param>
+/// <param name="expectedVisitCommandService">
+///     The expected visit command service
+/// </param>
+/// <param name="expectedVisitRepository">
+///     The expected visit repository
+/// </param>
 /// <param name="unitOfWork">
 ///     Unit of work
 /// </param>
-public class VisitCommandService(IVisitRepository visitRepository,IExpectedVisitRepository expectedVisitRepository, IUnitOfWork unitOfWork): IVisitCommandService
+public class VisitCommandService(IVisitRepository visitRepository, 
+    IExpectedVisitCommandService expectedVisitCommandService,
+    IExpectedVisitRepository expectedVisitRepository,
+    IUnitOfWork unitOfWork): 
+    IVisitCommandService
 {
     /// <summary>
     ///     Handles the command to create a visit
@@ -34,21 +39,31 @@ public class VisitCommandService(IVisitRepository visitRepository,IExpectedVisit
     /// </returns>
     public async Task<Visit?> Handle(CreateVisitCommand command)
     {
-        var visit = new Visit(command);
-        await visitRepository.AddAsync(visit);
-        await unitOfWork.CompleteAsync();
-        
-        var expectedVisitCreated = new CreateExpectedVisitEvent(visit.Id)
+        await using var transaction = await unitOfWork.BeginTransactionAsync();
+        try
         {
-            Status = Status.EN_ESPERA,
-            IsScheduled = true
-        };
-        
-        var handler = new CreateExpectedVisitEventHandler(visitRepository, expectedVisitRepository, unitOfWork);
-        await handler.Handle(expectedVisitCreated, CancellationToken.None);
-        
+            // Create visit
+            var visit = new Visit(command);
+            await visitRepository.AddAsync(visit);
+            await unitOfWork.CompleteAsync(); // Save visit to get the generated ID
 
-        return visit;
+            // Create expected visit
+            var expectedVisitId = await expectedVisitCommandService
+                .Handle(new CreateExpectedVisitCommand(visit.Id, command.VehicleId));
+
+            // Verify created expected visit
+            var expectedVisit = await expectedVisitRepository.FindById(expectedVisitId);
+            if (expectedVisit == null)
+                throw new NotFoundArgumentException("Expected visit not found");
+
+            await transaction.CommitAsync();
+            return visit;
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
     /// <summary>
