@@ -272,6 +272,8 @@ builder.Services.AddScoped<IServiceQueryService, ServiceQueryService>();
 builder.Services.AddScoped<IVisitRepository, VisitRepository>();
 builder.Services.AddScoped<IVisitCommandService, VisitCommandService>();
 builder.Services.AddScoped<IVisitQueryService, VisitQueryService>();
+builder.Services.AddScoped<IExpectedVisitCommandService, ExpectedVisitCommandService>();
+builder.Services.AddScoped<IExpectedVisitQueryService, ExpectedVisitQueryService>();
 builder.Services.AddScoped<IExpectedVisitRepository, ExpectedVisitRepository>();
 
 // Collection Diagnosis Facade Services
