@@ -19,10 +19,6 @@ public record AutoRepairSignUpRequest(
     [MinLength(1)]
     [MaxLength(100)]
     string Username,
-
-    [Required]
-    [StringLength(8, MinimumLength = 8)]
-    string Dni,
     
     [property: JsonPropertyName("contact_email")]
     [Required]
