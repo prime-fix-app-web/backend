@@ -1,4 +1,5 @@
 ﻿using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.Shared.Domain.Repositories;
 
 namespace PrimeFixPlatform.API.MaintenanceTracking.Domain.Repositories;
@@ -58,5 +59,5 @@ public interface IVehicleRepository : IBaseRepository<Vehicle>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     an enumerable of vehicles with the specified maintenance status.
     /// </returns>
-    Task<IEnumerable<Vehicle>> FindByMaintenanceStatus(int maintenanceStatus);
+    Task<IEnumerable<Vehicle>> FindByMaintenanceStatus(EMaintenanceStatus maintenanceStatus);
 }

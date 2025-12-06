@@ -28,17 +28,14 @@ public partial class Vehicle
     /// <param name="vehicleInformation">
     ///     The information associated with the vehicle.
     /// </param>
-    /// <param name="maintenanceStatus">
-    ///     The maintenance status of the vehicle.
-    /// </param>
     public Vehicle( string color, string model, int userId,
-        VehicleInformation vehicleInformation, int maintenanceStatus)
+        VehicleInformation vehicleInformation)
     {
         Color = color;
         Model = model;
         UserId = userId;
         VehicleInformation = vehicleInformation;
-        MaintenanceStatus = maintenanceStatus;
+        MaintenanceStatus = EMaintenanceStatus.NotBeingServiced;
     }
     
     /// <summary>
@@ -51,8 +48,7 @@ public partial class Vehicle
         command.Color,
         command.Model,
         command.UserId,
-        command.VehicleInformation,
-        command.MaintenanceStatus)
+        command.VehicleInformation)
     {
     }
 
@@ -64,7 +60,6 @@ public partial class Vehicle
     /// </param>
     public void UpdateVehicle(UpdateVehicleCommand command)
     {
-        VehicleId = command.VehicleId;
         Color = command.Color;
         Model = command.Model;
         UserId = command.UserId;
@@ -72,7 +67,7 @@ public partial class Vehicle
         MaintenanceStatus = command.MaintenanceStatus;
     }
     
-    public int VehicleId { get; private set; }
+    public int Id { get; private set; }
     
     public string Color { get; private set; }
     
@@ -82,5 +77,5 @@ public partial class Vehicle
     
     public VehicleInformation VehicleInformation { get; private set; }
     
-    public int MaintenanceStatus { get; private set; }
+    public EMaintenanceStatus MaintenanceStatus { get; private set; }
 }

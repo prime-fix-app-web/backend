@@ -46,7 +46,7 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOf
         var vehicle = new Vehicle(command);
         await vehicleRepository.AddAsync(vehicle);
         await unitOfWork.CompleteAsync();
-        return vehicle.VehicleId;
+        return vehicle.Id;
     }
 
     /// <summary>

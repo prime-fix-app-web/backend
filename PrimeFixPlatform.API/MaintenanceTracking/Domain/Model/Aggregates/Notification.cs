@@ -57,14 +57,13 @@ public partial class Notification
     /// </param>
     public void UpdateNotification(UpdateNotificationCommand command)
     {
-        NotificationId = command.NotificationId;
         Message = command.Message;
         Read = command.Read;
         VehicleId = command.VehicleId;
         Sent = command.Sent;
     }
     
-    public int NotificationId { get; private set;  }
+    public int Id { get; private set;  }
     public string Message { get; private set;  }
     public bool Read { get; private set;  }
     public int VehicleId { get; private set;  }

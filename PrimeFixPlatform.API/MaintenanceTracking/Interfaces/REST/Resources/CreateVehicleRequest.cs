@@ -24,9 +24,6 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
 /// <param name="VehicleType">
 ///     The type of the vehicle to be created
 /// </param>
-/// <param name="MaintenanceStatus">
-///     The maintenance status of the vehicle to be created
-/// </param>
 public record CreateVehicleRequest(
     
     [Required]
@@ -59,8 +56,4 @@ public record CreateVehicleRequest(
     [Required]
     [MinLength(1)]
     [MaxLength(50)]
-    string VehicleType,
-    
-    [property: JsonPropertyName("maintenance_status")]
-    [Required]
-    int MaintenanceStatus);
+    string VehicleType);

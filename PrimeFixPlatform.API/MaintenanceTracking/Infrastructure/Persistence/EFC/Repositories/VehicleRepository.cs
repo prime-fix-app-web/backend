@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Aggregates;
+using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Repositories;
 using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using PrimeFixPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -25,7 +26,7 @@ public class VehicleRepository(AppDbContext context)
     /// </returns>
     public async Task<bool> ExistsByIdVehicle(int vehicleId)
     {
-        return await Context.Set<Vehicle>().AnyAsync(vehicle => vehicle.VehicleId == vehicleId);
+        return await Context.Set<Vehicle>().AnyAsync(vehicle => vehicle.Id == vehicleId);
     }
 
     /// <summary>
@@ -60,7 +61,7 @@ public class VehicleRepository(AppDbContext context)
     public async Task<bool> ExistsByVehiclePlateAndIdVehicleIsNot(string vehiclePlate, int vehicleId)
     {
         return await Context.Set<Vehicle>().AnyAsync(vehicle => 
-            vehicle.VehicleInformation.VehiclePlate == vehiclePlate && vehicle.VehicleId != vehicleId);
+            vehicle.VehicleInformation.VehiclePlate == vehiclePlate && vehicle.Id != vehicleId);
     }
 
     /// <summary>
@@ -73,7 +74,7 @@ public class VehicleRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     an enumerable of vehicles with the specified maintenance status.
     /// </returns>
-    public async Task<IEnumerable<Vehicle>> FindByMaintenanceStatus(int maintenanceStatus)
+    public async Task<IEnumerable<Vehicle>> FindByMaintenanceStatus(EMaintenanceStatus maintenanceStatus)
     {
         return await Context.Set<Vehicle>()
             .Where(vehicle => vehicle.MaintenanceStatus == maintenanceStatus)

@@ -28,6 +28,6 @@ public class NotificationRepository(AppDbContext context)
     public async Task<bool> ExistsByIdNotification(int notificationId)
     {
         return await Context.Set<Notification>()
-            .AnyAsync(notification => notification.NotificationId == notificationId);
+            .AnyAsync(notification => notification.Id == notificationId);
     }
 }

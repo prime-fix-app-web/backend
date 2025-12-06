@@ -58,7 +58,7 @@ public static class NotificationAssembler
     public static NotificationResponse ToResponseFromEntity(Notification entity)
     {
         return new NotificationResponse(
-            entity.NotificationId, entity.Message, entity.Read, 
+            entity.Id, entity.Message, entity.Read, 
             entity.VehicleId, entity.Sent);
     }
 }

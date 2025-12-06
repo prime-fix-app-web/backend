@@ -387,10 +387,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
+// Custom Request Authorization Middleware
+app.UseMiddleware<RequestAuthorizationMiddleware>();
 // Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<RequestAuthorizationMiddleware>();
 
 app.MapControllers();
 

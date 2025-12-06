@@ -17,8 +17,5 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Commands;
 /// <param name="VehicleInformation">
 ///     The detailed information about the vehicle to be created
 /// </param>
-/// <param name="MaintenanceStatus">
-///     The maintenance status of the vehicle to be created
-/// </param>
 public record CreateVehicleCommand( string Color, string Model, int UserId,
-    VehicleInformation VehicleInformation, int MaintenanceStatus);
+    VehicleInformation VehicleInformation);

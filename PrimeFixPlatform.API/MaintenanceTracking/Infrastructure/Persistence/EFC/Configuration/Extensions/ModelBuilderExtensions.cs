@@ -17,22 +17,26 @@ public static class ModelBuilderExtensions
     public static void ApplyMaintenanceTrackingConfiguration(this ModelBuilder modelBuilder)
     {
         // Maintenance Tracking Bounded Context
-        modelBuilder.Entity<Vehicle>().HasKey(v => v.VehicleId);
-        modelBuilder.Entity<Vehicle>().Property(v => v.VehicleId).IsRequired().ValueGeneratedOnAdd();
+        modelBuilder.Entity<Vehicle>().HasKey(v => v.Id);
+        modelBuilder.Entity<Vehicle>().Property(v => v.Id).IsRequired().HasColumnName("vehicle_id").ValueGeneratedOnAdd();
         modelBuilder.Entity<Vehicle>().Property(v => v.Color).IsRequired().HasMaxLength(50);
         modelBuilder.Entity<Vehicle>().Property(v => v.Model).IsRequired().HasMaxLength(100);
         modelBuilder.Entity<Vehicle>().Property(v => v.UserId).IsRequired();
-        modelBuilder.Entity<Vehicle>().Property(v => v.MaintenanceStatus).IsRequired();
+        modelBuilder.Entity<Vehicle>().Property(v => v.MaintenanceStatus)
+            .HasConversion<int>()
+            .HasColumnType("integer")
+            .IsRequired();
+        
         modelBuilder.Entity<Vehicle>().OwnsOne(v => v.VehicleInformation, vi =>
         {
             vi.Property(p => p.VehiclePlate).IsRequired().HasMaxLength(10);
             vi.Property(p => p.VehicleBrand).IsRequired().HasMaxLength(50);
             vi.Property(p => p.VehicleType).IsRequired().HasMaxLength(50);
-            vi.ToTable("vehicles");
+            vi.WithOwner();
         });
         
-        modelBuilder.Entity<Notification>().HasKey(n => n.NotificationId);
-        modelBuilder.Entity<Notification>().Property(n => n.NotificationId).IsRequired().ValueGeneratedOnAdd();
+        modelBuilder.Entity<Notification>().HasKey(n => n.Id);
+        modelBuilder.Entity<Notification>().Property(n => n.Id).IsRequired().ValueGeneratedOnAdd();
         modelBuilder.Entity<Notification>().Property(n => n.Message).IsRequired().HasMaxLength(255);
         modelBuilder.Entity<Notification>().Property(n => n.Read).IsRequired();
         modelBuilder.Entity<Notification>().Property(n => n.VehicleId).IsRequired();

@@ -4,6 +4,7 @@ using PrimeFixPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Commands;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Queries;
+using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.ValueObjects;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Services;
 using PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Assemblers;
 using PrimeFixPlatform.API.MaintenanceTracking.Interfaces.REST.Resources;
@@ -101,7 +102,7 @@ public class VehicleController(IVehicleQueryService vehicleQueryService, IVehicl
         }
         else
         {
-            var query = new GetVehicleByMaintenanceStatusQuery(maintenanceStatus.Value);
+            var query = new GetVehicleByMaintenanceStatusQuery(MaintenanceStatusInfo.FromValue(maintenanceStatus.Value));
             vehicles = await vehicleQueryService.Handle(query);
         }
         

@@ -24,4 +24,4 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Commands;
 ///     The updated maintenance status of the vehicle to be updated.
 /// </param>
 public record UpdateVehicleCommand(int VehicleId, string Color, string Model, int UserId,
-    VehicleInformation VehicleInformation, int MaintenanceStatus);
+    VehicleInformation VehicleInformation, EMaintenanceStatus MaintenanceStatus);
