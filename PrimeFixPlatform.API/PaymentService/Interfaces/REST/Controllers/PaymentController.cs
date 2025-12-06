@@ -75,7 +75,7 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     /// <summary>
     ///     Get all payments, optionally filtered by user account ID
     /// </summary>
-    /// <param name="idUserAccount">
+    /// <param name="user_account_id">
     ///     The user account ID to filter payments by (optional)
     /// </param>
     /// <returns>
@@ -92,17 +92,17 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetAllPayments([FromQuery] int idUserAccount)
+    public async Task<IActionResult> GetAllPayments([FromQuery] int user_account_id)
     {
         IEnumerable<Payment> payments;
-        if (idUserAccount == 0)
+        if (user_account_id == 0)
         {
             var getAllPaymentsQuery = new GetAllPaymentsQuery();
             payments = await paymentQueryService.Handle(getAllPaymentsQuery);
         }
         else
         {
-            var query = new GetPaymentByIdUserAccountQuery(idUserAccount);
+            var query = new GetPaymentByIdUserAccountQuery(user_account_id);
             payments = await paymentQueryService.Handle(query);
         }
         
@@ -117,13 +117,13 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     /// <summary>
     ///     Get a payment by its ID
     /// </summary>
-    /// <param name="paymentId">
+    /// <param name="payment_id">
     ///     The unique ID of the payment
     /// </param>
     /// <returns>
     ///     The payment response details
     /// </returns>
-    [HttpGet("{paymentId}")]
+    [HttpGet("{payment_id}")]
     [SwaggerOperation(
         Summary = "Retrieve a payment by its ID",
         Description = "Retrieves a payment using its unique ID"
@@ -137,9 +137,9 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> GetPaymentById(int paymentId)
+    public async Task<IActionResult> GetPaymentById(int payment_id)
     {
-        var getPaymentByIdQuery = new GetPaymentByIdQuery(paymentId);
+        var getPaymentByIdQuery = new GetPaymentByIdQuery(payment_id);
         var payment = await paymentQueryService.Handle(getPaymentByIdQuery);
         
         if (payment is null) return NotFound();
@@ -151,7 +151,7 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     /// <summary>
     ///     Update an existing payment
     /// </summary>
-    /// <param name="paymentId">
+    /// <param name="payment_id">
     ///     The unique ID of the payment to update
     /// </param>
     /// <param name="request">
@@ -160,7 +160,7 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     /// <returns>
     ///     The updated payment response details
     /// </returns>
-    [HttpPut("{paymentId}")]
+    [HttpPut("{payment_id}")]
     [SwaggerOperation(
         Summary = "Update an existing payment",
         Description = "Update an existing payment with the provided data"
@@ -180,9 +180,9 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> UpdateVehicle(int paymentId, [FromBody] UpdatePaymentRequest request)
+    public async Task<IActionResult> UpdateVehicle(int payment_id, [FromBody] UpdatePaymentRequest request)
     {
-        var updatePaymentCommand = PaymentAssembler.ToCommandFromRequest(request, paymentId);
+        var updatePaymentCommand = PaymentAssembler.ToCommandFromRequest(request, payment_id);
         var payment = await paymentCommandService.Handle(updatePaymentCommand);
         if (payment is null) return BadRequest();
         
@@ -194,13 +194,13 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     /// <summary>
     ///     Delete a payment by its ID
     /// </summary>
-    /// <param name="paymentId">
+    /// <param name="payment_id">
     ///     The unique ID of the payment to delete
     /// </param>
     /// <returns>
     ///     No content on successful deletion
     /// </returns>
-    [HttpDelete("{paymentId}")]
+    [HttpDelete("{payment_id}")]
     [SwaggerOperation(
         Summary = "Delete a payment by its ID",
         Description = "Deletes a payment using its unique ID"
@@ -216,20 +216,13 @@ public class PaymentController(IPaymentQueryService paymentQueryService,
     [SwaggerResponse(StatusCodes.Status500InternalServerError, 
         "Internal server error", 
         typeof(InternalServerErrorResponse))]
-    public async Task<IActionResult> DeleteVehicle(int paymentId)
+    public async Task<IActionResult> DeleteVehicle(int payment_id)
     {
-        var deletePaymentCommand = new DeletePaymentCommand(paymentId);
+        var deletePaymentCommand = new DeletePaymentCommand(payment_id);
         var result = await paymentCommandService.Handle(deletePaymentCommand);
         
         if (!result) return BadRequest();
         
         return NoContent();
     }
-    
-    
-    
-    
-    
-    
-    
 }

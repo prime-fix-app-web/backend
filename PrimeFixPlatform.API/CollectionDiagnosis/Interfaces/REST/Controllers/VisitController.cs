@@ -67,7 +67,7 @@ public class VisitController(IVisitQueryService visitQueryService,
         return Ok(visit);
     }
     
-    [HttpPut]
+    [HttpPut("{visit_id}")]
     [SwaggerOperation(
         Summary = "Cancels a Visit Resource",
         Description = "Cancels a Visit Resource",

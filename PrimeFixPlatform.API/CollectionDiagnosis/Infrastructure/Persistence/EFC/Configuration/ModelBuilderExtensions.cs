@@ -15,7 +15,7 @@ public static class ModelBuilderExtensions
             entity.HasKey(v => v.Id);
             entity.Property(v => v.Id).ValueGeneratedOnAdd();
             entity.Property(v => v.Failure).HasMaxLength(100).IsRequired();
-            entity.Property(v => v.TimeVisit).IsRequired();
+            entity.Property(v => v.TimeVisit).HasColumnType("timestamp without time zone").IsRequired();
 
             // ValueObjects como ValueConversion
             entity.Property(v => v.VehicleId)
@@ -47,6 +47,7 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<ExpectedVisit>(entity =>
         {
             entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.StateVisit)
                   .HasConversion<string>() // enum o string
                   .IsRequired();
@@ -58,6 +59,8 @@ public static class ModelBuilderExtensions
                   .HasForeignKey(e => e.VisitId)
                   .IsRequired()
                   .OnDelete(DeleteBehavior.Cascade);
+
+            entity.Property(e => e.VehicleId).IsRequired();
         });
 
         // ================= Diagnostic =================
@@ -68,7 +71,6 @@ public static class ModelBuilderExtensions
 
             entity.Property(d => d.Price).IsRequired();
             entity.Property(d => d.Diagnosis).HasMaxLength(500).IsRequired();
-            entity.Property(d => d.ExpectedVisitId).IsRequired();
 
             // VehicleId como ValueConversion
             entity.Property(d => d.VehicleId)
@@ -78,11 +80,6 @@ public static class ModelBuilderExtensions
                   )
                   .HasColumnName("VehicleId")
                   .IsRequired();
-
-            entity.HasOne<ExpectedVisit>()
-                  .WithMany()
-                  .HasForeignKey(d => d.ExpectedVisitId)
-                  .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

@@ -13,4 +13,7 @@ public record ExpectedVisitResponse(
     int VisitId,
     
     [property:JsonPropertyName("is_scheduled")]
-    bool IsScheduled);
+    bool IsScheduled,
+    
+    [property:JsonPropertyName("vehicle_id")]
+    int VehicleId);

@@ -114,22 +114,22 @@ public class UserAccountCommandService(IUserAccountRepository userAccountReposit
 
             var userAccount = new UserAccount(command.Username, command.Email, role.Id, user.Id, membership.Id,
                 hashingService.HashPassword(command.Password));
+            
+            // Commit user account creation
             await userAccountRepository.AddAsync(userAccount);
-            
-            paymentId = await externalPaymentServiceFromIam.CreatePaymentAsync(
-                    command.CardNumber, command.CardType, command.Month, command.Year, command.Cvv, userAccount.Id);
-            if (paymentId == 0)
-                throw new ArgumentException("Failed to create payment");
-            
-
             await unitOfWork.CompleteAsync(); // Commit changes to get the generated IDs
+            await transaction.CommitAsync();
             
             // Set navigation properties
             userAccount.User = user;    
             userAccount.Role = role;
             userAccount.Membership = membership;
             
-            await transaction.CommitAsync();
+            // Create payment in external service
+            paymentId = await externalPaymentServiceFromIam.CreatePaymentAsync(
+                command.CardNumber, command.CardType, command.Month, command.Year, command.Cvv, userAccount.Id);
+            if (paymentId == 0)
+                throw new ArgumentException("Failed to create payment");
             
             // Return the created user account
             return await userAccountRepository.FetchByUsername(command.Username);
@@ -193,7 +193,8 @@ public class UserAccountCommandService(IUserAccountRepository userAccountReposit
                              ?? throw new ArgumentException("Membership not found");
 
             // Create user
-            var userId = await userCommandService.Handle(new CreateUserCommand(command.Username, "Auto Repair", "00000000",
+            var userId = await userCommandService.Handle(new CreateUserCommand(command.Username, "Auto Repair",
+                "00000000",
                 command.PhoneNumber, location.Id));
 
             // Verify user creation
@@ -203,12 +204,21 @@ public class UserAccountCommandService(IUserAccountRepository userAccountReposit
             // Create user account
             var userAccount = new UserAccount(command.Username, command.ContactEmail, role.Id, user.Id, membership.Id,
                 hashingService.HashPassword(command.Password));
-            
+
             await userAccountRepository.AddAsync(userAccount);
+            
+            // Commit changes to get the generated IDs
+            await unitOfWork.CompleteAsync(); // Commit changes to get the generated IDs
+            await transaction.CommitAsync();
+            
+            // Set navigation properties
+            userAccount.User = user;    
+            userAccount.Role = role;
+            userAccount.Membership = membership;
             
             // Create payment
             paymentId = await externalPaymentServiceFromIam.CreatePaymentAsync(
-                    command.CardNumber, command.CardType, command.Month, command.Year, command.Cvv, userAccount.Id);
+                command.CardNumber, command.CardType, command.Month, command.Year, command.Cvv, userAccount.Id);
             // Verify payment creation
             if (paymentId == 0)
                 throw new ArgumentException("Failed to create payment");
@@ -220,15 +230,6 @@ public class UserAccountCommandService(IUserAccountRepository userAccountReposit
             // Verify auto repair creation
             if (autoRepairId == 0)
                 throw new ArgumentException("Failed to create auto repair");
-
-            await unitOfWork.CompleteAsync(); // Commit changes to get the generated IDs
-            
-            // Set navigation properties
-            userAccount.User = user;    
-            userAccount.Role = role;
-            userAccount.Membership = membership;
-            
-            await transaction.CommitAsync();
             
             // Return the created user account
             return await userAccountRepository.FetchByUsername(command.Username);

@@ -1,5 +1,3 @@
-using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.ValueObjects;
-
 namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 
 /// <summary>
@@ -20,4 +18,4 @@ namespace PrimeFixPlatform.API.CollectionDiagnosis.Domain.Model.Commands;
 /// <param name="ServiceId">
 ///     The ID of the service designated for the visit
 /// </param>
-public record CreateVisitCommand(string Failure, int VehicleId, string TimeVisit, int AutoRepairId, int ServiceId);
+public record CreateVisitCommand(string Failure, int VehicleId, DateTime TimeVisit, int AutoRepairId, int ServiceId);

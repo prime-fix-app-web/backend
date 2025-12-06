@@ -25,6 +25,8 @@ using PrimeFixPlatform.API.AutorepairRegister.Domain.Repositories;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Services;
 using PrimeFixPlatform.API.AutorepairRegister.Infrastructure.Persistence.EFC.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.OutboundServices.ACL;
+using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.OutboundServices.ACL.Services;
 using PrimeFixPlatform.API.CollectionDiagnosis.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Repositories;
 using PrimeFixPlatform.API.CollectionDiagnosis.Domain.Services;
@@ -63,6 +65,8 @@ using PrimeFixPlatform.API.MaintenanceTracking.Infrastructure.Persistence.EFC.Re
 using PrimeFixPlatform.API.MaintenanceTracking.Interfaces.ACL;
 using PrimeFixPlatform.API.MaintenanceTracking.Interfaces.ACL.Services;
 using PrimeFixPlatform.API.PaymentService.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.PaymentService.Application.Internal.OutboundServices.ACL;
+using PrimeFixPlatform.API.PaymentService.Application.Internal.OutboundServices.ACL.Services;
 using PrimeFixPlatform.API.PaymentService.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.PaymentService.Domain.Repositories;
 using PrimeFixPlatform.API.PaymentService.Domain.Services;
@@ -175,6 +179,12 @@ builder.Services.AddSwaggerGen(options =>
         Format = "time",
         Example = new OpenApiString("00:00:00")
     });
+    options.MapType<DateTime>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Format = "date-time",
+        Example = new OpenApiString(DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"))
+    });
     // Set the comments path for the Swagger JSON and UI.
     options.AddServer(new OpenApiServer { Url = "/" });
     // Define the BearerAuth scheme that's in use
@@ -279,6 +289,9 @@ builder.Services.AddScoped<IExpectedVisitRepository, ExpectedVisitRepository>();
 // Collection Diagnosis Facade Services
 builder.Services.AddScoped<ICollectionDiagnosisContextFacade, CollectionDiagnosisContextFacade>();
 
+// Collection Diagnosis Outbound Services
+builder.Services.AddScoped<IExternalMaintenanceTrackingServiceFromCollectionDiagnosis, ExternalMaintenanceTrackingServiceFromCollectionDiagnosis>();
+
 // Maintenance Tracking Bounded Context
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IVehicleCommandService, VehicleCommandService>();
@@ -301,9 +314,12 @@ builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 builder.Services.AddScoped<IRatingCommandService, RatingCommandService>();
 builder.Services.AddScoped<IRatingQueryService, RatingQueryService>();
 
-
 // Payment Service Facade Services
 builder.Services.AddScoped<IPaymentServiceContextFacade, PaymentServiceContextFacade>();
+
+// Payment Service Outbound Services
+builder.Services.AddScoped<IExternalIamServiceFromPaymentService, ExternalIamServiceFromPaymentService>();
+builder.Services.AddScoped<IExternalAutoRepairCatalogServiceFromPaymentService, ExternalAutoRepairCatalogServiceFromPaymentService>();
 
 // JWT Authentication Configuration
 builder.Services.AddAuthentication(options =>

@@ -8,8 +8,7 @@ public interface ICollectionDiagnosisContextFacade
     Task<int> CreateDiagnostic(
         float price,
         int vehicleId,
-        string diagnosis,
-        int expectedVisitId);
+        string diagnosis);
     
     
     Task<int> FetchDiagnosticById(int diagnosticId);

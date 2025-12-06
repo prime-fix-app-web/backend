@@ -9,8 +9,8 @@ public class VisitAssembler
 {
     public static CreateVisitCommand ToCommandFromRequest(CreateVisitRequest request)
     {
-        return new CreateVisitCommand(request.Failure, request.VehicleId.Id, request.TimeVisit, request.AutoRepairId.Id,
-            request.ServiceId.Id);
+        return new CreateVisitCommand(request.Failure, request.VehicleId, request.TimeVisit, request.AutoRepairId,
+            request.ServiceId);
     }
 
 

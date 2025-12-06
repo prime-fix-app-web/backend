@@ -15,10 +15,4 @@ public record UpdateDiagnosticRequest(
     
     [MaxLength(100)]
     [Required]
-    string Diagnosis,
-    
-    [property: JsonPropertyName("expected_visit_id")]
-    [Required]
-    int ExpectedVisitId
-    
-    );
+    string Diagnosis);
