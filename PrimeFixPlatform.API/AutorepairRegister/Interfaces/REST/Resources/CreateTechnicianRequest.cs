@@ -21,6 +21,7 @@ public record CreateTechnicianRequest(
     [MaxLength(100)]
     string Name,
     
+    [property: JsonPropertyName("last_name")]
     [Required]
     [MaxLength(100)]
     string LastName,

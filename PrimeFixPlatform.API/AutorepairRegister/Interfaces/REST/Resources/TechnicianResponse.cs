@@ -20,5 +20,6 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Interfaces.REST.Resources;
 public record TechnicianResponse(
     int Id,
     string Name,
+    [property: JsonPropertyName("last_name")]
     string LastName,
     [property: JsonPropertyName("auto_repair_id")] int AutoRepairId);
