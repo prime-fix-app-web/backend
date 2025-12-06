@@ -21,7 +21,7 @@ public partial class ExpectedVisit
     /// </param>
     public ExpectedVisit(int visitId, int vehicleId)
     {
-        StateVisit = EStateVisit.SCHEDULED_VISIT;
+        StateVisit = EStateVisit.PENDING_VISIT;
         VisitId = visitId;
         IsScheduled = false;
         VehicleId = vehicleId;
