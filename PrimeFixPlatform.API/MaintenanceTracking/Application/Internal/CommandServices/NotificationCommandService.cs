@@ -16,7 +16,8 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.CommandS
 /// <param name="unitOfWork">
 ///     Unit of work for transaction management.
 /// </param>
-public class NotificationCommandService(INotificationRepository notificationRepository, IUnitOfWork unitOfWork)
+public class NotificationCommandService(INotificationRepository notificationRepository,
+    IVehicleRepository vehicleRepository, IUnitOfWork unitOfWork)
 : INotificationCommandService
 {
     /// <summary>
@@ -31,8 +32,20 @@ public class NotificationCommandService(INotificationRepository notificationRepo
     /// </returns>
     public async Task<int> Handle(CreateNotificationCommand command)
     {
+        var vehicleId = command.VehicleId;
+        // Verify that the vehicle exists
+        if (!await vehicleRepository.ExistsByVehicleId(vehicleId))
+            throw new NotFoundIdException("Vehicle with id " + vehicleId + " does not exist");
+        
+        // Retrieve the vehicle
+        var vehicle = await vehicleRepository.FindByIdAsync(vehicleId);
+        if (vehicle is null)
+            throw new NotFoundArgumentException("Vehicle not found");
+        
+        // Create and persist the new notification
         var notification = new Notification(command);
         await notificationRepository.AddAsync(notification);
+        notification.Vehicle = vehicle;
         await unitOfWork.CompleteAsync();
         return notification.Id;
     }
@@ -55,16 +68,34 @@ public class NotificationCommandService(INotificationRepository notificationRepo
     /// </exception>
     public async Task<Notification?> Handle(UpdateNotificationCommand command)
     {
-        var idNotification = command.NotificationId;
+        var notificationId = command.NotificationId;
+        var vehicleId = command.VehicleId;
         
-        if (!await notificationRepository.ExistsByIdNotification(idNotification))
-            throw new NotFoundIdException("Notification with id " + idNotification  + " does not exist");
+        // Verify that the vehicle exists
+        if (!await vehicleRepository.ExistsByVehicleId(vehicleId))
+            throw new NotFoundIdException("Vehicle with id " + vehicleId + " does not exist");
         
-        var notificationToUpdate = await notificationRepository.FindByIdAsync(idNotification);
+        // Verify that the notification exists
+        if (!await notificationRepository.ExistsByNotificationId(notificationId))
+            throw new NotFoundIdException("Notification with id " + notificationId  + " does not exist");
+        
+        // Retrieve the vehicle
+        var vehicle = await vehicleRepository.FindByIdAsync(vehicleId);
+        if (vehicle is null)
+            throw new NotFoundArgumentException("Vehicle not found");
+        
+        // Retrieve the notification to update
+        var notificationToUpdate = await notificationRepository.FindByIdAsync(notificationId);
         if (notificationToUpdate is null)
             throw new NotFoundArgumentException("Notification not found");
+        
+        // Update notification details
         notificationToUpdate.UpdateNotification(command);
         notificationRepository.Update(notificationToUpdate);
+
+        notificationToUpdate.Vehicle = vehicle;
+        
+        // Persist changes
         await unitOfWork.CompleteAsync();
         return notificationToUpdate;
     }
@@ -87,11 +118,15 @@ public class NotificationCommandService(INotificationRepository notificationRepo
     /// </exception>
     public async Task<bool> Handle(DeleteNotificationCommand command)
     {
-        if (!await notificationRepository.ExistsByIdNotification(command.NotificationId))
+        // Verify that the notification exists
+        if (!await notificationRepository.ExistsByNotificationId(command.NotificationId))
             throw new NotFoundIdException("Notification with id " + command.NotificationId  + " does not exist");
+        // Retrieve the notification to delete
         var notification = await notificationRepository.FindByIdAsync(command.NotificationId);
         if (notification is null)
             throw new NotFoundArgumentException("Notification not found");
+        
+        // Delete the notification
         notificationRepository.Remove(notification);
         await unitOfWork.CompleteAsync();
         return true;

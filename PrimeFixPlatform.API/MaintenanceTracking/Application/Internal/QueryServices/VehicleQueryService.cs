@@ -63,4 +63,19 @@ public class VehicleQueryService(IVehicleRepository vehicleRepository)
     {
         return await vehicleRepository.FindByMaintenanceStatus(query.MaintenanceStatus);
     }
+
+    /// <summary>
+    ///     Handles the check for the existence of a vehicle by its unique identifier.
+    /// </summary>
+    /// <param name="query">
+    ///     The query to check if a vehicle exists by its ID.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains
+    ///     a boolean value indicating whether the vehicle exists.  
+    /// </returns>
+    public async Task<bool> Handle(ExistsVehicleByIdQuery query)
+    {
+        return await vehicleRepository.ExistsByVehicleId(query.VehicleId);
+    }
 }

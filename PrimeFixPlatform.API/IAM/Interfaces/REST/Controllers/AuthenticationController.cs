@@ -55,4 +55,34 @@ public class AuthenticationController(IUserAccountCommandService userAccountComm
         var userAccountResponse = UserAccountAssembler.ToResponseFromEntity(userAccount);
         return StatusCode(StatusCodes.Status201Created, userAccountResponse);
     }   
+    
+    /// <summary>
+    ///     Sign up as Auto Repair
+    /// </summary>
+    /// <param name="request">
+    ///     The auto repair sign-up request containing user details.
+    /// </param>
+    /// <returns>
+    ///     The created user account response.
+    /// </returns>
+    [HttpPost("sign-up/auto-repair")]
+    [AllowAnonymous]
+    [SwaggerOperation(
+        Summary = "Sign up as Auto Repair",
+        Description = "Sign up a new user account as Auto Repair",
+        OperationId = "SignUpAutoRepair")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The user account was created successfully", typeof(UserAccountResponse))]    
+    public async Task<IActionResult> SignUpAutoRepair([FromBody] AutoRepairSignUpRequest request)
+    {
+        var autoRepairSignUpCommand = AuthenticationAssembler.ToCommandFromRequestSignUpAutoRepair(request);
+        var userAccount = await userAccountCommandService.Handle(autoRepairSignUpCommand);
+        
+        if (userAccount == null)
+        {
+            return BadRequest();
+        }
+
+        var userAccountResponse = UserAccountAssembler.ToResponseFromEntity(userAccount);
+        return StatusCode(StatusCodes.Status201Created, userAccountResponse);
+    }
 }

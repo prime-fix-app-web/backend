@@ -27,10 +27,10 @@ public partial class Notification
     /// <param name="sent">
     ///     The date the notification was sent
     /// </param>
-    public Notification( string message, bool read, int vehicleId, DateOnly sent)
+    public Notification( string message, int vehicleId, DateOnly sent)
     {
         Message = message;
-        Read = read;
+        Read = false;
         VehicleId = vehicleId;
         Sent = sent;
     }
@@ -43,7 +43,6 @@ public partial class Notification
     /// </param>
     public Notification(CreateNotificationCommand command): this(
         command.Message,
-        command.Read,
         command.VehicleId,
         command.Sent)
     {
@@ -66,6 +65,8 @@ public partial class Notification
     public int Id { get; private set;  }
     public string Message { get; private set;  }
     public bool Read { get; private set;  }
+    
+    public Vehicle Vehicle { get; internal set;  }
     public int VehicleId { get; private set;  }
     public DateOnly Sent { get; private set;  }
 }

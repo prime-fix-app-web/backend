@@ -57,7 +57,49 @@ public static class AuthenticationAssembler
             request.Cvv
         );
     }
+
+    /// <summary>
+    ///     Converts an AutoRepairSignUpRequest into an AutoRepairSignUpCommand.
+    /// </summary>
+    /// <param name="request">
+    ///     The auto repair sign-up request containing auto repair details.
+    /// </param>
+    /// <returns>
+    ///     The corresponding AutoRepairSignUpCommand.
+    /// </returns>
+    public static AutoRepairSignUpCommand ToCommandFromRequestSignUpAutoRepair(AutoRepairSignUpRequest request)
+    {
+        return new AutoRepairSignUpCommand(
+            request.AutoRepairName,
+            request.PhoneNumber,
+            request.Username,
+            request.Password,
+            request.ContactEmail,
+            request.Ruc,
+            new LocationInformation(request.Address, request.District, request.Department),
+            new MembershipDescription(request.MembershipDescription),
+            request.Started,
+            request.Over,
+            request.CardNumber,
+            new CardType(request.CardType),
+            request.Month,
+            request.Year,
+            request.Cvv
+        );
+    }
     
+    /// <summary>
+    ///     Converts a UserAccount entity and token into an AuthenticatedUserAccountResponse.
+    /// </summary>
+    /// <param name="entity">
+    ///     The user account entity containing user details.
+    /// </param>
+    /// <param name="token">
+    ///     The authentication token for the user.
+    /// </param>
+    /// <returns>
+    ///     The corresponding AuthenticatedUserAccountResponse.
+    /// </returns>
     public static AuthenticatedUserAccountResponse ToResponseFromEntityUserAccount(UserAccount entity, string token)
     {
         return new AuthenticatedUserAccountResponse(entity.Id, entity.Username, token);

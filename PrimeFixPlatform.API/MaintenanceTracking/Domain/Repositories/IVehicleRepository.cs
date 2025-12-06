@@ -19,7 +19,7 @@ public interface IVehicleRepository : IBaseRepository<Vehicle>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a vehicle with the specified ID exists.
     /// </returns>
-    Task<bool> ExistsByIdVehicle(int vehicleId);
+    Task<bool> ExistsByVehicleId(int vehicleId);
     
     /// <summary>
     ///     Checks if a vehicle exists by its vehicle plate.

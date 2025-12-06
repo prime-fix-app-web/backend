@@ -25,9 +25,10 @@ public class NotificationRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a notification with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdNotification(int notificationId)
+    public async Task<bool> ExistsByNotificationId(int notificationId)
     {
         return await Context.Set<Notification>()
+            .Include(notification => notification.Vehicle)
             .AnyAsync(notification => notification.Id == notificationId);
     }
 }

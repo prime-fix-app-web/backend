@@ -31,4 +31,17 @@ public interface INotificationQueryService
     ///     The task result contains the notification if found; otherwise, null.
     /// </returns>
     Task <Notification?> Handle(GetNotificationByIdQuery query);
+
+
+    /// <summary>
+    ///     Handles the ExistsNotificationByIdQuery to check if a notification exists by its ID.
+    /// </summary>
+    /// <param name="query">
+    ///     The query object containing the ID of the notification to check for existence.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains a boolean value indicating whether the notification exists.
+    /// </returns>
+    Task<bool> Handle(ExistsNotificationByIdQuery query);
 }

@@ -50,4 +50,20 @@ public class AutoRepairCatalogContextFacade(IAutoRepairQueryService autoRepairQu
         var createAutoRepairCommand = new CreateAutoRepairCommand(ruc, contactEmail, userAccountId);
         return await autoRepairCommandService.Handle(createAutoRepairCommand);
     }
+
+    /// <summary>
+    ///     Deletes an Auto Repair by its identifier asynchronously.
+    /// </summary>
+    /// <param name="autoRepairId">
+    ///     The identifier of the Auto Repair to delete.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains a boolean indicating whether the deletion was successful.
+    /// </returns>
+    public async Task<bool> DeleteAutoRepairAsync(int autoRepairId)
+    {
+        var deleteAutoRepairCommand = new DeleteAutoRepairCommand(autoRepairId);
+        return await autoRepairCommandService.Handle(deleteAutoRepairCommand);
+    }
 }

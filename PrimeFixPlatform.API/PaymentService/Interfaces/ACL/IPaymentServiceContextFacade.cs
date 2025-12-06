@@ -46,4 +46,15 @@ public interface IPaymentServiceContextFacade
     /// </para>
     /// <returns>True if exists, otherwise false.</returns>
     Task<bool> ExistsPaymentById(int paymentId);
+    
+    /// <summary>
+    ///     Deletes a payment by its ID.
+    /// </summary>
+    /// <param name="paymentId">
+    ///     The ID of the payment to delete.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    /// </returns>
+    Task<bool> DeletePaymentAsync(int paymentId);
 }

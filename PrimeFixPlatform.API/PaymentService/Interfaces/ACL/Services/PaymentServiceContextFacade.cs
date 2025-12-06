@@ -54,4 +54,21 @@ public class PaymentServiceContextFacade(
         var payment = await paymentQueryService.Handle(getPaymentByIdQuery);
         return payment != null;
     }
+
+    /// <summary>
+    ///     Deletes a payment by its ID.
+    /// </summary>
+    /// <param name="paymentId">
+    ///     The ID of the payment to delete.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     If the task result contains true if the payment was successfully deleted; otherwise, false.
+    /// </returns>
+    public async Task<bool> DeletePaymentAsync(int paymentId)
+    {
+        var deletePaymentCommand = new DeletePaymentCommand(paymentId);
+        var result = await paymentCommandService.Handle(deletePaymentCommand);
+        return result;
+    }
 }

@@ -57,66 +57,216 @@ public class UserAccountCommandService(IUserAccountRepository userAccountReposit
         return (userAccount, token);
     }
 
+    /// <summary>
+    ///     Handles vehicle owner sign-up process
+    /// </summary>
+    /// <param name="command">
+    ///     The command containing sign-up details
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains the created UserAccount.
+    /// </returns>
+    /// <exception cref="ArgumentException">
+    ///     Indicates that the username or email already exists, or that related entities could not be created
+    /// </exception>
     public async Task<UserAccount?> Handle(VehicleOwnerSignUpCommand command)
     {
+        int? paymentId = null;
         // Start a transaction scope
         await using var transaction = await unitOfWork.BeginTransactionAsync();
-        
-        // Check for existing username
-        if (await userAccountRepository.ExistsByUsername(command.Username))
-            throw new ArgumentException("Username already exists");
-        
-        // Check for existing email
-        if (await userAccountRepository.ExistsByEmail(command.Email))
-            throw new ArgumentException("Email already exists");
+        try
+        {
+            // Check for existing username
+            if (await userAccountRepository.ExistsByUsername(command.Username))
+                throw new ArgumentException("Username already exists");
 
-        // Get role
-        var role = await roleRepository.GetByNameAsync(ERole.RoleVehicleOwner)
-            ?? throw new ArgumentException("Role not found");
-        
-        // Create location
-        var locationId = await locationCommandService.Handle(new CreateLocationCommand(command.LocationInformation));
-        
-        // Verify location creation
-        var location = await locationRepository.FindByIdAsync(locationId)
-            ?? throw new ArgumentException("Location not found");
-        
-        // Create membership
-        var membershipId = await membershipCommandService.Handle(new CreateMembershipCommand(
-            command.MembershipDescription, command.Started, command.Over));
-        
-        // Verify membership creation
-        var membership = await membershipRepository.FindByIdAsync(membershipId)
-            ?? throw new ArgumentException("Membership not found");
-        
-        // Create user
-        var userId = await userCommandService.Handle(new CreateUserCommand(command.Name, command.Email, command.Dni, 
-            command.PhoneNumber, location.Id));
-        
-        // Verify user creation
-        var user = await userRepository.FindByIdAsync(userId)
-            ?? throw new ArgumentException("User not found");
-        
-        var userAccount = new UserAccount(command.Username, command.Email, role.Id, user.Id, membership.Id, hashingService.HashPassword(command.Password));
-        await userAccountRepository.AddAsync(userAccount);
+            // Check for existing email
+            if (await userAccountRepository.ExistsByEmail(command.Email))
+                throw new ArgumentException("Email already exists");
 
-        var paymentId = await externalPaymentServiceFromIam.CreatePaymentAsync(
-            command.CardNumber, command.CardType, command.Month, command.Year, command.Cvv, userAccount.Id);
-        
-        if (paymentId == 0)
-            throw new ArgumentException("Failed to create payment");
-        
-        await unitOfWork.CompleteAsync();
-        userAccount.User = user;
-        
-        await transaction.CommitAsync();
-        
-        return await userAccountRepository.FetchByUsername(command.Username);   
+            // Get role
+            var role = await roleRepository.GetByNameAsync(ERole.RoleVehicleOwner)
+                       ?? throw new ArgumentException("Role not found");
+
+            // Create location
+            var locationId =
+                await locationCommandService.Handle(new CreateLocationCommand(command.LocationInformation));
+
+            // Verify location creation
+            var location = await locationRepository.FindByIdAsync(locationId)
+                           ?? throw new ArgumentException("Location not found");
+
+            // Create membership
+            var membershipId = await membershipCommandService.Handle(new CreateMembershipCommand(
+                command.MembershipDescription, command.Started, command.Over));
+
+            // Verify membership creation
+            var membership = await membershipRepository.FindByIdAsync(membershipId)
+                             ?? throw new ArgumentException("Membership not found");
+
+            // Create user
+            var userId = await userCommandService.Handle(new CreateUserCommand(command.Name, command.Email, command.Dni,
+                command.PhoneNumber, location.Id));
+
+            // Verify user creation
+            var user = await userRepository.FindByIdAsync(userId)
+                       ?? throw new ArgumentException("User not found");
+
+            var userAccount = new UserAccount(command.Username, command.Email, role.Id, user.Id, membership.Id,
+                hashingService.HashPassword(command.Password));
+            await userAccountRepository.AddAsync(userAccount);
+            
+            paymentId = await externalPaymentServiceFromIam.CreatePaymentAsync(
+                    command.CardNumber, command.CardType, command.Month, command.Year, command.Cvv, userAccount.Id);
+            if (paymentId == 0)
+                throw new ArgumentException("Failed to create payment");
+            
+
+            await unitOfWork.CompleteAsync(); // Commit changes to get the generated IDs
+            
+            // Set navigation properties
+            userAccount.User = user;    
+            userAccount.Role = role;
+            userAccount.Membership = membership;
+            
+            await transaction.CommitAsync();
+            
+            // Return the created user account
+            return await userAccountRepository.FetchByUsername(command.Username);
+        }
+        catch
+        {
+            // Rollback payment if created
+            if (paymentId.HasValue && paymentId.Value != 0)
+            {
+                // Attempt to delete the payment if it was created
+                if (await externalPaymentServiceFromIam.DeletePaymentAsync(paymentId.Value))
+                {
+                    Console.WriteLine("Rolled back payment with ID: " + paymentId.Value);
+                }
+                else
+                {
+                    Console.WriteLine("Failed to delete payment with ID: " + paymentId.Value);
+                }
+            }
+            
+            // Rollback transaction
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
         
-    public Task<UserAccount?> Handle(AutoRepairSignUpCommand command)
+    public async Task<UserAccount?> Handle(AutoRepairSignUpCommand command)
     {
-        throw new NotImplementedException();
+        int? paymentId = null;
+        int? autoRepairId = null;
+        // Start a transaction scope
+        await using var transaction = await unitOfWork.BeginTransactionAsync();
+        try
+        {
+            // Check for existing username
+            if (await userAccountRepository.ExistsByUsername(command.Username))
+                throw new ArgumentException("Username already exists");
+
+            // Check for existing email
+            if (await userAccountRepository.ExistsByEmail(command.ContactEmail))
+                throw new ArgumentException("Email already exists");
+
+            // Get role
+            var role = await roleRepository.GetByNameAsync(ERole.RoleAutoRepair)
+                       ?? throw new ArgumentException("Role not found");
+
+            // Create location
+            var locationId =
+                await locationCommandService.Handle(new CreateLocationCommand(command.LocationInformation));
+
+            // Verify location creation
+            var location = await locationRepository.FindByIdAsync(locationId)
+                           ?? throw new ArgumentException("Location not found");
+
+            // Create membership
+            var membershipId = await membershipCommandService.Handle(new CreateMembershipCommand(
+                command.MembershipDescription, command.Started, command.Over));
+
+            // Verify membership creation
+            var membership = await membershipRepository.FindByIdAsync(membershipId)
+                             ?? throw new ArgumentException("Membership not found");
+
+            // Create user
+            var userId = await userCommandService.Handle(new CreateUserCommand(command.Username, "Auto Repair", "00000000",
+                command.PhoneNumber, location.Id));
+
+            // Verify user creation
+            var user = await userRepository.FindByIdAsync(userId)
+                       ?? throw new ArgumentException("User not found");
+
+            // Create user account
+            var userAccount = new UserAccount(command.Username, command.ContactEmail, role.Id, user.Id, membership.Id,
+                hashingService.HashPassword(command.Password));
+            
+            await userAccountRepository.AddAsync(userAccount);
+            
+            // Create payment
+            paymentId = await externalPaymentServiceFromIam.CreatePaymentAsync(
+                    command.CardNumber, command.CardType, command.Month, command.Year, command.Cvv, userAccount.Id);
+            // Verify payment creation
+            if (paymentId == 0)
+                throw new ArgumentException("Failed to create payment");
+            
+            // Create auto repair
+            autoRepairId = await externalAutoRepairCatalogServiceFromIam.CreateAutoRepairAsync(
+                command.ContactEmail, command.Ruc, userAccount.Id);
+            
+            // Verify auto repair creation
+            if (autoRepairId == 0)
+                throw new ArgumentException("Failed to create auto repair");
+
+            await unitOfWork.CompleteAsync(); // Commit changes to get the generated IDs
+            
+            // Set navigation properties
+            userAccount.User = user;    
+            userAccount.Role = role;
+            userAccount.Membership = membership;
+            
+            await transaction.CommitAsync();
+            
+            // Return the created user account
+            return await userAccountRepository.FetchByUsername(command.Username);
+        }
+        catch
+        {
+            // Rollback payment if created
+            if (paymentId.HasValue && paymentId.Value != 0)
+            {
+                // Attempt to delete the payment if it was created
+                if (await externalPaymentServiceFromIam.DeletePaymentAsync(paymentId.Value))
+                {
+                    Console.WriteLine("Rolled back payment with ID: " + paymentId.Value);
+                }
+                else
+                {
+                    Console.WriteLine("Failed to delete payment with ID: " + paymentId.Value);
+                }
+            }
+            
+            // Rollback auto repair if created
+            if (autoRepairId.HasValue && autoRepairId.Value != 0)
+            {
+                // Attempt to delete the auto repair if it was created
+                if (await externalAutoRepairCatalogServiceFromIam.DeleteAutoRepairAsync(autoRepairId.Value))
+                {
+                    Console.WriteLine("Rolled back auto repair with ID: " + autoRepairId.Value);
+                }
+                else
+                {
+                    Console.WriteLine("Failed to delete auto repair with ID: " + autoRepairId.Value);
+                }
+            }
+            
+            // Rollback transaction
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Cortex.Mediator;
+using PrimeFixPlatform.API.AutorepairRegister.Application.Internal.OutboundServices;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Commands;
 using PrimeFixPlatform.API.AutorepairRegister.Domain.Model.Events;
@@ -20,6 +21,7 @@ namespace PrimeFixPlatform.API.AutorepairRegister.Application.Internal.CommandSe
 /// </param>
 public class TechnicianCommandService(ITechnicianRepository technicianRepository,
     IUnitOfWork unitOfWork,
+    IExternalAutoRepairCatalogServiceFromAutoRepairRegister externalAutoRepairCatalogServiceFromAutoRepairRegister,
     IMediator domainEventAutoRepairRegister)
 : ITechnicianCommandService
 {
@@ -38,6 +40,12 @@ public class TechnicianCommandService(ITechnicianRepository technicianRepository
     /// </exception>
     public async Task<int> Handle(CreateTechnicianCommand command)
     {
+        // Check if the associated auto repair exists in the external Auto Repair Catalog Service
+        var autoRepairId = command.AutoRepairId;
+        if (!await externalAutoRepairCatalogServiceFromAutoRepairRegister.ExistsAutoRepairByIdAsync(autoRepairId))
+            throw new NotFoundArgumentException("Auto repair with id " + autoRepairId + " does not exist in the Auto Repair Catalog Service");
+        
+        // Create the technician
         var technician = new Technician(command);
         await technicianRepository.AddAsync(technician);
         await unitOfWork.CompleteAsync();
@@ -66,14 +74,21 @@ public class TechnicianCommandService(ITechnicianRepository technicianRepository
     /// </exception>
     public async Task<Technician?> Handle(UpdateTechnicianCommand command)
     {
-        var technicianId = command.TechnicianId;
+        // Check if the associated auto repair exists in the external Auto Repair Catalog Service
+        var autoRepairId = command.AutoRepairId;
+        if (!await externalAutoRepairCatalogServiceFromAutoRepairRegister.ExistsAutoRepairByIdAsync(autoRepairId))
+            throw new NotFoundArgumentException("Auto repair with id " + autoRepairId + " does not exist in the Auto Repair Catalog Service");
         
+        // Check if the technician exists
+        var technicianId = command.TechnicianId;
         if (!await technicianRepository.ExistsByTechnicianId(technicianId))
             throw new NotFoundIdException("Technician with id " + technicianId  + " does not exist");
         
+        // Retrieve the technician to update
         var technicianToUpdate = await technicianRepository.FindByIdAsync(technicianId);
         if (technicianToUpdate == null)
             throw new NotFoundArgumentException("Technician not found");
+        
         technicianToUpdate.UpdateTechnician(command);
         technicianRepository.Update(technicianToUpdate);
         await unitOfWork.CompleteAsync();

@@ -42,4 +42,19 @@ public class ExternalAutoRepairCatalogServiceFromIam(IAutoRepairCatalogContextFa
     {
         return await autoRepairCatalogContextFacade.CreateAutoRepairAsync(contactEmail, ruc, autoRepairId);
     }
+
+    /// <summary>
+    ///     Deletes an auto repair by its ID.
+    /// </summary>
+    /// <param name="autoRepairId">
+    ///     The ID of the auto repair to delete.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains a boolean indicating whether the deletion was successful.
+    /// </returns>
+    public async Task<bool> DeleteAutoRepairAsync(int autoRepairId)
+    {
+        return await autoRepairCatalogContextFacade.DeleteAutoRepairAsync(autoRepairId);
+    }
 }

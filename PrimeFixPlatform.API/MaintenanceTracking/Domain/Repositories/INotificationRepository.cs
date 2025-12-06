@@ -18,5 +18,5 @@ public interface INotificationRepository : IBaseRepository<Notification>
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a notification with the specified ID exists.
     /// </returns>
-    Task<bool> ExistsByIdNotification(int notificationId);
+    Task<bool> ExistsByNotificationId(int notificationId);
 }

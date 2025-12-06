@@ -16,7 +16,7 @@ namespace PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.EventHandl
 /// </param>
 public class TechnicianDeletedEventHandler(
     IAutoRepairQueryService autoRepairQueryService,
-    ILogger<TechnicianRegisteredEventHandler> logger)
+    ILogger<TechnicianDeletedEventHandler> logger)
     : IEventHandler<TechnicianDeletedEvent>
 {
     /// <summary>

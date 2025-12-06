@@ -36,11 +36,6 @@ public class MembershipCommandService(IMembershipRepository membershipRepository
     /// </exception>
     public async Task<int> Handle(CreateMembershipCommand command)
     {
-        var membershipDescription = command.MembershipDescription;
-        
-        if (await membershipRepository.ExistsByMembershipDescription(membershipDescription))
-            throw new ConflictException("Membership with the same description " + membershipDescription.Description + " already exists");
-
         var membership = new Membership(command);
         await membershipRepository.AddAsync(membership);
         await unitOfWork.CompleteAsync();
@@ -68,14 +63,10 @@ public class MembershipCommandService(IMembershipRepository membershipRepository
     public async Task<Membership?> Handle(UpdateMembershipCommand command)
     {
         var membershipId = command.MembershipId;
-        var membershipDescription = command.MembershipDescription;
         
         if (!await membershipRepository.ExistsByMembershipId(membershipId))
             throw new NotFoundIdException("Membership with id " + membershipId  + " does not exist");
         
-        if (await membershipRepository.ExistsByMembershipDescriptionAndMembershipIdIsNot(membershipDescription, membershipId))
-            throw new ConflictException("Membership with the same description " + membershipDescription.Description + " already exists");
-
         var membershipToUpdate = await membershipRepository.FindByIdAsync(membershipId);
         if (membershipToUpdate is null)
             throw new NotFoundArgumentException("Membership not found");

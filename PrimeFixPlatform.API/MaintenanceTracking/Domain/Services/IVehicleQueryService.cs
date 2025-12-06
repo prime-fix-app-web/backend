@@ -43,4 +43,16 @@ public interface IVehicleQueryService
     ///     The task result contains an enumerable collection of Vehicle entities that match the maintenance status.
     /// </returns>
     Task<IEnumerable<Vehicle>> Handle(GetVehicleByMaintenanceStatusQuery query);
+
+    /// <summary>
+    ///     Handles the check for the existence of a vehicle by its unique identifier.
+    /// </summary>
+    /// <param name="query">
+    ///     The query object containing the unique identifier of the vehicle to check for existence.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains a boolean value indicating whether the vehicle exists.
+    /// </returns>
+    Task<bool> Handle(ExistsVehicleByIdQuery query);
 }

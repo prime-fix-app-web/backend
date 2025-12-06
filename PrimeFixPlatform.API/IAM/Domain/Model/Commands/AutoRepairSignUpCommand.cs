@@ -57,7 +57,6 @@ namespace PrimeFixPlatform.API.Iam.Domain.Model.Commands;
 public record AutoRepairSignUpCommand(string AutoRepairName,
                                       string PhoneNumber,
                                       string Username,
-                                      string Email,
                                       string Password,
                                       string ContactEmail,
                                       string Ruc,

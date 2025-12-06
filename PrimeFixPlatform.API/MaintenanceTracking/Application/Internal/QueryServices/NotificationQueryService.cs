@@ -48,4 +48,19 @@ public class NotificationQueryService(INotificationRepository notificationReposi
         return await notificationRepository.FindByIdAsync(query.NotificationId)
             ?? throw new NotFoundIdException("Notification with the id " + query.NotificationId + " was not found.");
     }
+
+    /// <summary>
+    ///     Handles the check for the existence of a notification by its unique identifier.
+    /// </summary>
+    /// <param name="query">
+    ///     The query to check if a notification exists by its ID.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains
+    ///     a boolean value indicating whether the notification exists.
+    /// </returns>
+    public async Task<bool> Handle(ExistsNotificationByIdQuery query)
+    {
+        return await notificationRepository.ExistsByNotificationId(query.NotificationId);
+    }
 }

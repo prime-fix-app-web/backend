@@ -21,9 +21,30 @@ public static class NotificationAssembler
     public static CreateNotificationCommand ToCommandFromRequest(CreateNotificationRequest request)
     {
         return new CreateNotificationCommand(
-            request.Message, request.Read, 
-            request.VehicleId, request.Sent
-            );
+            request.Message,
+            request.VehicleId, request.Sent);
+    }
+
+    /// <summary>
+    ///     Converts values to a CreateNotificationCommand.
+    /// </summary>
+    /// <param name="message">
+    ///     The message content of the notification.
+    /// </param>
+    /// <param name="vehicleId">
+    ///     The unique identifier of the vehicle associated with the notification.
+    /// </param>
+    /// <param name="sent">
+    ///     The date the notification was sent.
+    /// </param>
+    /// <returns>
+    ///     The corresponding CreateNotificationCommand.
+    /// </returns>
+    public static CreateNotificationCommand ToCommandFromValues(string message, int vehicleId, DateOnly sent)
+    {
+        return new CreateNotificationCommand(
+            message,
+            vehicleId, sent);
     }
     
     /// <summary>
@@ -43,6 +64,14 @@ public static class NotificationAssembler
         return new UpdateNotificationCommand(
             notificationId, request.Message, request.Read, 
             request.VehicleId, request.Sent
+            );
+    }
+
+    public static UpdateNotificationCommand ToCommandFromValues(int notificationId, bool read, string message, int vehicleId, DateOnly sent)
+    {
+        return new UpdateNotificationCommand(
+            notificationId, message, read, 
+            vehicleId, sent
             );
     }
     

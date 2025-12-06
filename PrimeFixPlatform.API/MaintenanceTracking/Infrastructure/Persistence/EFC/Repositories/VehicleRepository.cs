@@ -24,7 +24,7 @@ public class VehicleRepository(AppDbContext context)
     ///     A task that represents the asynchronous operation. The task result contains
     ///     a boolean indicating whether a vehicle with the specified identifier exists.
     /// </returns>
-    public async Task<bool> ExistsByIdVehicle(int vehicleId)
+    public async Task<bool> ExistsByVehicleId(int vehicleId)
     {
         return await Context.Set<Vehicle>().AnyAsync(vehicle => vehicle.Id == vehicleId);
     }

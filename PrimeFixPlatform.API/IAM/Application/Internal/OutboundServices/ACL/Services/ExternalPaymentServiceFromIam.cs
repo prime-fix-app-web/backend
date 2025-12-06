@@ -51,4 +51,19 @@ public class ExternalPaymentServiceFromIam(IPaymentServiceContextFacade paymentS
     {
         return paymentServiceContextFacade.CreatePayment(cardNumber, cardType, month, year, ccv, userAccountId);
     }
+
+    /// <summary>
+    ///     Deletes a payment by its ID.
+    /// </summary>
+    /// <param name="paymentId">
+    ///     The ID of the payment to delete.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains true if the payment was successfully deleted; otherwise, false.
+    /// </returns>
+    public async Task<bool> DeletePaymentAsync(int paymentId)
+    {
+        return await paymentServiceContextFacade.DeletePaymentAsync(paymentId);
+    }
 }

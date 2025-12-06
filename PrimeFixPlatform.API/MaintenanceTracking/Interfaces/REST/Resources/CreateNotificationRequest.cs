@@ -25,9 +25,6 @@ public record CreateNotificationRequest(
     [MaxLength(255)]
     string Message,
     
-    [Required]
-    bool Read,
-    
     [property: JsonPropertyName("vehicle_id")]
     [Required]
     int VehicleId,

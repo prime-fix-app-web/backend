@@ -26,7 +26,6 @@ public static class ModelBuilderExtensions
             .HasConversion<int>()
             .HasColumnType("integer")
             .IsRequired();
-        
         modelBuilder.Entity<Vehicle>().OwnsOne(v => v.VehicleInformation, vi =>
         {
             vi.Property(p => p.VehiclePlate).IsRequired().HasMaxLength(10);
@@ -40,6 +39,10 @@ public static class ModelBuilderExtensions
         modelBuilder.Entity<Notification>().Property(n => n.Message).IsRequired().HasMaxLength(255);
         modelBuilder.Entity<Notification>().Property(n => n.Read).IsRequired();
         modelBuilder.Entity<Notification>().Property(n => n.VehicleId).IsRequired();
-        modelBuilder.Entity<Notification>().Property(n => n.Sent).IsRequired();
+        modelBuilder.Entity<Notification>().Property(n => n.Sent).HasColumnName("sent_date").HasColumnType("date").IsRequired();
+        modelBuilder.Entity<Notification>().HasOne(n => n.Vehicle)
+            .WithMany()
+            .HasForeignKey(n => n.VehicleId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

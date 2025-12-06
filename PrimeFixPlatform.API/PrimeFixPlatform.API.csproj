@@ -29,6 +29,7 @@
       <Folder Include="AutorepairCatalog\Domain\Model\ValueObjects\" />
       <Folder Include="AutorepairRegister\Domain\Model\ValueObjects\" />
       <Folder Include="IAM\Domain\Model\Events\" />
+      <Folder Include="MaintenanceTracking\Application\Internal\Eventhandlers\" />
     </ItemGroup>
 
     <ItemGroup>

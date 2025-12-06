@@ -48,6 +48,44 @@ public static class VehicleAssembler
     }
 
     /// <summary>
+    ///     Converts vehicle details to an UpdateVehicleCommand.
+    /// </summary>
+    /// <param name="vehicleId">
+    ///     The identifier of the vehicle to be updated.
+    /// </param>
+    /// <param name="color">
+    ///     The color of the vehicle.
+    /// </param>
+    /// <param name="model">
+    ///     The model of the vehicle.
+    /// </param>
+    /// <param name="userId">
+    ///     The identifier of the user associated with the vehicle.
+    /// </param>
+    /// <param name="vehicleBrand">
+    ///     The brand of the vehicle.
+    /// </param>
+    /// <param name="vehiclePlate">
+    ///     The license plate of the vehicle.
+    /// </param>
+    /// <param name="vehicleType">
+    ///     The type of the vehicle.
+    /// </param>
+    /// <param name="maintenanceStatus">
+    ///     The maintenance status of the vehicle.
+    /// </param>
+    /// <returns></returns>
+    public static UpdateVehicleCommand ToCommandFromValues(int vehicleId, string color, string model, int userId,
+        string vehicleBrand, string vehiclePlate,
+        string vehicleType, int maintenanceStatus)
+    {
+        return new UpdateVehicleCommand(
+            vehicleId, color, model, userId,
+            new VehicleInformation(vehicleBrand, vehiclePlate, vehicleType), MaintenanceStatusInfo.FromValue(maintenanceStatus)
+            );
+    }
+
+    /// <summary>
     ///     Converts a Vehicle entity to a VehicleResponse.
     /// </summary>
     /// <param name="entity">

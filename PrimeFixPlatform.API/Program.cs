@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.EventHandlers;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.OutboundServices.ACL;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.OutboundServices.ACL.Services;
 using PrimeFixPlatform.API.AutorepairCatalog.Application.Internal.QueryServices;
@@ -53,10 +54,14 @@ using PrimeFixPlatform.API.IAM.Infrastructure.Tokens.JWT.Services;
 using PrimeFixPlatform.API.IAM.Interfaces.ACL;
 using PrimeFixPlatform.API.IAM.Interfaces.ACL.Services;
 using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.CommandServices;
+using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.OutboundServices.ACL;
+using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.OutboundServices.ACL.Services;
 using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Repositories;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Services;
 using PrimeFixPlatform.API.MaintenanceTracking.Infrastructure.Persistence.EFC.Repositories;
+using PrimeFixPlatform.API.MaintenanceTracking.Interfaces.ACL;
+using PrimeFixPlatform.API.MaintenanceTracking.Interfaces.ACL.Services;
 using PrimeFixPlatform.API.PaymentService.Application.Internal.CommandServices;
 using PrimeFixPlatform.API.PaymentService.Application.Internal.QueryServices;
 using PrimeFixPlatform.API.PaymentService.Domain.Repositories;
@@ -280,6 +285,11 @@ builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationCommandService, NotificationCommandService>();
 builder.Services.AddScoped<INotificationQueryService, NotificationQueryService>();
 
+// Maintenance Tracking Facade Services
+builder.Services.AddScoped<IMaintenanceTrackingContextFacade, MaintenanceTrackingContextFacade>();
+
+// Maintenance Tracking Outbound Services
+builder.Services.AddScoped<IExternalIamServiceFromMaintenanceTracking, ExternalIamServiceFromMaintenanceTracking>();
 
 // Payment Service Bounded Context
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();

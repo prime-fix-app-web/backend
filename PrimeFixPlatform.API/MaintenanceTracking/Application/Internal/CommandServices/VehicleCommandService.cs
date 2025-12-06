@@ -1,4 +1,6 @@
-﻿using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Aggregates;
+﻿using PrimeFixPlatform.API.Iam.Domain.Model.ValueObjects;
+using PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.OutboundServices.ACL;
+using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Aggregates;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Model.Commands;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Repositories;
 using PrimeFixPlatform.API.MaintenanceTracking.Domain.Services;
@@ -16,7 +18,9 @@ namespace PrimeFixPlatform.API.MaintenanceTracking.Application.Internal.CommandS
 /// <param name="unitOfWork">
 ///     Unit of work
 /// </param>
-public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOfWork unitOfWork)
+public class VehicleCommandService(IVehicleRepository vehicleRepository,
+    IExternalIamServiceFromMaintenanceTracking externalIamServiceFromMaintenanceTracking,
+    IUnitOfWork unitOfWork)
 : IVehicleCommandService
 {
     /// <summary>
@@ -34,15 +38,24 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOf
     /// </exception>
     public async Task<int> Handle(CreateVehicleCommand command)
     {
-        /*var idVehicle = command.IdVehicle;*/
         var vehiclePlate = command.VehicleInformation.VehiclePlate;
+        var userId = command.UserId;
         
-        /*if (await vehicleRepository.ExistsByIdVehicle(idVehicle))
-            throw new ConflictException("Vehicle with the same id " + idVehicle  + " already exists");*/
+        // Check if user exists in IAM service
+        if (!await externalIamServiceFromMaintenanceTracking.ExistsUserByIdAsync(userId))
+            throw new NotFoundIdException("User with id " + userId + " does not exist in IAM service");
+
+        // Check if user has permission to create a vehicle
+        if (await externalIamServiceFromMaintenanceTracking.FetchRoleByUserId(command.UserId) == ERole.RoleAutoRepair)
+        {
+            throw new ConflictException("User with id " + userId + " has not permission to create a vehicle");
+        }
         
+        // Check for vehicle plate uniqueness
         if (await vehicleRepository.ExistsByVehiclePlate(vehiclePlate))
             throw new ConflictException("Vehicle with the same plate " + vehiclePlate  + " already exists");
 
+        // Create and persist the new vehicle
         var vehicle = new Vehicle(command);
         await vehicleRepository.AddAsync(vehicle);
         await unitOfWork.CompleteAsync();
@@ -70,16 +83,24 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOf
     /// </exception>
     public async Task<Vehicle?> Handle(UpdateVehicleCommand command)
     {
-        var idVehicle = command.VehicleId;
+        var vehicleId = command.VehicleId;
+        var userId = command.UserId;
         var vehiclePlate = command.VehicleInformation.VehiclePlate;
         
-        if (!await vehicleRepository.ExistsByIdVehicle(idVehicle))
-            throw new NotFoundIdException("Vehicle with id " + idVehicle  + " does not exist");
+        // Check if vehicle exists
+        if (!await vehicleRepository.ExistsByVehicleId(vehicleId))
+            throw new NotFoundIdException("Vehicle with id " + vehicleId  + " does not exist");
         
-        if (await vehicleRepository.ExistsByVehiclePlateAndIdVehicleIsNot(vehiclePlate, idVehicle))
+        // Check if user exists in IAM service
+        if (!await externalIamServiceFromMaintenanceTracking.ExistsUserByIdAsync(userId))
+            throw new NotFoundIdException("User with id " + userId + " does not exist in IAM service");
+        
+        // Check for vehicle plate uniqueness excluding the current vehicle
+        if (await vehicleRepository.ExistsByVehiclePlateAndIdVehicleIsNot(vehiclePlate, vehicleId))
             throw new ConflictException("Vehicle with the same plate " + vehiclePlate  + " already exists");
         
-        var vehicleToUpdate = await vehicleRepository.FindByIdAsync(idVehicle);
+        // Update and persist the vehicle
+        var vehicleToUpdate = await vehicleRepository.FindByIdAsync(vehicleId);
         if (vehicleToUpdate is null)
             throw new NotFoundArgumentException("Vehicle not found");
         vehicleToUpdate.UpdateVehicle(command);
@@ -106,7 +127,7 @@ public class VehicleCommandService(IVehicleRepository vehicleRepository, IUnitOf
     /// </exception>
     public async Task<bool> Handle(DeleteVehicleCommand command)
     {
-        if (!await vehicleRepository.ExistsByIdVehicle(command.VehicleId))
+        if (!await vehicleRepository.ExistsByVehicleId(command.VehicleId))
             throw new NotFoundIdException("Vehicle with id " + command.VehicleId  + " does not exist");
         var vehicle = await vehicleRepository.FindByIdAsync(command.VehicleId);
         if (vehicle is null)
